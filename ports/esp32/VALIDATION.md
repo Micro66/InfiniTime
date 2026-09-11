@@ -124,4 +124,6 @@ The README sequence diagram was checked against the final loop ordering.
 - Test events are queued into the physical button handling branches before the
   real timeout check. Status observations do not call `wake` or `capture`.
   They test application behavior, not GPIO input, PMIC IRQ generation, or optical
-  panel brightness. Physical user confirmation remains pending.
+  panel brightness.
+- Physical confirmation: the user pressed PWR to turn the display off and pressed
+  it again, then confirmed that the display now wakes normally.
