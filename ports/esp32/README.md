@@ -212,7 +212,7 @@ flowchart TD
     Loop[Main loop] --> Sensors[PlaySensors tick]
     Apps[Active FunApp] -->|entry / destruction| Sensors
     Sensors --> IMU[QMI8658: Dice / Gravity]
-    IMU --> Axes[Gravity: screen X = -sensor Y, screen Y = sensor X]
+    IMU --> Axes[Gravity: screen X = sensor Y, screen Y = sensor X]
     Axes --> Paint
     Sensors --> ADC[ES7210 + I2S: Sound Buddy]
     Apps --> Paint[Shared RoundPaint / LVGL]

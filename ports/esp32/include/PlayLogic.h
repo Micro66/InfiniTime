@@ -5,10 +5,10 @@
 #include <cstdint>
 
 namespace Esp32 {
-  // 1.75C at display rotation 0: sensor +X points toward the screen's top.
-  // Accelerometers report support force; the marble follows gravity opposite it.
+  // 1.75C at display rotation 0, established with physical tilt tests:
+  // sensor +X rolls down the screen, sensor +Y rolls right.
   inline std::array<float, 2> ScreenTilt(float x, float y, float zeroX, float zeroY) {
-    return {std::clamp(-(y - zeroY), -1.0f, 1.0f), std::clamp(x - zeroX, -1.0f, 1.0f)};
+    return {std::clamp(y - zeroY, -1.0f, 1.0f), std::clamp(x - zeroX, -1.0f, 1.0f)};
   }
 
   struct FocusClock {

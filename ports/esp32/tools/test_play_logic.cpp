@@ -7,8 +7,8 @@ int main() {
   assert((ScreenTilt(.02f, -.04f, .02f, -.04f) == std::array<float, 2> {0, 0}));
   assert((ScreenTilt(1, 0, 0, 0) == std::array<float, 2> {0, 1})); // Upright text: roll down.
   assert((ScreenTilt(-1, 0, 0, 0) == std::array<float, 2> {0, -1}));
-  assert((ScreenTilt(0, 1, 0, 0) == std::array<float, 2> {-1, 0}));
-  assert((ScreenTilt(0, -1, 0, 0) == std::array<float, 2> {1, 0}));
+  assert((ScreenTilt(0, 1, 0, 0) == std::array<float, 2> {1, 0}));
+  assert((ScreenTilt(0, -1, 0, 0) == std::array<float, 2> {-1, 0}));
   FocusClock clock;
   clock.Toggle(100);
   assert(clock.running && clock.phase == FocusClock::Phase::Focus);

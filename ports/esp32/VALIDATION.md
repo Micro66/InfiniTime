@@ -185,9 +185,9 @@ The launcher has three pages. The README Mermaid diagram was reviewed against
 sensor ownership, the background timer and HTTP-worker/main-task boundaries.
 Shared artwork drawing primitives were extracted without changing existing faces.
 
-- Final build: **PASS**, static RAM 47,480 bytes, linked flash 1,217,452 bytes.
+- Final build: **PASS**, static RAM 47,480 bytes, linked flash 1,217,464 bytes.
 - Final firmware: 1,217,824 bytes, SHA-256
-  `46113fdb8f98dbb48d19da638b7b9e01944950617743921923557a0ca165e7cd`.
+  `1dd4fe47bf7a32ae5d89462c9ad09b75b727fd45e670f630c0b7558206cd128a`.
 - Flash: bootloader, partition table and app hashes verified. NVS and LittleFS
   were retained; the user's uploaded photo still reports `image=1` after flashing
   and subsequent resets. No private photo or AP-password screenshot is included.
@@ -224,17 +224,23 @@ See [device transcript](docs/evidence/play-regression.json) and
 [speech diagnostics](docs/evidence/play-audio-live.json).
 
 The user's physical tilt test exposed the original Gravity mapping: holding the
-screen upright with readable text made the ball roll left. At rotation 0, sensor
-+X corresponds to the screen's top, not its right. Gravity now maps calibrated
-sensor readings to `screenX = -sensorY`, `screenY = sensorX`. Host checks cover
+screen upright with readable text made the ball roll left. The two axes were
+interchanged. The follow-up physical test confirmed vertical motion and exposed
+an inverted horizontal sign. Gravity maps calibrated sensor readings to
+`screenX = sensorY`, `screenY = sensorX`. Host checks cover
 neutral calibration and all four signed directions. The architecture diagram
 was updated accordingly; diagnostics also expose the stored neutral offsets.
 
-Final-firmware [smoke test](docs/evidence/play-final-smoke.json): **PASS**. The
+[Smoke test before the final horizontal sign change](docs/evidence/play-final-smoke.json): **PASS**. The
 stored photo loads, the focus timer continues while the display is off, BOOT
 wakes the same page, pause/reset restores the original ready timer, microphone
 blocks advance, and IMU/audio stop on exit. The final Garden title was moved
 inside the decorative ring and its device-rendered frame was checked again.
+
+After flashing the final horizontal correction, the user confirmed **all tilt
+directions are now correct**. Final host direction/physics/timer/spectrum checks
+passed, flash hashes verified, and [live Gravity diagnostics](docs/evidence/play-gravity-live.json)
+showed real motion and bumper scoring. The device was left in Gravity for play.
 
 Physical sensor readings and user confirmations are distinct from diagnostic
 touch/button injections. CRC-mismatch and interrupted HTTP uploads have been
