@@ -93,3 +93,35 @@ and swipe tracking. The architecture diagram reflects this shared input path.
 
 Run `python tools/validate_touch.py --port /dev/cu.usbmodem101 --output /path/to/results`
 from the port directory. It leaves the device on the digital clock.
+
+## Button wake timeout correction (2026-09-11)
+
+The user reported that short presses could turn the display off but not back on.
+The loop cached `now` before processing buttons. `wake()` restored panel brightness
+and assigned a later `lastActivity = millis()`. The subsequent unsigned
+`now - lastActivity` then wrapped and immediately turned the display off again.
+Serial `wake` ran after the timeout check, so the original serial power regression
+did not cover this failure.
+
+Timeout evaluation now samples `millis()` after button and navigation handlers;
+touch/swipe activity also records current time instead of reusing the earlier
+loop timestamp. Unsigned elapsed subtraction is retained for clock rollover.
+The README sequence diagram was checked against the final loop ordering.
+
+- Build: **PASS**; static RAM 24,368 bytes; linked flash usage 604,164 bytes.
+- Firmware: 604,528 bytes; SHA-256
+  `27853660127e7cedda5919b4920428d045bcc54f09a28e97fe2f4512e847f173`.
+- Device flash: **PASS**, bootloader, partitions and application hashes verified.
+- Four host USB transport tests: **PASS**.
+- On-device `validate_buttons.py`: **PASS**, 10 PWR off/on cycles, BOOT wake
+  without a page change, BOOT launcher/clock navigation, configured 15-second
+  automatic timeout, and PWR wake after that timeout.
+- 13 injected events recorded activity timestamps newer than the cached loop
+  timestamp. For example, `sampled=6815 activity=6816` would produce unsigned
+  elapsed time 4,294,967,295 ms in the old timeout expression; the corrected
+  device remained awake.
+- Evidence: [button regression transcript](docs/evidence/button-regression.json).
+- Test events are queued into the physical button handling branches before the
+  real timeout check. Status observations do not call `wake` or `capture`.
+  They test application behavior, not GPIO input, PMIC IRQ generation, or optical
+  panel brightness. Physical user confirmation remains pending.

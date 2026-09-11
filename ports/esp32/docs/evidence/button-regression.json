@@ -1,0 +1,270 @@
+[
+  {
+    "command": "page 0",
+    "response": "PAGE 0\n"
+  },
+  {
+    "command": "test-button pwr",
+    "response": "TEST BUTTON QUEUED\r\nTEST BUTTON pwr sampled=2455 activity=1962\n"
+  },
+  {
+    "command": "status",
+    "response": "STATUS page=0 sleep=1 battery=100 mv=4139 charging=0 rtc=1 flush=27 heap=328576 touch=0 uptime=2759 timeout=15000\n"
+  },
+  {
+    "command": "test-button pwr",
+    "response": "TEST BUTTON QUEUED\r\nTEST BUTTON pwr sampled=3265 activity=3266\n"
+  },
+  {
+    "command": "status",
+    "response": "STATUS page=0 sleep=0 battery=100 mv=4137 charging=0 rtc=1 flush=30 heap=328564 touch=0 uptime=3459 timeout=15000\n"
+  },
+  {
+    "command": "test-button pwr",
+    "response": "TEST BUTTON QUEUED\r\nTEST BUTTON pwr sampled=3771 activity=3266\n"
+  },
+  {
+    "command": "status",
+    "response": "STATUS page=0 sleep=1 battery=100 mv=4137 charging=0 rtc=1 flush=30 heap=328564 touch=0 uptime=4077 timeout=15000\n"
+  },
+  {
+    "command": "test-button pwr",
+    "response": "TEST BUTTON QUEUED\r\nTEST BUTTON pwr sampled=4480 activity=4481\n"
+  },
+  {
+    "command": "status",
+    "response": "STATUS page=0 sleep=0 battery=100 mv=4137 charging=0 rtc=1 flush=33 heap=328564 touch=0 uptime=4669 timeout=15000\n"
+  },
+  {
+    "command": "test-button pwr",
+    "response": "TEST BUTTON QUEUED\r\nTEST BUTTON pwr sampled=4994 activity=4481\n"
+  },
+  {
+    "command": "status",
+    "response": "STATUS page=0 sleep=1 battery=100 mv=4137 charging=0 rtc=1 flush=36 heap=328564 touch=0 uptime=5278 timeout=15000\n"
+  },
+  {
+    "command": "test-button pwr",
+    "response": "TEST BUTTON QUEUED\r\nTEST BUTTON pwr sampled=5600 activity=5601\n"
+  },
+  {
+    "command": "status",
+    "response": "STATUS page=0 sleep=0 battery=100 mv=4137 charging=0 rtc=1 flush=36 heap=328564 touch=0 uptime=5874 timeout=15000\n"
+  },
+  {
+    "command": "test-button pwr",
+    "response": "TEST BUTTON QUEUED\r\nTEST BUTTON pwr sampled=6209 activity=5601\n"
+  },
+  {
+    "command": "status",
+    "response": "STATUS page=0 sleep=1 battery=100 mv=4137 charging=0 rtc=1 flush=39 heap=328564 touch=0 uptime=6493 timeout=15000\n"
+  },
+  {
+    "command": "test-button pwr",
+    "response": "TEST BUTTON QUEUED\r\nTEST BUTTON pwr sampled=6815 activity=6816\n"
+  },
+  {
+    "command": "status",
+    "response": "STATUS page=0 sleep=0 battery=100 mv=4137 charging=0 rtc=1 flush=42 heap=328564 touch=0 uptime=7082 timeout=15000\n"
+  },
+  {
+    "command": "test-button pwr",
+    "response": "TEST BUTTON QUEUED\r\nTEST BUTTON pwr sampled=7424 activity=6816\n"
+  },
+  {
+    "command": "status",
+    "response": "STATUS page=0 sleep=1 battery=100 mv=4137 charging=0 rtc=1 flush=42 heap=328564 touch=0 uptime=7708 timeout=15000\n"
+  },
+  {
+    "command": "test-button pwr",
+    "response": "TEST BUTTON QUEUED\r\nTEST BUTTON pwr sampled=8032 activity=8033\n"
+  },
+  {
+    "command": "status",
+    "response": "STATUS page=0 sleep=0 battery=100 mv=4139 charging=0 rtc=1 flush=45 heap=328564 touch=0 uptime=8297 timeout=15000\n"
+  },
+  {
+    "command": "test-button pwr",
+    "response": "TEST BUTTON QUEUED\r\nTEST BUTTON pwr sampled=8639 activity=8033\n"
+  },
+  {
+    "command": "status",
+    "response": "STATUS page=0 sleep=1 battery=100 mv=4139 charging=0 rtc=1 flush=45 heap=328564 touch=0 uptime=8923 timeout=15000\n"
+  },
+  {
+    "command": "test-button pwr",
+    "response": "TEST BUTTON QUEUED\r\nTEST BUTTON pwr sampled=9247 activity=9248\n"
+  },
+  {
+    "command": "status",
+    "response": "STATUS page=0 sleep=0 battery=100 mv=4138 charging=0 rtc=1 flush=48 heap=328564 touch=0 uptime=9512 timeout=15000\n"
+  },
+  {
+    "command": "test-button pwr",
+    "response": "TEST BUTTON QUEUED\r\nTEST BUTTON pwr sampled=9854 activity=9248\n"
+  },
+  {
+    "command": "status",
+    "response": "STATUS page=0 sleep=1 battery=100 mv=4137 charging=0 rtc=1 flush=48 heap=328564 touch=0 uptime=10120 timeout=15000\n"
+  },
+  {
+    "command": "test-button pwr",
+    "response": "TEST BUTTON QUEUED\r\nTEST BUTTON pwr sampled=10462 activity=10463\n"
+  },
+  {
+    "command": "status",
+    "response": "STATUS page=0 sleep=0 battery=100 mv=4137 charging=0 rtc=1 flush=51 heap=328564 touch=0 uptime=10717 timeout=15000\n"
+  },
+  {
+    "command": "test-button pwr",
+    "response": "TEST BUTTON QUEUED\r\nTEST BUTTON pwr sampled=11072 activity=10463\n"
+  },
+  {
+    "command": "status",
+    "response": "STATUS page=0 sleep=1 battery=100 mv=4137 charging=0 rtc=1 flush=54 heap=328564 touch=0 uptime=11336 timeout=15000\n"
+  },
+  {
+    "command": "test-button pwr",
+    "response": "TEST BUTTON QUEUED\r\nTEST BUTTON pwr sampled=11678 activity=11679\n"
+  },
+  {
+    "command": "status",
+    "response": "STATUS page=0 sleep=0 battery=100 mv=4137 charging=0 rtc=1 flush=54 heap=328564 touch=0 uptime=11927 timeout=15000\n"
+  },
+  {
+    "command": "test-button pwr",
+    "response": "TEST BUTTON QUEUED\r\nTEST BUTTON pwr sampled=12287 activity=11679\n"
+  },
+  {
+    "command": "status",
+    "response": "STATUS page=0 sleep=1 battery=100 mv=4139 charging=0 rtc=1 flush=57 heap=328564 touch=0 uptime=12531 timeout=15000\n"
+  },
+  {
+    "command": "test-button pwr",
+    "response": "TEST BUTTON QUEUED\r\nTEST BUTTON pwr sampled=12893 activity=12894\n"
+  },
+  {
+    "command": "status",
+    "response": "STATUS page=0 sleep=0 battery=100 mv=4138 charging=0 rtc=1 flush=60 heap=328564 touch=0 uptime=13135 timeout=15000\n"
+  },
+  {
+    "command": "test-button pwr",
+    "response": "TEST BUTTON QUEUED\r\nTEST BUTTON pwr sampled=13502 activity=12894\n"
+  },
+  {
+    "command": "status",
+    "response": "STATUS page=0 sleep=1 battery=100 mv=4138 charging=0 rtc=1 flush=60 heap=328564 touch=0 uptime=13746 timeout=15000\n"
+  },
+  {
+    "command": "test-button pwr",
+    "response": "TEST BUTTON QUEUED\r\nTEST BUTTON pwr sampled=14110 activity=14111\n"
+  },
+  {
+    "command": "status",
+    "response": "STATUS page=0 sleep=0 battery=100 mv=4138 charging=0 rtc=1 flush=63 heap=328564 touch=0 uptime=14350 timeout=15000\n"
+  },
+  {
+    "command": "test-button pwr",
+    "response": "TEST BUTTON QUEUED\r\nTEST BUTTON pwr sampled=14717 activity=14111\n"
+  },
+  {
+    "command": "status",
+    "response": "STATUS page=0 sleep=1 battery=100 mv=4138 charging=0 rtc=1 flush=63 heap=328564 touch=0 uptime=14961 timeout=15000\n"
+  },
+  {
+    "command": "test-button boot",
+    "response": "TEST BUTTON QUEUED\r\nTEST BUTTON boot sampled=15285 activity=15286\n"
+  },
+  {
+    "command": "status",
+    "response": "STATUS page=0 sleep=0 battery=100 mv=4138 charging=0 rtc=1 flush=66 heap=328548 touch=0 uptime=15565 timeout=15000\n"
+  },
+  {
+    "command": "status",
+    "response": "STATUS page=0 sleep=0 battery=100 mv=4138 charging=0 rtc=1 flush=72 heap=328548 touch=0 uptime=17869 timeout=15000\n"
+  },
+  {
+    "command": "test-button boot",
+    "response": "TEST BUTTON QUEUED\r\nTEST BUTTON boot sampled=18174 activity=18174\nPAGE 2\n"
+  },
+  {
+    "command": "status",
+    "response": "STATUS page=2 sleep=0 battery=100 mv=4137 charging=0 rtc=1 flush=87 heap=327700 touch=0 uptime=18469 timeout=15000\n"
+  },
+  {
+    "command": "test-button boot",
+    "response": "TEST BUTTON QUEUED\r\nTEST BUTTON boot sampled=18776 activity=18776\nPAGE 0\n"
+  },
+  {
+    "command": "status",
+    "response": "STATUS page=0 sleep=0 battery=100 mv=4139 charging=0 rtc=1 flush=102 heap=328548 touch=0 uptime=19072 timeout=15000\n"
+  },
+  {
+    "command": "test-button pwr",
+    "response": "TEST BUTTON QUEUED\r\nTEST BUTTON pwr sampled=19390 activity=18776\n"
+  },
+  {
+    "command": "status",
+    "response": "STATUS page=0 sleep=1 battery=100 mv=4139 charging=0 rtc=1 flush=102 heap=328548 touch=0 uptime=19674 timeout=15000\n"
+  },
+  {
+    "command": "test-button boot",
+    "response": "TEST BUTTON QUEUED\r\nTEST BUTTON boot sampled=19996 activity=19997\n"
+  },
+  {
+    "command": "status",
+    "response": "STATUS page=0 sleep=0 battery=100 mv=4138 charging=0 rtc=1 flush=105 heap=328548 touch=0 uptime=20283 timeout=15000\n"
+  },
+  {
+    "command": "status",
+    "response": "STATUS page=0 sleep=0 battery=100 mv=4138 charging=0 rtc=1 flush=111 heap=328548 touch=0 uptime=22592 timeout=15000\n"
+  },
+  {
+    "command": "status",
+    "response": "STATUS page=0 sleep=0 battery=100 mv=4138 charging=0 rtc=1 flush=117 heap=328548 touch=0 uptime=24896 timeout=15000\n"
+  },
+  {
+    "command": "status",
+    "response": "STATUS page=0 sleep=0 battery=100 mv=4138 charging=0 rtc=1 flush=126 heap=328548 touch=0 uptime=27248 timeout=15000\n"
+  },
+  {
+    "command": "status",
+    "response": "STATUS page=0 sleep=0 battery=100 mv=4138 charging=0 rtc=1 flush=132 heap=328548 touch=0 uptime=29552 timeout=15000\n"
+  },
+  {
+    "command": "status",
+    "response": "STATUS page=0 sleep=0 battery=100 mv=4139 charging=0 rtc=1 flush=138 heap=328548 touch=0 uptime=31861 timeout=15000\n"
+  },
+  {
+    "command": "status",
+    "response": "STATUS page=0 sleep=0 battery=100 mv=4139 charging=0 rtc=1 flush=147 heap=328548 touch=0 uptime=34172 timeout=15000\n"
+  },
+  {
+    "command": "status",
+    "response": "STATUS page=0 sleep=0 battery=100 mv=4139 charging=0 rtc=1 flush=147 heap=328548 touch=0 uptime=34586 timeout=15000\n"
+  },
+  {
+    "command": "status",
+    "response": "STATUS page=0 sleep=0 battery=100 mv=4139 charging=0 rtc=1 flush=147 heap=328548 touch=0 uptime=34894 timeout=15000\n"
+  },
+  {
+    "command": "status",
+    "response": "STATUS page=0 sleep=1 battery=100 mv=4139 charging=0 rtc=1 flush=147 heap=328548 touch=0 uptime=35507 timeout=15000\n"
+  },
+  {
+    "command": "test-button pwr",
+    "response": "TEST BUTTON QUEUED\r\nTEST BUTTON pwr sampled=35910 activity=35911\n"
+  },
+  {
+    "command": "status",
+    "response": "STATUS page=0 sleep=0 battery=100 mv=4137 charging=0 rtc=1 flush=150 heap=328548 touch=0 uptime=36106 timeout=15000\n"
+  },
+  {
+    "command": "status",
+    "response": "STATUS page=0 sleep=0 battery=100 mv=4138 charging=0 rtc=1 flush=159 heap=328548 touch=0 uptime=38417 timeout=15000\n"
+  },
+  {
+    "result": "PASS",
+    "stale_timestamp_cases": 13
+  }
+]

@@ -45,6 +45,19 @@ Native 466×466 rendering is used. Controls are placed within the circular
 panel; a cropped/scaled 240×240 framebuffer is not used. Screen changes happen
 outside LVGL callbacks so a callback cannot destroy its own objects.
 
+```mermaid
+sequenceDiagram
+    participant Input as GPIO BOOT / AXP2101 PWR
+    participant Loop as Application loop
+    participant Panel as AMOLED brightness
+    Input->>Loop: Button event (queued tests join here)
+    Loop->>Panel: Restore configured brightness when asleep
+    Loop->>Loop: lastActivity = millis()
+    Loop->>Loop: Complete navigation and display updates
+    Loop->>Loop: Read fresh millis(), then calculate elapsed inactivity
+    Note over Loop: Never subtract a newer activity time from the earlier loop timestamp
+```
+
 ## Hardware
 
 | Function | Connection |
@@ -80,6 +93,7 @@ release image. See `tools/device.py` for backup, flash and verification commands
 - Swipe up on a watch face to open the launcher.
 - Tap launcher entries to open an application.
 - BOOT button: return from an application to the launcher; from launcher to clock.
+- When the display is off, BOOT wakes it without changing the page.
 - PWR short press: display off/on; long press retains hardware power-off.
 - Settings: brightness, screen timeout and local clock adjustment (±1 minute).
 - The clock uses 24-hour time in UTC+8. Sync the full date from USB with `sync-time`.
@@ -120,6 +134,12 @@ Serial diagnostics: `page N` (0 digital, 1 analog, 2 launcher, 3 calculator,
 `time YYYY-MM-DD HH:MM:SS`. `test-tap X Y` and `test-swipe left|right|up|down`
 inject UI input for repeatable software tests; they do **not** test physical
 CST9217 touch sensing. `status` reports the separate physical touch IRQ count.
+`test-button boot|pwr` queues an event for the next matching button polling pass,
+before automatic timeout evaluation. It shares the real button handler but does
+not test GPIO electrical input or AXP2101 IRQ generation. `status` also reports
+the configured timeout in milliseconds. Run `python tools/validate_buttons.py
+--port /dev/cu.usbmodem101 --output /path/to/results` to check repeated power
+toggles, BOOT wake/navigation, and automatic timeout with no serial wake helper.
 
 The tested device reports 32 MiB flash and I2C addresses 0x18, 0x34, 0x40,
 0x5A and 0x6B, matching the C board. Its display reset is GPIO1 and touch

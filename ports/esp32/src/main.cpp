@@ -40,6 +40,8 @@ namespace {
   lv_obj_t *clockLabel = nullptr, *dateLabel = nullptr, *powerLabel = nullptr;
   uint32_t lastActivity = 0, lastRefresh = 0;
   String serialLine;
+  enum class TestButton { None, Boot, Power };
+  TestButton testButton = TestButton::None;
 
   void request(Page next) {
     pending = next;
@@ -156,6 +158,11 @@ namespace {
   }
 
   void command(const String& line) {
+    if (line == "test-button boot" || line == "test-button pwr") {
+      testButton = line == "test-button boot" ? TestButton::Boot : TestButton::Power;
+      Usb.println("TEST BUTTON QUEUED");
+      return;
+    }
     if (line.startsWith("test-raw-tap ")) {
       int x, y;
       char extra;
@@ -229,7 +236,7 @@ namespace {
       } else
         Usb.println("TIME INVALID");
     } else if (line == "status") {
-      Usb.printf("STATUS page=%u sleep=%d battery=%u mv=%u charging=%d rtc=%d flush=%u heap=%u touch=%u uptime=%lu\n",
+      Usb.printf("STATUS page=%u sleep=%d battery=%u mv=%u charging=%d rtc=%d flush=%u heap=%u touch=%u uptime=%lu timeout=%lu\n",
                  static_cast<unsigned>(page),
                  sleeping,
                  battery.PercentRemaining(),
@@ -239,7 +246,8 @@ namespace {
                  Hardware::FlushCount(),
                  ESP.getFreeHeap(),
                  Hardware::TouchCount(),
-                 static_cast<unsigned long>(millis()));
+                 static_cast<unsigned long>(millis()),
+                 static_cast<unsigned long>(settings->GetScreenTimeOut()));
     }
   }
 }
@@ -274,28 +282,36 @@ void loop() {
   const auto now = millis();
   static bool bootWasDown = false;
   const bool bootDown = digitalRead(0) == LOW;
-  if (bootDown && !bootWasDown) {
+  if ((bootDown && !bootWasDown) || testButton == TestButton::Boot) {
     if (sleeping)
       wake();
     else if (!screen || !screen->OnButtonPushed())
       request(page == Page::Launcher ? Page::Digital : Page::Launcher);
+    if (testButton == TestButton::Boot) {
+      Usb.printf("TEST BUTTON boot sampled=%lu activity=%lu\n", static_cast<unsigned long>(now), static_cast<unsigned long>(lastActivity));
+      testButton = TestButton::None;
+    }
   }
   bootWasDown = bootDown;
   static uint32_t powerPoll = 0;
   if (now - powerPoll > 100) {
     powerPoll = now;
-    if (Hardware::PowerButtonPressed()) {
+    if (Hardware::PowerButtonPressed() || testButton == TestButton::Power) {
       if (sleeping)
         wake();
       else
         sleepDisplay();
+      if (testButton == TestButton::Power) {
+        Usb.printf("TEST BUTTON pwr sampled=%lu activity=%lu\n", static_cast<unsigned long>(now), static_cast<unsigned long>(lastActivity));
+        testButton = TestButton::None;
+      }
     }
   }
   if (!sleeping && lv_disp_get_inactive_time(nullptr) < 100)
-    lastActivity = now;
+    lastActivity = millis();
   int dx, dy;
   if (!sleeping && Hardware::TakeSwipe(dx, dy)) {
-    lastActivity = now;
+    lastActivity = millis();
     TouchEvents event = abs(dx) > abs(dy) ? (dx > 0 ? TouchEvents::SwipeRight : TouchEvents::SwipeLeft)
                                           : (dy > 0 ? TouchEvents::SwipeDown : TouchEvents::SwipeUp);
     if (!screen || !screen->OnTouchEvent(event)) {
@@ -322,7 +338,9 @@ void loop() {
       lv_obj_align(powerLabel, nullptr, LV_ALIGN_IN_TOP_MID, 0, 310);
     }
   }
-  if (!sleeping && !systemTask.IsSleepDisabled() && now - lastActivity > settings->GetScreenTimeOut())
+  // Button and navigation handlers can advance lastActivity beyond the loop's
+  // initial timestamp. Sample after those handlers to preserve unsigned elapsed time.
+  if (!sleeping && !systemTask.IsSleepDisabled() && millis() - lastActivity > settings->GetScreenTimeOut())
     sleepDisplay();
   while (Usb.available()) {
     const char c = Usb.read();
