@@ -32,6 +32,11 @@ namespace {
     }
   }
 
+#ifdef PINETIME_ROUND_DISPLAY
+  constexpr int sideInset = 78, bottomInset = 76, topInset = 65;
+#else
+  constexpr int sideInset = 0, bottomInset = 0, topInset = 0;
+#endif
   constexpr TickType_t blinkInterval = pdMS_TO_TICKS(1000);
 }
 
@@ -43,14 +48,14 @@ StopWatch::StopWatch(System::SystemTask& systemTask, StopWatchController& stopWa
   btnPlayPause->user_data = this;
   lv_obj_set_event_cb(btnPlayPause, PlayPauseEventHandler);
   lv_obj_set_size(btnPlayPause, btnWidth, btnHeight);
-  lv_obj_align(btnPlayPause, lv_scr_act(), LV_ALIGN_IN_BOTTOM_RIGHT, 0, 0);
+  lv_obj_align(btnPlayPause, lv_scr_act(), LV_ALIGN_IN_BOTTOM_RIGHT, -sideInset, -bottomInset);
   txtPlayPause = lv_label_create(btnPlayPause, nullptr);
 
   btnStopLap = lv_btn_create(lv_scr_act(), nullptr);
   btnStopLap->user_data = this;
   lv_obj_set_event_cb(btnStopLap, StopLapEventHandler);
   lv_obj_set_size(btnStopLap, btnWidth, btnHeight);
-  lv_obj_align(btnStopLap, lv_scr_act(), LV_ALIGN_IN_BOTTOM_LEFT, 0, 0);
+  lv_obj_align(btnStopLap, lv_scr_act(), LV_ALIGN_IN_BOTTOM_LEFT, sideInset, -bottomInset);
   txtStopLap = lv_label_create(btnStopLap, nullptr);
   lv_obj_set_state(btnStopLap, LV_STATE_DISABLED);
   lv_obj_set_state(txtStopLap, LV_STATE_DISABLED);
@@ -61,7 +66,7 @@ StopWatch::StopWatch(System::SystemTask& systemTask, StopWatchController& stopWa
   lv_label_set_long_mode(lapText, LV_LABEL_LONG_BREAK);
   lv_label_set_align(lapText, LV_LABEL_ALIGN_CENTER);
   lv_obj_set_width(lapText, LV_HOR_RES_MAX);
-  lv_obj_align(lapText, lv_scr_act(), LV_ALIGN_IN_BOTTOM_MID, 0, -btnHeight - 2);
+  lv_obj_align(lapText, lv_scr_act(), LV_ALIGN_IN_BOTTOM_MID, 0, -btnHeight - bottomInset - 2);
 
   time = lv_label_create(lv_scr_act(), nullptr);
   lv_obj_set_style_local_text_color(time, LV_LABEL_PART_MAIN, LV_STATE_DISABLED, Colors::lightGray);
@@ -70,7 +75,7 @@ StopWatch::StopWatch(System::SystemTask& systemTask, StopWatchController& stopWa
   lv_label_set_long_mode(time, LV_LABEL_LONG_CROP);
   lv_label_set_align(time, LV_LABEL_ALIGN_CENTER);
   lv_obj_set_width(time, LV_HOR_RES_MAX);
-  lv_obj_align(time, lv_scr_act(), LV_ALIGN_IN_TOP_MID, 0, 0);
+  lv_obj_align(time, lv_scr_act(), LV_ALIGN_IN_TOP_MID, 0, topInset);
 
   msecTime = lv_label_create(lv_scr_act(), nullptr);
   lv_obj_set_style_local_text_color(msecTime, LV_LABEL_PART_MAIN, LV_STATE_DISABLED, Colors::lightGray);
@@ -204,7 +209,7 @@ void StopWatch::SetHoursVisible(bool visible) {
     lv_font_t* font = visible ? &jetbrains_mono_42 : &jetbrains_mono_76;
     lv_obj_set_style_local_text_font(time, LV_LABEL_PART_MAIN, LV_STATE_DEFAULT, font);
     lv_obj_set_height(time, font->line_height);
-    lv_obj_align(time, lv_scr_act(), LV_ALIGN_IN_TOP_MID, 0, visible ? 5 : 0);
+    lv_obj_align(time, lv_scr_act(), LV_ALIGN_IN_TOP_MID, 0, topInset + (visible ? 5 : 0));
     lv_obj_align(msecTime, time, LV_ALIGN_OUT_BOTTOM_MID, 0, visible ? 5 : -2);
     displayedLaps = visible ? 4 : 3;
     hoursVisible = visible;

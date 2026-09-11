@@ -20,6 +20,12 @@
 
 </div>
 
+## Waveshare ESP32-S3 port
+
+This branch includes an experimental native 466×466 port for **ESP32-S3-Touch-AMOLED-1.75C**.
+See [build instructions, controls and limitations](ports/esp32/README.md) and
+[on-device validation](ports/esp32/VALIDATION.md).
+
 ## New to InfiniTime?
 
 - [Getting started with InfiniTime](doc/gettingStarted/gettingStarted-1.0.md)

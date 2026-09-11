@@ -7,3 +7,6 @@
 [submodule "src/libs/arduinoFFT"]
 	path = src/libs/arduinoFFT
 	url = https://github.com/kosme/arduinoFFT.git
+[submodule "ports/esp32/vendor/waveshare"]
+	path = ports/esp32/vendor/waveshare
+	url = https://github.com/waveshareteam/ESP32-S3-Touch-AMOLED-1.75C.git

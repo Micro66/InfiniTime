@@ -1,0 +1,5 @@
+.pio/
+generated/
+tools/node_modules/
+__pycache__/
+backups/

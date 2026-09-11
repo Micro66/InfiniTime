@@ -1,0 +1,38 @@
+[
+  {
+    "command": "page 6",
+    "response": "PAGE 6\n"
+  },
+  {
+    "command": "test-tap 233 122",
+    "response": "TEST TAP OK\r\nPAGE 6\n"
+  },
+  {
+    "command": "page 6",
+    "response": "STATUS page=0 sleep=0 battery=100 mv=4120 charging=0 rtc=1 flush=12 heap=328624 touch=0 uptime=1945\nSTATUS page=0 sleep=0 battery=100 mv=4120 charging=0 rtc=1 flush=12 heap=328624 touch=0 uptime=1945\nPAGE 6\n"
+  },
+  {
+    "command": "test-tap 233 122",
+    "response": "TEST TAP OK\r\nPAGE 6\n"
+  },
+  {
+    "command": "test-tap 233 122",
+    "response": "TEST TAP OK\r\nPAGE 6\n"
+  },
+  {
+    "command": "page 0",
+    "response": "PAGE 0\n"
+  },
+  {
+    "command": "status",
+    "response": "STATUS page=0 sleep=1 battery=100 mv=4120 charging=0 rtc=1 flush=108 heap=328576 touch=0 uptime=22005\n"
+  },
+  {
+    "command": "wake",
+    "response": ""
+  },
+  {
+    "command": "status",
+    "response": "STATUS page=0 sleep=0 battery=100 mv=4120 charging=0 rtc=1 flush=111 heap=328576 touch=0 uptime=22501\n"
+  }
+]

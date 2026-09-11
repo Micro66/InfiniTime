@@ -1,0 +1,554 @@
+[
+  {
+    "command": "wake",
+    "response": ""
+  },
+  {
+    "command": "page 0",
+    "response": "PAGE 0\n"
+  },
+  {
+    "command": "status",
+    "response": "STATUS page=0 sleep=0 battery=100 mv=4122 charging=0 rtc=1 flush=33 heap=328624 touch=0 uptime=4523\n"
+  },
+  {
+    "command": "page 1",
+    "response": "PAGE 1\n"
+  },
+  {
+    "command": "status",
+    "response": "STATUS page=1 sleep=0 battery=100 mv=4122 charging=0 rtc=1 flush=57 heap=326600 touch=0 uptime=7082\n"
+  },
+  {
+    "command": "page 2",
+    "response": "PAGE 2\n"
+  },
+  {
+    "command": "status",
+    "response": "STATUS page=2 sleep=0 battery=100 mv=4123 charging=0 rtc=1 flush=69 heap=327684 touch=0 uptime=9627\n"
+  },
+  {
+    "command": "page 3",
+    "response": "PAGE 3\n"
+  },
+  {
+    "command": "status",
+    "response": "STATUS page=3 sleep=0 battery=100 mv=4121 charging=0 rtc=1 flush=81 heap=328972 touch=0 uptime=12186\n"
+  },
+  {
+    "command": "page 4",
+    "response": "PAGE 4\n"
+  },
+  {
+    "command": "status",
+    "response": "STATUS page=4 sleep=0 battery=100 mv=4121 charging=0 rtc=1 flush=93 heap=328472 touch=0 uptime=14743\n"
+  },
+  {
+    "command": "page 5",
+    "response": "PAGE 5\n"
+  },
+  {
+    "command": "status",
+    "response": "STATUS page=5 sleep=0 battery=100 mv=4122 charging=0 rtc=1 flush=105 heap=328376 touch=0 uptime=17277\n"
+  },
+  {
+    "command": "page 6",
+    "response": "PAGE 6\n"
+  },
+  {
+    "command": "status",
+    "response": "STATUS page=6 sleep=0 battery=100 mv=4120 charging=0 rtc=1 flush=117 heap=327400 touch=0 uptime=19830\n"
+  },
+  {
+    "command": "page 3",
+    "response": "PAGE 3\n"
+  },
+  {
+    "command": "test-tap 116 297",
+    "response": "TEST TAP OK\r\n"
+  },
+  {
+    "command": "test-tap 350 237",
+    "response": "TEST TAP OK\r\n"
+  },
+  {
+    "command": "test-tap 194 297",
+    "response": "TEST TAP OK\r\n"
+  },
+  {
+    "command": "test-tap 350 358",
+    "response": "TEST TAP OK\r\n"
+  },
+  {
+    "command": "page 4",
+    "response": "PAGE 4\n"
+  },
+  {
+    "command": "test-tap 331 350",
+    "response": "TEST TAP OK\r\n"
+  },
+  {
+    "command": "test-tap 331 350",
+    "response": "TEST TAP OK\r\n"
+  },
+  {
+    "command": "page 5",
+    "response": "PAGE 5\n"
+  },
+  {
+    "command": "test-swipe left",
+    "response": ""
+  },
+  {
+    "command": "test-swipe up",
+    "response": ""
+  },
+  {
+    "command": "test-swipe right",
+    "response": ""
+  },
+  {
+    "command": "test-swipe down",
+    "response": ""
+  },
+  {
+    "command": "test-swipe left",
+    "response": ""
+  },
+  {
+    "command": "test-swipe up",
+    "response": ""
+  },
+  {
+    "command": "test-swipe right",
+    "response": ""
+  },
+  {
+    "command": "test-swipe down",
+    "response": ""
+  },
+  {
+    "command": "test-swipe left",
+    "response": ""
+  },
+  {
+    "command": "test-swipe up",
+    "response": ""
+  },
+  {
+    "command": "test-swipe right",
+    "response": ""
+  },
+  {
+    "command": "test-swipe down",
+    "response": ""
+  },
+  {
+    "command": "test-swipe left",
+    "response": ""
+  },
+  {
+    "command": "test-swipe up",
+    "response": ""
+  },
+  {
+    "command": "test-swipe right",
+    "response": ""
+  },
+  {
+    "command": "test-swipe down",
+    "response": ""
+  },
+  {
+    "command": "page 0",
+    "response": "PAGE 0\n"
+  },
+  {
+    "command": "status",
+    "response": "STATUS page=0 sleep=0 battery=100 mv=4122 charging=0 rtc=1 flush=373 heap=328472 touch=0 uptime=30201\n"
+  },
+  {
+    "command": "page 0",
+    "response": "PAGE 0\n"
+  },
+  {
+    "command": "page 1",
+    "response": "PAGE 1\n"
+  },
+  {
+    "command": "page 2",
+    "response": "PAGE 2\n"
+  },
+  {
+    "command": "page 3",
+    "response": "PAGE 3\n"
+  },
+  {
+    "command": "page 4",
+    "response": "PAGE 4\n"
+  },
+  {
+    "command": "page 5",
+    "response": "PAGE 5\n"
+  },
+  {
+    "command": "page 6",
+    "response": "PAGE 6\n"
+  },
+  {
+    "command": "page 0",
+    "response": "PAGE 0\n"
+  },
+  {
+    "command": "status",
+    "response": "STATUS page=0 sleep=0 battery=100 mv=4122 charging=0 rtc=1 flush=472 heap=328484 touch=0 uptime=31447\n"
+  },
+  {
+    "command": "page 0",
+    "response": "PAGE 0\n"
+  },
+  {
+    "command": "page 1",
+    "response": "PAGE 1\n"
+  },
+  {
+    "command": "page 2",
+    "response": "PAGE 2\n"
+  },
+  {
+    "command": "page 3",
+    "response": "PAGE 3\n"
+  },
+  {
+    "command": "page 4",
+    "response": "PAGE 4\n"
+  },
+  {
+    "command": "page 5",
+    "response": "PAGE 5\n"
+  },
+  {
+    "command": "page 6",
+    "response": "PAGE 6\n"
+  },
+  {
+    "command": "page 0",
+    "response": "PAGE 0\n"
+  },
+  {
+    "command": "status",
+    "response": "STATUS page=0 sleep=0 battery=100 mv=4121 charging=0 rtc=1 flush=578 heap=328484 touch=0 uptime=32701\n"
+  },
+  {
+    "command": "page 0",
+    "response": "PAGE 0\n"
+  },
+  {
+    "command": "page 1",
+    "response": "PAGE 1\n"
+  },
+  {
+    "command": "page 2",
+    "response": "PAGE 2\n"
+  },
+  {
+    "command": "page 3",
+    "response": "PAGE 3\n"
+  },
+  {
+    "command": "page 4",
+    "response": "PAGE 4\n"
+  },
+  {
+    "command": "page 5",
+    "response": "PAGE 5\n"
+  },
+  {
+    "command": "page 6",
+    "response": "PAGE 6\n"
+  },
+  {
+    "command": "page 0",
+    "response": "PAGE 0\n"
+  },
+  {
+    "command": "status",
+    "response": "STATUS page=0 sleep=0 battery=100 mv=4121 charging=0 rtc=1 flush=680 heap=328484 touch=0 uptime=33956\n"
+  },
+  {
+    "command": "page 0",
+    "response": "PAGE 0\n"
+  },
+  {
+    "command": "page 1",
+    "response": "PAGE 1\n"
+  },
+  {
+    "command": "page 2",
+    "response": "PAGE 2\n"
+  },
+  {
+    "command": "page 3",
+    "response": "PAGE 3\n"
+  },
+  {
+    "command": "page 4",
+    "response": "PAGE 4\n"
+  },
+  {
+    "command": "page 5",
+    "response": "PAGE 5\n"
+  },
+  {
+    "command": "page 6",
+    "response": "PAGE 6\n"
+  },
+  {
+    "command": "page 0",
+    "response": "PAGE 0\n"
+  },
+  {
+    "command": "status",
+    "response": "STATUS page=0 sleep=0 battery=100 mv=4121 charging=0 rtc=1 flush=782 heap=328484 touch=0 uptime=35205\n"
+  },
+  {
+    "command": "page 0",
+    "response": "PAGE 0\n"
+  },
+  {
+    "command": "page 1",
+    "response": "PAGE 1\n"
+  },
+  {
+    "command": "page 2",
+    "response": "PAGE 2\n"
+  },
+  {
+    "command": "page 3",
+    "response": "PAGE 3\n"
+  },
+  {
+    "command": "page 4",
+    "response": "PAGE 4\n"
+  },
+  {
+    "command": "page 5",
+    "response": "PAGE 5\n"
+  },
+  {
+    "command": "page 6",
+    "response": "PAGE 6\n"
+  },
+  {
+    "command": "page 0",
+    "response": "PAGE 0\n"
+  },
+  {
+    "command": "status",
+    "response": "STATUS page=0 sleep=0 battery=100 mv=4121 charging=0 rtc=1 flush=881 heap=328484 touch=0 uptime=36440\n"
+  },
+  {
+    "command": "page 0",
+    "response": "PAGE 0\n"
+  },
+  {
+    "command": "page 1",
+    "response": "PAGE 1\n"
+  },
+  {
+    "command": "page 2",
+    "response": "PAGE 2\n"
+  },
+  {
+    "command": "page 3",
+    "response": "PAGE 3\n"
+  },
+  {
+    "command": "page 4",
+    "response": "PAGE 4\n"
+  },
+  {
+    "command": "page 5",
+    "response": "PAGE 5\n"
+  },
+  {
+    "command": "page 6",
+    "response": "PAGE 6\n"
+  },
+  {
+    "command": "page 0",
+    "response": "PAGE 0\n"
+  },
+  {
+    "command": "status",
+    "response": "STATUS page=0 sleep=0 battery=100 mv=4121 charging=0 rtc=1 flush=988 heap=328484 touch=0 uptime=37682\n"
+  },
+  {
+    "command": "page 0",
+    "response": "PAGE 0\n"
+  },
+  {
+    "command": "page 1",
+    "response": "PAGE 1\n"
+  },
+  {
+    "command": "page 2",
+    "response": "PAGE 2\n"
+  },
+  {
+    "command": "page 3",
+    "response": "PAGE 3\n"
+  },
+  {
+    "command": "page 4",
+    "response": "PAGE 4\n"
+  },
+  {
+    "command": "page 5",
+    "response": "PAGE 5\n"
+  },
+  {
+    "command": "page 6",
+    "response": "PAGE 6\n"
+  },
+  {
+    "command": "page 0",
+    "response": "PAGE 0\n"
+  },
+  {
+    "command": "status",
+    "response": "STATUS page=0 sleep=0 battery=100 mv=4120 charging=0 rtc=1 flush=1087 heap=328484 touch=0 uptime=38940\n"
+  },
+  {
+    "command": "page 0",
+    "response": "PAGE 0\n"
+  },
+  {
+    "command": "page 1",
+    "response": "PAGE 1\n"
+  },
+  {
+    "command": "page 2",
+    "response": "PAGE 2\n"
+  },
+  {
+    "command": "page 3",
+    "response": "PAGE 3\n"
+  },
+  {
+    "command": "page 4",
+    "response": "PAGE 4\n"
+  },
+  {
+    "command": "page 5",
+    "response": "PAGE 5\n"
+  },
+  {
+    "command": "page 6",
+    "response": "PAGE 6\n"
+  },
+  {
+    "command": "page 0",
+    "response": "PAGE 0\n"
+  },
+  {
+    "command": "status",
+    "response": "STATUS page=0 sleep=0 battery=100 mv=4119 charging=0 rtc=1 flush=1192 heap=328472 touch=0 uptime=40186\n"
+  },
+  {
+    "command": "page 0",
+    "response": "PAGE 0\n"
+  },
+  {
+    "command": "page 1",
+    "response": "PAGE 1\n"
+  },
+  {
+    "command": "page 2",
+    "response": "PAGE 2\n"
+  },
+  {
+    "command": "page 3",
+    "response": "PAGE 3\n"
+  },
+  {
+    "command": "page 4",
+    "response": "PAGE 4\n"
+  },
+  {
+    "command": "page 5",
+    "response": "PAGE 5\n"
+  },
+  {
+    "command": "page 6",
+    "response": "PAGE 6\n"
+  },
+  {
+    "command": "page 0",
+    "response": "PAGE 0\n"
+  },
+  {
+    "command": "status",
+    "response": "STATUS page=0 sleep=0 battery=100 mv=4121 charging=0 rtc=1 flush=1291 heap=328484 touch=0 uptime=41433\n"
+  },
+  {
+    "command": "page 0",
+    "response": "PAGE 0\n"
+  },
+  {
+    "command": "page 1",
+    "response": "PAGE 1\n"
+  },
+  {
+    "command": "page 2",
+    "response": "PAGE 2\n"
+  },
+  {
+    "command": "page 3",
+    "response": "PAGE 3\n"
+  },
+  {
+    "command": "page 4",
+    "response": "PAGE 4\n"
+  },
+  {
+    "command": "page 5",
+    "response": "PAGE 5\n"
+  },
+  {
+    "command": "page 6",
+    "response": "PAGE 6\n"
+  },
+  {
+    "command": "page 0",
+    "response": "PAGE 0\n"
+  },
+  {
+    "command": "status",
+    "response": "STATUS page=0 sleep=0 battery=100 mv=4121 charging=0 rtc=1 flush=1399 heap=328484 touch=0 uptime=42681\n"
+  },
+  {
+    "command": "sleep",
+    "response": ""
+  },
+  {
+    "command": "status",
+    "response": "STATUS page=0 sleep=1 battery=100 mv=4121 charging=0 rtc=1 flush=1399 heap=328484 touch=0 uptime=43084\n"
+  },
+  {
+    "command": "wake",
+    "response": ""
+  },
+  {
+    "command": "status",
+    "response": "STATUS page=0 sleep=0 battery=100 mv=4120 charging=0 rtc=1 flush=1402 heap=328472 touch=0 uptime=43487\n"
+  },
+  {
+    "command": "time 2026-02-30 12:00:00",
+    "response": "TIME INVALID\r\n"
+  },
+  {
+    "command": "page 0",
+    "response": "PAGE 0\n"
+  }
+]

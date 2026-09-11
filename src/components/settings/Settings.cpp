@@ -23,15 +23,15 @@ void Settings::SaveSettings() {
 }
 
 void Settings::LoadSettingsFromFile() {
-  SettingsData bufferSettings;
+  SettingsData bufferSettings{};
   lfs_file_t settingsFile;
 
   if (fs.FileOpen(&settingsFile, "/settings.dat", LFS_O_RDONLY) != LFS_ERR_OK) {
     return;
   }
-  fs.FileRead(&settingsFile, reinterpret_cast<uint8_t*>(&bufferSettings), sizeof(settings));
+  const auto bytesRead = fs.FileRead(&settingsFile, reinterpret_cast<uint8_t*>(&bufferSettings), sizeof(bufferSettings));
   fs.FileClose(&settingsFile);
-  if (bufferSettings.version == settingsVersion) {
+  if (bytesRead == sizeof(bufferSettings) && bufferSettings.version == settingsVersion) {
     settings = bufferSettings;
   }
 }

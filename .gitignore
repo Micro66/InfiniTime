@@ -55,3 +55,8 @@ src/arm-none-eabi
 node_modules
 package.json
 package-lock.json
+
+# Port build tools are source, not the root toolchain directory.
+!ports/esp32/tools/
+!ports/esp32/tools/package.json
+!ports/esp32/tools/package-lock.json

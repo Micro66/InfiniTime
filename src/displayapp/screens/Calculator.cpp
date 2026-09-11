@@ -47,6 +47,17 @@ Calculator::Calculator() {
   lv_obj_set_style_local_pad_right(buttonMatrix, LV_BTNMATRIX_PART_BG, LV_STATE_DEFAULT, 1);
   lv_obj_align(buttonMatrix, nullptr, LV_ALIGN_IN_BOTTOM_MID, 0, 0);
 
+#ifdef PINETIME_ROUND_DISPLAY
+  lv_obj_set_size(resultLabel, 280, 28);
+  lv_obj_set_pos(resultLabel, 93, 68);
+  lv_obj_set_size(valueLabel, 280, 28);
+  lv_obj_set_pos(valueLabel, 93, 104);
+  lv_obj_set_size(buttonMatrix, 310, 245);
+  lv_obj_set_pos(buttonMatrix, 78, 145);
+  lv_obj_set_style_local_pad_inner(buttonMatrix, LV_BTNMATRIX_PART_BG, LV_STATE_DEFAULT, 6);
+  lv_obj_set_style_local_radius(buttonMatrix, LV_BTNMATRIX_PART_BTN, LV_STATE_DEFAULT, 18);
+#endif
+
   lv_obj_set_style_local_bg_opa(buttonMatrix, LV_BTNMATRIX_PART_BTN, LV_STATE_CHECKED, LV_OPA_COVER);
   lv_obj_set_style_local_bg_grad_stop(buttonMatrix, LV_BTNMATRIX_PART_BTN, LV_STATE_CHECKED, 128);
   lv_obj_set_style_local_bg_main_stop(buttonMatrix, LV_BTNMATRIX_PART_BTN, LV_STATE_CHECKED, 128);

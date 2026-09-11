@@ -38,7 +38,7 @@ Twos::Twos() {
   lv_table_set_col_cnt(gridDisplay, nCols);
   lv_table_set_row_cnt(gridDisplay, nRows);
   for (int col = 0; col < nCols; col++) {
-    static constexpr int colWidth = LV_HOR_RES_MAX / nCols;
+    static constexpr int colWidth = (LV_HOR_RES_MAX > 240 ? 304 : LV_HOR_RES_MAX) / nCols;
     lv_table_set_col_width(gridDisplay, col, colWidth);
     for (int row = 0; row < nRows; row++) {
       grid[row][col].value = 0;
@@ -46,6 +46,12 @@ Twos::Twos() {
       lv_table_set_cell_align(gridDisplay, row, col, LV_LABEL_ALIGN_CENTER);
     }
   }
+#ifdef PINETIME_ROUND_DISPLAY
+  for (auto& style : cellStyles) {
+    lv_style_set_pad_top(&style, LV_STATE_DEFAULT, 24);
+    lv_style_set_pad_bottom(&style, LV_STATE_DEFAULT, 24);
+  }
+#endif
   // Move one pixel down to remove a gap
   lv_obj_align(gridDisplay, nullptr, LV_ALIGN_IN_BOTTOM_MID, 0, 1);
 
@@ -61,10 +67,14 @@ Twos::Twos() {
   lv_obj_align(scoreText, nullptr, LV_ALIGN_IN_TOP_LEFT, 0, 0);
   lv_label_set_recolor(scoreText, true);
   lv_label_set_text_fmt(scoreText, "Score #FFFF00 %i#", score);
+#ifdef PINETIME_ROUND_DISPLAY
+  lv_obj_align(gridDisplay, nullptr, LV_ALIGN_CENTER, 0, 12);
+  lv_obj_align(scoreText, nullptr, LV_ALIGN_IN_TOP_MID, 0, 45);
+#endif
 }
 
 Twos::~Twos() {
-  for (lv_style_t cellStyle : cellStyles) {
+  for (lv_style_t& cellStyle : cellStyles) {
     lv_style_reset(&cellStyle);
   }
   lv_obj_clean(lv_scr_act());

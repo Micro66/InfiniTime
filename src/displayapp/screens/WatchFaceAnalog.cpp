@@ -12,9 +12,9 @@
 using namespace Pinetime::Applications::Screens;
 
 namespace {
-  constexpr int16_t HourLength = 70;
-  constexpr int16_t MinuteLength = 90;
-  constexpr int16_t SecondLength = 110;
+  constexpr int16_t HourLength = LV_HOR_RES_MAX * 70 / 240;
+  constexpr int16_t MinuteLength = LV_HOR_RES_MAX * 90 / 240;
+  constexpr int16_t SecondLength = LV_HOR_RES_MAX * 110 / 240;
 
   // LVGL sin isn't constexpr (though it could be if it were C++) so fix size here
   // All the types are hardcoded anyway and would need changing if the size changed
@@ -64,7 +64,7 @@ WatchFaceAnalog::WatchFaceAnalog(Controllers::DateTime& dateTimeController,
   minor_scales = lv_linemeter_create(lv_scr_act(), nullptr);
   lv_linemeter_set_scale(minor_scales, 300, 51);
   lv_linemeter_set_angle_offset(minor_scales, 180);
-  lv_obj_set_size(minor_scales, 240, 240);
+  lv_obj_set_size(minor_scales, LV_HOR_RES_MAX, LV_VER_RES_MAX);
   lv_obj_align(minor_scales, nullptr, LV_ALIGN_CENTER, 0, 0);
   lv_obj_set_style_local_bg_opa(minor_scales, LV_LINEMETER_PART_MAIN, LV_STATE_DEFAULT, LV_OPA_TRANSP);
   lv_obj_set_style_local_scale_width(minor_scales, LV_LINEMETER_PART_MAIN, LV_STATE_DEFAULT, 4);
@@ -74,7 +74,7 @@ WatchFaceAnalog::WatchFaceAnalog(Controllers::DateTime& dateTimeController,
   major_scales = lv_linemeter_create(lv_scr_act(), nullptr);
   lv_linemeter_set_scale(major_scales, 300, 11);
   lv_linemeter_set_angle_offset(major_scales, 180);
-  lv_obj_set_size(major_scales, 240, 240);
+  lv_obj_set_size(major_scales, LV_HOR_RES_MAX, LV_VER_RES_MAX);
   lv_obj_align(major_scales, nullptr, LV_ALIGN_CENTER, 0, 0);
   lv_obj_set_style_local_bg_opa(major_scales, LV_LINEMETER_PART_MAIN, LV_STATE_DEFAULT, LV_OPA_TRANSP);
   lv_obj_set_style_local_scale_width(major_scales, LV_LINEMETER_PART_MAIN, LV_STATE_DEFAULT, 6);
@@ -84,7 +84,7 @@ WatchFaceAnalog::WatchFaceAnalog(Controllers::DateTime& dateTimeController,
   large_scales = lv_linemeter_create(lv_scr_act(), nullptr);
   lv_linemeter_set_scale(large_scales, 180, 3);
   lv_linemeter_set_angle_offset(large_scales, 180);
-  lv_obj_set_size(large_scales, 240, 240);
+  lv_obj_set_size(large_scales, LV_HOR_RES_MAX, LV_VER_RES_MAX);
   lv_obj_align(large_scales, nullptr, LV_ALIGN_CENTER, 0, 0);
   lv_obj_set_style_local_bg_opa(large_scales, LV_LINEMETER_PART_MAIN, LV_STATE_DEFAULT, LV_OPA_TRANSP);
   lv_obj_set_style_local_scale_width(large_scales, LV_LINEMETER_PART_MAIN, LV_STATE_DEFAULT, 20);
@@ -94,7 +94,7 @@ WatchFaceAnalog::WatchFaceAnalog(Controllers::DateTime& dateTimeController,
   twelve = lv_label_create(lv_scr_act(), nullptr);
   lv_label_set_align(twelve, LV_LABEL_ALIGN_CENTER);
   lv_label_set_text_static(twelve, "12");
-  lv_obj_set_pos(twelve, 110, 10);
+  lv_obj_align(twelve, nullptr, LV_ALIGN_IN_TOP_MID, 0, 10);
   lv_obj_set_style_local_text_color(twelve, LV_LABEL_PART_MAIN, LV_STATE_DEFAULT, LV_COLOR_AQUA);
 
   batteryIcon.Create(lv_scr_act());
@@ -112,6 +112,13 @@ WatchFaceAnalog::WatchFaceAnalog(Controllers::DateTime& dateTimeController,
   lv_obj_set_style_local_text_color(notificationIcon, LV_LABEL_PART_MAIN, LV_STATE_DEFAULT, LV_COLOR_LIME);
   lv_label_set_text_static(notificationIcon, NotificationIcon::GetIcon(false));
   lv_obj_align(notificationIcon, nullptr, LV_ALIGN_IN_TOP_LEFT, 0, 0);
+
+#ifdef PINETIME_ROUND_DISPLAY
+  lv_obj_align(batteryIcon.GetObject(), nullptr, LV_ALIGN_CENTER, 0, 110);
+  lv_obj_align(plugIcon, nullptr, LV_ALIGN_CENTER, 0, 110);
+  lv_obj_align(bleIcon, nullptr, LV_ALIGN_CENTER, -50, 110);
+  lv_obj_align(notificationIcon, nullptr, LV_ALIGN_CENTER, 50, 110);
+#endif
 
   // Date - Day / Week day
 
