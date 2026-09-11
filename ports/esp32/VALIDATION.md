@@ -245,3 +245,41 @@ showed real motion and bumper scoring. The device was left in Gravity for play.
 Physical sensor readings and user confirmations are distinct from diagnostic
 touch/button injections. CRC-mismatch and interrupted HTTP uploads have been
 reviewed in code but have not been fault-injected over the physical AP.
+
+## Scan-to-connect photo portal (2026-09-11)
+
+Photo Badge generates a standard Wi-Fi QR for each session and a second QR for
+the local photo page. An associated phone switches the display to the page QR;
+the switch row also works manually. Tapping the QR itself leaves its controls
+available. Captive DNS is advertised by DHCP, answers A queries with the AP IP,
+and returns empty AAAA answers. HTTP connectivity probes redirect to the local
+page. The README sequence diagram was checked against startup, client detection,
+code switching, HTTP handling and socket shutdown. Automatic opening depends
+on the phone's network-assistant behavior; the URL QR remains available.
+
+- Final build: **PASS**, static RAM 47,480 bytes, linked flash 1,228,272 bytes.
+- Firmware: 1,228,640 bytes, SHA-256
+  `49cf886bb080adef00add820fe2b8be520e9549e9a0378ed7f3bdab877e90b11`.
+- Flash: bootloader, partitions and application hashes verified. The uploaded
+  photo remains present through reset and repeated portal sessions.
+- Independent ZXing decoding: host-rendered Wi-Fi and URL payloads **PASS**;
+  29-module Wi-Fi QR at 6 pixels/module, 25-module URL QR at 7 pixels/module,
+  both with four white modules of quiet zone.
+- On-device QR regression: four cycles **PASS**, actual framebuffer Wi-Fi QR
+  decoding, session-password rotation, code switching, actual URL QR decoding,
+  QR-center taps, close/reopen and photo retention. Live Wi-Fi frames were decoded
+  in private temporary directories and deleted; no credentials were logged.
+- Host captive DNS checks: **PASS**, A answer and transaction ID, empty AAAA
+  answer, insufficient output capacity, truncated input, invalid/compressed labels,
+  response-packet and multiple-question rejection.
+- Four USB transport tests and port-owned clang-format/diff checks: **PASS**.
+  The unmodified Nayuki sources retain upstream formatting (including trailing
+  whitespace), so vendor sources are excluded from the port whitespace check.
+- Four portal cycles each ended at **290,692 bytes** free heap. See the
+  [QR regression](docs/evidence/photo-qr-regression.json) and
+  [password-free URL QR preview](docs/screenshots/photo-page-qr.png).
+- During the phone test, `clients` changed to 1, the displayed code changed to
+  `page`, and the DNS response counter reached 73. The
+  [numeric connection trace](docs/evidence/photo-qr-phone.json) contains no query
+  names or credentials. This proves connection/detection/DNS activity; whether
+  the phone automatically displayed the page requires the user's observation.

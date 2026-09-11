@@ -1,0 +1,225 @@
+[
+  {
+    "command": "page 15",
+    "response": "PLAY sheet=0 motion=0 ax=0.000 ay=0.000 az=0.000 samples=0 audio=0 rms=0.00000 blocks=0\nGARDEN phase=0 running=0 remaining=1500 flowers=0\nSTATUS page=9 sleep=0 battery=100 mv=4146 charging=0 rtc=1 flush=12 heap=297892 touch=0 uptime=1962 timeout=15000\nPLAY sheet=0 motion=0 ax=0.000 ay=0.000 az=0.000 samples=0 audio=0 rms=0.00000 blocks=0\nGARDEN phase=0 running=0 remaining=1500 flowers=0\nSTATUS page=9 sleep=0 battery=100 mv=4146 charging=0 rtc=1 flush=12 heap=297892 touch=0 uptime=1962 timeout=15000\nPLAY sheet=0 motion=0 ax=0.000 ay=0.000 az=0.000 samples=0 audio=0 rms=0.00000 blocks=0\nGARDEN phase=0 running=0 remaining=1500 flowers=0\nPAGE 15\n"
+  },
+  {
+    "command": "status",
+    "response": "STATUS page=15 sleep=0 battery=100 mv=4145 charging=0 rtc=1 flush=120 heap=297364 touch=0 uptime=4970 timeout=15000\nPLAY sheet=0 motion=0 ax=0.000 ay=0.000 az=0.000 samples=0 audio=0 rms=0.00000 blocks=0\nGARDEN phase=0 running=0 remaining=1500 flowers=0\nPHOTO wifi=0 image=1 clients=0 qr=wifi dns=0\n"
+  },
+  {
+    "command": "test-tap 233 233",
+    "response": "TEST TAP OK\r\n"
+  },
+  {
+    "command": "test-tap 233 390",
+    "response": "TEST TAP OK\r\n"
+  },
+  {
+    "command": "status",
+    "response": "STATUS page=15 sleep=0 battery=100 mv=4147 charging=0 rtc=1 flush=300 heap=237716 touch=1 uptime=8183 timeout=15000\nPLAY sheet=0 motion=0 ax=0.000 ay=0.000 az=0.000 samples=0 audio=0 rms=0.00000 blocks=0\nGARDEN phase=0 running=0 remaining=1500 flowers=0\nPHOTO wifi=1 image=1 clients=0 qr=wifi dns=0\n"
+  },
+  {
+    "command": "test-tap 233 350",
+    "response": "TEST TAP OK\r\n"
+  },
+  {
+    "command": "status",
+    "response": "STATUS page=15 sleep=0 battery=100 mv=4144 charging=0 rtc=1 flush=456 heap=237716 touch=1 uptime=11393 timeout=15000\nPLAY sheet=0 motion=0 ax=0.000 ay=0.000 az=0.000 samples=0 audio=0 rms=0.00000 blocks=0\nGARDEN phase=0 running=0 remaining=1500 flowers=0\nPHOTO wifi=1 image=1 clients=0 qr=page dns=0\n"
+  },
+  {
+    "command": "test-tap 233 350",
+    "response": "TEST TAP OK\r\n"
+  },
+  {
+    "command": "status",
+    "response": "STATUS page=15 sleep=0 battery=100 mv=4148 charging=0 rtc=1 flush=612 heap=237716 touch=1 uptime=14599 timeout=15000\nPLAY sheet=0 motion=0 ax=0.000 ay=0.000 az=0.000 samples=0 audio=0 rms=0.00000 blocks=0\nGARDEN phase=0 running=0 remaining=1500 flowers=0\nPHOTO wifi=1 image=1 clients=0 qr=wifi dns=0\n"
+  },
+  {
+    "command": "test-tap 233 233",
+    "response": "TEST TAP OK\r\n"
+  },
+  {
+    "command": "status",
+    "response": "STATUS page=15 sleep=0 battery=100 mv=4143 charging=0 rtc=1 flush=732 heap=237716 touch=1 uptime=16527 timeout=15000\nPLAY sheet=0 motion=0 ax=0.000 ay=0.000 az=0.000 samples=0 audio=0 rms=0.00000 blocks=0\nGARDEN phase=0 running=0 remaining=1500 flowers=0\nPHOTO wifi=1 image=1 clients=0 qr=wifi dns=0\n"
+  },
+  {
+    "command": "test-tap 233 390",
+    "response": "TEST TAP OK\r\n"
+  },
+  {
+    "command": "status",
+    "response": "STATUS page=15 sleep=0 battery=100 mv=4147 charging=0 rtc=1 flush=864 heap=290692 touch=1 uptime=18585 timeout=15000\nPLAY sheet=0 motion=0 ax=0.000 ay=0.000 az=0.000 samples=0 audio=0 rms=0.00000 blocks=0\nGARDEN phase=0 running=0 remaining=1500 flowers=0\nPHOTO wifi=0 image=1 clients=0 qr=wifi dns=0\n"
+  },
+  {
+    "command": "test-tap 233 233",
+    "response": "TEST TAP OK\r\n"
+  },
+  {
+    "command": "test-tap 233 390",
+    "response": "TEST TAP OK\r\n"
+  },
+  {
+    "command": "status",
+    "response": "STATUS page=15 sleep=0 battery=100 mv=4146 charging=0 rtc=1 flush=1044 heap=237704 touch=1 uptime=21739 timeout=15000\nPLAY sheet=0 motion=0 ax=0.000 ay=0.000 az=0.000 samples=0 audio=0 rms=0.00000 blocks=0\nGARDEN phase=0 running=0 remaining=1500 flowers=0\nPHOTO wifi=1 image=1 clients=0 qr=wifi dns=0\n"
+  },
+  {
+    "command": "test-tap 233 350",
+    "response": "TEST TAP OK\r\n"
+  },
+  {
+    "command": "status",
+    "response": "STATUS page=15 sleep=0 battery=100 mv=4144 charging=0 rtc=1 flush=1200 heap=237704 touch=1 uptime=24954 timeout=15000\nPLAY sheet=0 motion=0 ax=0.000 ay=0.000 az=0.000 samples=0 audio=0 rms=0.00000 blocks=0\nGARDEN phase=0 running=0 remaining=1500 flowers=0\nPHOTO wifi=1 image=1 clients=0 qr=page dns=0\n"
+  },
+  {
+    "command": "test-tap 233 350",
+    "response": "TEST TAP OK\r\n"
+  },
+  {
+    "command": "status",
+    "response": "STATUS page=15 sleep=0 battery=100 mv=4147 charging=0 rtc=1 flush=1320 heap=237704 touch=1 uptime=26897 timeout=15000\nPLAY sheet=0 motion=0 ax=0.000 ay=0.000 az=0.000 samples=0 audio=0 rms=0.00000 blocks=0\nGARDEN phase=0 running=0 remaining=1500 flowers=0\nPHOTO wifi=1 image=1 clients=0 qr=wifi dns=0\n"
+  },
+  {
+    "command": "test-tap 233 233",
+    "response": "TEST TAP OK\r\n"
+  },
+  {
+    "command": "status",
+    "response": "STATUS page=15 sleep=0 battery=100 mv=4145 charging=0 rtc=1 flush=1452 heap=237704 touch=1 uptime=28904 timeout=15000\nPLAY sheet=0 motion=0 ax=0.000 ay=0.000 az=0.000 samples=0 audio=0 rms=0.00000 blocks=0\nGARDEN phase=0 running=0 remaining=1500 flowers=0\nPHOTO wifi=1 image=1 clients=0 qr=wifi dns=0\n"
+  },
+  {
+    "command": "test-tap 233 390",
+    "response": "TEST TAP OK\r\n"
+  },
+  {
+    "command": "status",
+    "response": "STATUS page=15 sleep=0 battery=100 mv=4145 charging=0 rtc=1 flush=1584 heap=290692 touch=1 uptime=30948 timeout=15000\nPLAY sheet=0 motion=0 ax=0.000 ay=0.000 az=0.000 samples=0 audio=0 rms=0.00000 blocks=0\nGARDEN phase=0 running=0 remaining=1500 flowers=0\nPHOTO wifi=0 image=1 clients=0 qr=wifi dns=0\n"
+  },
+  {
+    "command": "test-tap 233 233",
+    "response": "TEST TAP OK\r\n"
+  },
+  {
+    "command": "test-tap 233 390",
+    "response": "TEST TAP OK\r\n"
+  },
+  {
+    "command": "status",
+    "response": "STATUS page=15 sleep=0 battery=100 mv=4147 charging=0 rtc=1 flush=1764 heap=237704 touch=1 uptime=34117 timeout=15000\nPLAY sheet=0 motion=0 ax=0.000 ay=0.000 az=0.000 samples=0 audio=0 rms=0.00000 blocks=0\nGARDEN phase=0 running=0 remaining=1500 flowers=0\nPHOTO wifi=1 image=1 clients=0 qr=wifi dns=0\n"
+  },
+  {
+    "command": "test-tap 233 350",
+    "response": "TEST TAP OK\r\n"
+  },
+  {
+    "command": "status",
+    "response": "STATUS page=15 sleep=0 battery=100 mv=4146 charging=0 rtc=1 flush=1920 heap=237704 touch=1 uptime=37322 timeout=15000\nPLAY sheet=0 motion=0 ax=0.000 ay=0.000 az=0.000 samples=0 audio=0 rms=0.00000 blocks=0\nGARDEN phase=0 running=0 remaining=1500 flowers=0\nPHOTO wifi=1 image=1 clients=0 qr=page dns=0\n"
+  },
+  {
+    "command": "test-tap 233 350",
+    "response": "TEST TAP OK\r\n"
+  },
+  {
+    "command": "status",
+    "response": "STATUS page=15 sleep=0 battery=100 mv=4145 charging=0 rtc=1 flush=2040 heap=237704 touch=1 uptime=39264 timeout=15000\nPLAY sheet=0 motion=0 ax=0.000 ay=0.000 az=0.000 samples=0 audio=0 rms=0.00000 blocks=0\nGARDEN phase=0 running=0 remaining=1500 flowers=0\nPHOTO wifi=1 image=1 clients=0 qr=wifi dns=0\n"
+  },
+  {
+    "command": "test-tap 233 233",
+    "response": "TEST TAP OK\r\n"
+  },
+  {
+    "command": "status",
+    "response": "STATUS page=15 sleep=0 battery=100 mv=4146 charging=0 rtc=1 flush=2172 heap=237704 touch=1 uptime=41266 timeout=15000\nPLAY sheet=0 motion=0 ax=0.000 ay=0.000 az=0.000 samples=0 audio=0 rms=0.00000 blocks=0\nGARDEN phase=0 running=0 remaining=1500 flowers=0\nPHOTO wifi=1 image=1 clients=0 qr=wifi dns=0\n"
+  },
+  {
+    "command": "test-tap 233 390",
+    "response": "TEST TAP OK\r\n"
+  },
+  {
+    "command": "status",
+    "response": "STATUS page=15 sleep=0 battery=100 mv=4146 charging=0 rtc=1 flush=2304 heap=290692 touch=1 uptime=43328 timeout=15000\nPLAY sheet=0 motion=0 ax=0.000 ay=0.000 az=0.000 samples=0 audio=0 rms=0.00000 blocks=0\nGARDEN phase=0 running=0 remaining=1500 flowers=0\nPHOTO wifi=0 image=1 clients=0 qr=wifi dns=0\n"
+  },
+  {
+    "command": "test-tap 233 233",
+    "response": "TEST TAP OK\r\n"
+  },
+  {
+    "command": "test-tap 233 390",
+    "response": "TEST TAP OK\r\n"
+  },
+  {
+    "command": "status",
+    "response": "STATUS page=15 sleep=0 battery=100 mv=4147 charging=0 rtc=1 flush=2496 heap=237704 touch=1 uptime=46490 timeout=15000\nPLAY sheet=0 motion=0 ax=0.000 ay=0.000 az=0.000 samples=0 audio=0 rms=0.00000 blocks=0\nGARDEN phase=0 running=0 remaining=1500 flowers=0\nPHOTO wifi=1 image=1 clients=0 qr=wifi dns=0\n"
+  },
+  {
+    "command": "test-tap 233 350",
+    "response": "TEST TAP OK\r\n"
+  },
+  {
+    "command": "status",
+    "response": "STATUS page=15 sleep=0 battery=100 mv=4145 charging=0 rtc=1 flush=2652 heap=236724 touch=1 uptime=49753 timeout=15000\nPLAY sheet=0 motion=0 ax=0.000 ay=0.000 az=0.000 samples=0 audio=0 rms=0.00000 blocks=0\nGARDEN phase=0 running=0 remaining=1500 flowers=0\nPHOTO wifi=1 image=1 clients=1 qr=wifi dns=0\n"
+  },
+  {
+    "command": "status",
+    "response": "STATUS page=15 sleep=0 battery=100 mv=4144 charging=0 rtc=1 flush=2712 heap=237704 touch=1 uptime=50558 timeout=15000\nPLAY sheet=0 motion=0 ax=0.000 ay=0.000 az=0.000 samples=0 audio=0 rms=0.00000 blocks=0\nGARDEN phase=0 running=0 remaining=1500 flowers=0\nPHOTO wifi=1 image=1 clients=0 qr=wifi dns=0\n"
+  },
+  {
+    "command": "status",
+    "response": "STATUS page=15 sleep=0 battery=100 mv=4144 charging=0 rtc=1 flush=2760 heap=237704 touch=1 uptime=51361 timeout=15000\nPLAY sheet=0 motion=0 ax=0.000 ay=0.000 az=0.000 samples=0 audio=0 rms=0.00000 blocks=0\nGARDEN phase=0 running=0 remaining=1500 flowers=0\nPHOTO wifi=1 image=1 clients=0 qr=wifi dns=0\n"
+  },
+  {
+    "command": "status",
+    "response": "STATUS page=15 sleep=0 battery=100 mv=4146 charging=0 rtc=1 flush=2820 heap=236724 touch=1 uptime=52161 timeout=15000\nPLAY sheet=0 motion=0 ax=0.000 ay=0.000 az=0.000 samples=0 audio=0 rms=0.00000 blocks=0\nGARDEN phase=0 running=0 remaining=1500 flowers=0\nPHOTO wifi=1 image=1 clients=1 qr=page dns=0\n"
+  },
+  {
+    "command": "test-tap 233 350",
+    "response": "TEST TAP OK\r\n"
+  },
+  {
+    "command": "status",
+    "response": "STATUS page=15 sleep=0 battery=100 mv=4144 charging=0 rtc=1 flush=2976 heap=236868 touch=1 uptime=54174 timeout=15000\nPLAY sheet=0 motion=0 ax=0.000 ay=0.000 az=0.000 samples=0 audio=0 rms=0.00000 blocks=0\nGARDEN phase=0 running=0 remaining=1500 flowers=0\nPHOTO wifi=1 image=1 clients=1 qr=page dns=0\n"
+  },
+  {
+    "command": "status",
+    "response": "STATUS page=15 sleep=0 battery=100 mv=4145 charging=0 rtc=1 flush=3036 heap=237704 touch=1 uptime=54976 timeout=15000\nPLAY sheet=0 motion=0 ax=0.000 ay=0.000 az=0.000 samples=0 audio=0 rms=0.00000 blocks=0\nGARDEN phase=0 running=0 remaining=1500 flowers=0\nPHOTO wifi=1 image=1 clients=0 qr=wifi dns=0\n"
+  },
+  {
+    "command": "test-tap 233 233",
+    "response": "TEST TAP OK\r\n"
+  },
+  {
+    "command": "status",
+    "response": "STATUS page=15 sleep=0 battery=100 mv=4145 charging=0 rtc=1 flush=3168 heap=237704 touch=1 uptime=57024 timeout=15000\nPLAY sheet=0 motion=0 ax=0.000 ay=0.000 az=0.000 samples=0 audio=0 rms=0.00000 blocks=0\nGARDEN phase=0 running=0 remaining=1500 flowers=0\nPHOTO wifi=1 image=1 clients=0 qr=wifi dns=0\n"
+  },
+  {
+    "command": "test-tap 233 390",
+    "response": "TEST TAP OK\r\n"
+  },
+  {
+    "command": "status",
+    "response": "STATUS page=15 sleep=0 battery=100 mv=4147 charging=0 rtc=1 flush=3288 heap=290692 touch=1 uptime=59016 timeout=15000\nPLAY sheet=0 motion=0 ax=0.000 ay=0.000 az=0.000 samples=0 audio=0 rms=0.00000 blocks=0\nGARDEN phase=0 running=0 remaining=1500 flowers=0\nPHOTO wifi=0 image=1 clients=0 qr=wifi dns=0\n"
+  },
+  {
+    "heap_after_portal_cycles": [
+      290692,
+      290692,
+      290692,
+      290692
+    ]
+  },
+  {
+    "command": "test-tap 233 233",
+    "response": "TEST TAP OK\r\n"
+  },
+  {
+    "command": "test-tap 233 390",
+    "response": "TEST TAP OK\r\n"
+  },
+  {
+    "command": "status",
+    "response": "STATUS page=15 sleep=0 battery=100 mv=4146 charging=0 rtc=1 flush=3468 heap=237700 touch=1 uptime=62202 timeout=15000\nPLAY sheet=0 motion=0 ax=0.000 ay=0.000 az=0.000 samples=0 audio=0 rms=0.00000 blocks=0\nGARDEN phase=0 running=0 remaining=1500 flowers=0\nPHOTO wifi=1 image=1 clients=0 qr=wifi dns=0\n"
+  },
+  {
+    "result": "PASS"
+  }
+]

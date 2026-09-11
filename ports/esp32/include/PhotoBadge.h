@@ -13,7 +13,9 @@ namespace Esp32 {
     void Poll();
     bool Connected() const;
     bool HasPhoto() const;
-    const char* Password() const;
+    unsigned Clients() const;
+    unsigned DnsQueries() const;
+    bool PageCode() const;
 
   private:
     void Draw(const lv_area_t*) override;
@@ -21,5 +23,7 @@ namespace Esp32 {
     std::unique_ptr<PhotoPortal> portal;
     Pinetime::System::WakeLock wakeLock;
     bool controls = true;
+    bool pageCode = false;
+    unsigned lastClients = 0;
   };
 }

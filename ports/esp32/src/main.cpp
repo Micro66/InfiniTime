@@ -378,7 +378,12 @@ namespace {
       }
       if (page == Page::Photo && screen) {
         auto* app = static_cast<Esp32::PhotoBadge*>(screen.get());
-        Usb.printf("PHOTO wifi=%d image=%d\n", app->Connected(), app->HasPhoto());
+        Usb.printf("PHOTO wifi=%d image=%d clients=%u qr=%s dns=%u\n",
+                   app->Connected(),
+                   app->HasPhoto(),
+                   app->Clients(),
+                   app->PageCode() ? "page" : "wifi",
+                   app->DnsQueries());
       }
     }
   }

@@ -195,9 +195,11 @@ used for Sound Buddy.
 - **Garden:** choose 15, 25 or 45 minutes before starting. START/PAUSE controls
   focus; RESET cancels it. Finishing grows one persistent flower; REST starts a
   five-minute break. The timer continues on other pages and with the display off.
-- **Photo Badge:** tap to show controls, then CONNECT PHONE. Join the displayed
-  Wi-Fi network using its displayed session password and open `http://192.168.4.1`
-  on the phone. Select, drag and zoom a photo, then send it. CLOSE WI-FI returns
+- **Photo Badge:** tap to show controls, then CONNECT PHONE. Scan the Wi-Fi QR
+  with the phone's camera and accept joining the network. The phone's network
+  assistant can automatically open the photo page. Once connected, the badge
+  switches to a URL QR; scan it if the page did not open. OPEN PAGE / WI-FI CODE
+  switches the codes manually. Select, drag and zoom a photo, then send it. CLOSE WI-FI returns
   to the photo. BOOT/swipe down exits. The saved image survives restart/firmware
   updates; only a complete, CRC-checked upload replaces it.
 
@@ -229,10 +231,58 @@ flowchart TD
     Photo -->|AP lifecycle| Radio[ESP-IDF Wi-Fi AP]
 ```
 
+```mermaid
+sequenceDiagram
+    participant Badge as Photo Badge
+    participant Phone as Phone camera / network assistant
+    participant Network as AP + DHCP + captive DNS
+    participant Web as Local HTTP server
+    Badge->>Phone: Standard Wi-Fi QR: SSID + session password
+    Phone->>Network: Join WPA2 network
+    Network-->>Phone: DHCP address + local DNS
+    Phone->>Network: Connectivity probe DNS query
+    Network-->>Phone: 192.168.4.1
+    Phone->>Web: HTTP connectivity probe
+    Web-->>Phone: Redirect to local photo page
+    Badge->>Badge: Detect associated phone, show URL QR
+    opt Phone does not open its network assistant
+        Badge->>Phone: Scan URL QR to open photo page
+    end
+    Phone->>Web: Crop and upload photo
+    Badge->>Network: Close Wi-Fi / app exit: stop DNS and AP
+```
+
 The HTTP worker receives and checks bytes; only the main task accesses LittleFS
 and LVGL. Closing the portal cancels reception before joining the HTTP worker.
 The old photo remains visible until the replacement file commits. Image-cache
 entries are invalidated before their backing image is replaced or freed.
+
+QR codes use the pinned MIT-licensed Nayuki C encoder, integer pixel scaling,
+black/white modules and a four-module quiet zone. They are generated on the board
+for each AP session, without an external QR service. The Wi-Fi payload is the
+standard `WIFI:T:WPA;S:...;P:...;;` format; the page payload is
+`http://192.168.4.1/`. A single standard Wi-Fi QR cannot also command the phone's
+browser to open a URL. Automatic opening uses captive-network detection: DHCP
+advertises the local DNS server, DNS answers IPv4 queries with the AP address,
+and HTTP probes redirect to the photo page. Phone behavior varies; the URL QR
+opens the page without typing. HTTPS connections are not intercepted.
+
+![Photo page QR displayed on the device](docs/screenshots/photo-page-qr.png)
+
+DNS runs bounded nonblocking work in the existing main loop, and its socket
+closes with the AP. `PHOTO` diagnostics expose client count, displayed code type
+and DNS reply count, never QR credentials or DNS query names. Do not publish
+captures of a live Wi-Fi QR; it contains the session password.
+
+Run `c++ -std=c++20 -I include tools/test_captive_dns.cpp -o /tmp/captive-dns &&
+/tmp/captive-dns` to check DNS response encoding and malformed packet rejection.
+Install `zxing-cpp` alongside the USB tool dependencies, then run
+`python tools/validate_photo_qr.py --port /dev/cu.usbmodem101 --output /path/to/results`
+to decode actual device-rendered Wi-Fi/page codes, check code switching and
+session-password rotation, and repeat AP/DNS shutdown. Live Wi-Fi captures exist
+only in a private temporary directory and are removed after decoding. The saved
+URL QR preview contains no password or uploaded photo. `--leave-open` leaves the
+last Wi-Fi code ready for a physical phone test.
 
 ES7210 uses the manufacturer's legacy I2S path on the pinned Arduino/ESP-IDF SDK.
 Its new standard I2S driver allocates callback context in PSRAM while the packaged
