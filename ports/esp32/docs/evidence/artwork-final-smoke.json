@@ -1,0 +1,57 @@
+[
+  {
+    "command": "status",
+    "response": "STATUS page=7 sleep=0 battery=100 mv=4152 charging=0 rtc=1 flush=12 heap=329452 touch=0 uptime=1980 timeout=60000\nSTATUS page=7 sleep=0 battery=100 mv=4152 charging=0 rtc=1 flush=12 heap=329452 touch=0 uptime=1980 timeout=60000\nSTATUS page=7 sleep=0 battery=100 mv=4152 charging=0 rtc=1 flush=12 heap=329452 touch=0 uptime=1985 timeout=60000\n"
+  },
+  {
+    "command": "page 10",
+    "response": "PAGE 10\n"
+  },
+  {
+    "command": "status",
+    "response": "STATUS page=10 sleep=0 battery=100 mv=4154 charging=0 rtc=1 flush=156 heap=329360 touch=0 uptime=3796 timeout=60000\nBADGE theme=2 pinned=0 reactions=0\n"
+  },
+  {
+    "command": "test-raw-tap 233 233",
+    "response": "TEST RAW TAP OK\r\n"
+  },
+  {
+    "command": "status",
+    "response": "STATUS page=10 sleep=0 battery=100 mv=4151 charging=0 rtc=1 flush=384 heap=329312 touch=0 uptime=6811 timeout=60000\nBADGE theme=2 pinned=0 reactions=1\n"
+  },
+  {
+    "command": "test-button pwr",
+    "response": "TEST BUTTON QUEUED\r\nTEST BUTTON pwr sampled=8659 activity=7361\n"
+  },
+  {
+    "command": "status",
+    "response": "STATUS page=10 sleep=1 battery=100 mv=4153 charging=0 rtc=1 flush=492 heap=329312 touch=0 uptime=9733 timeout=60000\nBADGE theme=2 pinned=0 reactions=1\n"
+  },
+  {
+    "command": "test-button pwr",
+    "response": "TEST BUTTON QUEUED\r\nTEST BUTTON pwr sampled=10277 activity=10278\n"
+  },
+  {
+    "command": "status",
+    "response": "STATUS page=10 sleep=0 battery=100 mv=4150 charging=0 rtc=1 flush=624 heap=329312 touch=0 uptime=11475 timeout=60000\nBADGE theme=2 pinned=0 reactions=1\n"
+  },
+  {
+    "command": "test-button boot",
+    "response": "TEST BUTTON QUEUED\r\nTEST BUTTON boot sampled=12129 activity=12129\nPAGE 2\n"
+  },
+  {
+    "command": "status",
+    "response": "STATUS page=2 sleep=0 battery=100 mv=4151 charging=0 rtc=1 flush=708 heap=327008 touch=0 uptime=13129 timeout=60000\n"
+  },
+  {
+    "command": "test-button boot",
+    "response": "TEST BUTTON QUEUED\r\nTEST BUTTON boot sampled=13638 activity=13638\nPAGE 7\n"
+  },
+  {
+    "command": "status",
+    "response": "STATUS page=7 sleep=0 battery=100 mv=4150 charging=0 rtc=1 flush=732 heap=329404 touch=0 uptime=14833 timeout=60000\n"
+  },
+  {
+    "result": "PASS"
+  }
+]

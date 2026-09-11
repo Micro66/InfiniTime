@@ -28,6 +28,12 @@ flowchart TD
     Touch[CST9217 raw coordinates] --> Map[SensorLib mirror X and Y around 466]
     Map --> Input[LVGL pointer and swipe tracking]
     Input --> Shell
+    Shell --> Art[Orbit / Studio / Pulse / Badge]
+    Art --> Draw[One LVGL drawing object + owned refresh task]
+    Draw --> Theme
+    Art --> Prefs[NVS: selected watch face and badge character]
+    Art --> Lock[Scoped badge stay-on wake lock]
+    Lock --> Shell
     Controllers --> Platform[ESP32 platform implementations]
     Platform --> Power[AXP2101 battery and brightness]
     Platform --> Clock[ESP32 internal RTC and retained UTC anchor]
@@ -99,6 +105,63 @@ release image. See `tools/device.py` for backup, flash and verification commands
 - The clock uses 24-hour time in UTC+8. Sync the full date from USB with `sync-time`.
 - A running stopwatch consumes the first BOOT press to pause; press again to leave.
 
+## New watch faces and character badge
+
+| Orbit | Studio | Pulse |
+| --- | --- | --- |
+| ![Orbit](docs/screenshots/orbit.png) | ![Studio](docs/screenshots/studio.png) | ![Pulse](docs/screenshots/pulse.png) |
+
+| Mochi | Beep | Lil' Orbit |
+| --- | --- | --- |
+| ![Mochi](docs/screenshots/badge-mochi-happy.png) | ![Beep](docs/screenshots/badge-beep-happy.png) | ![Lil' Orbit](docs/screenshots/badge-little-orbit-happy.png) |
+
+Swipe left/right through Digital → Analog → **Orbit** → **Studio** → **Pulse**.
+The last selected watch face is remembered across restarts; Watch in the launcher
+and BOOT from the launcher return to that face. Swipe vertically on a watch face
+or press BOOT to open the launcher.
+
+- **Orbit:** dark navy dial, mint seconds orbit, digital time, date and live battery.
+- **Studio:** warm ivory dial, ink hands, coral seconds hand, date and live battery.
+- **Pulse:** oversized stacked hours/minutes, charcoal and lime split dial, seconds,
+  date and live battery. All faces use the same internal clock, in UTC+8.
+- **Badge:** tap Badge in the launcher. Swipe left/right for **Mochi** the cat,
+  **Beep** the robot, or **Lil' Orbit** the planet. Tap the character for a reaction.
+  Characters blink/bob and the planet's moon orbits. The selected character persists.
+- Tap **STAY ON** to enable/disable continuous display. It starts off on every
+  app entry. PWR still switches the display off/on; BOOT or swipe down exits and
+  releases the wake lock, restoring the normal screen timeout.
+
+Artwork uses original geometric illustrations, drawn directly by LVGL at 466×466.
+Each screen owns one drawing object and one refresh task; destruction removes both.
+Watch faces refresh once per second; Badge requests an animation update every
+100 ms while the GUI is awake. No extra full-screen bitmap is allocated. Both
+physical swipes and diagnostic swipes enter the same navigation dispatcher.
+
+```mermaid
+sequenceDiagram
+    participant Input as Touch / BOOT / PWR
+    participant Shell as Main loop
+    participant Art as Active artwork screen
+    participant GUI as LVGL
+    Input->>Shell: Swipe / button
+    Shell->>Art: Deliver app gesture first
+    alt Badge horizontal swipe
+        Art->>Art: Change and persist character
+    else Watch swipe or exit
+        Shell->>Shell: Queue destination
+        Shell->>Art: Destroy old screen (task + object + wake lock)
+        Shell->>GUI: Create destination after callbacks return
+    end
+    GUI->>Art: Refresh / draw / short tap
+    Art->>Shell: Stay-on toggles scoped wake lock
+    Shell->>Shell: Fresh-time inactivity check
+```
+
+Run `python tools/validate_artwork.py --port /dev/cu.usbmodem101 --output /path/to/results`
+for navigation, screenshots, raw-coordinate badge taps, sleep/wake, wake-lock
+release and repeated screen destruction checks. Input injections do not prove
+physical sensor behavior; captured frames do not prove optical panel appearance.
+
 ## Validation
 
 Build and device results are recorded in `VALIDATION.md`. Successful compilation
@@ -130,7 +193,8 @@ partition table at 0x8000 and the application at 0x10000. First boot may format
 its dedicated filesystem partition. Original firmware must be backed up first.
 
 Serial diagnostics: `page N` (0 digital, 1 analog, 2 launcher, 3 calculator,
-4 stopwatch, 5 Twos, 6 settings), `wake`, `sleep`, `status`, `capture`, and
+4 stopwatch, 5 Twos, 6 settings, 7 Orbit, 8 Studio, 9 Pulse, 10 Badge),
+`wake`, `sleep`, `status`, `capture`, and
 `time YYYY-MM-DD HH:MM:SS`. `test-tap X Y` and `test-swipe left|right|up|down`
 inject UI input for repeatable software tests; they do **not** test physical
 CST9217 touch sensing. `status` reports the separate physical touch IRQ count.

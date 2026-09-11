@@ -4,6 +4,9 @@
 #include <esp_system.h>
 #include "Hardware.h"
 #include "UsbConsole.h"
+#include "RoundArtwork.h"
+#include <array>
+#include <algorithm>
 using Esp32::Usb;
 #include "drivers/SpiNorFlash.h"
 #include "components/fs/FS.h"
@@ -25,7 +28,15 @@ using namespace Pinetime::Applications;
 using Esp32::Hardware;
 
 namespace {
-  enum class Page { Digital, Analog, Launcher, Calculator, Stopwatch, Twos, Settings };
+  enum class Page { Digital, Analog, Launcher, Calculator, Stopwatch, Twos, Settings, Orbit, Studio, Pulse, Badge, Count };
+  constexpr std::array watchFaces {Page::Digital, Page::Analog, Page::Orbit, Page::Studio, Page::Pulse};
+  Page selectedWatch = Page::Digital;
+  Preferences uiPreferences;
+
+  bool isWatch(Page candidate) {
+    return std::find(watchFaces.begin(), watchFaces.end(), candidate) != watchFaces.end();
+  }
+
   Page page = Page::Digital, pending = page;
   bool transition = true, sleeping = false;
   std::unique_ptr<Controllers::Settings> settings;
@@ -44,6 +55,10 @@ namespace {
   TestButton testButton = TestButton::None;
 
   void request(Page next) {
+    if (isWatch(next) && selectedWatch != next) {
+      selectedWatch = next;
+      uiPreferences.putUChar("watch", static_cast<uint8_t>(next));
+    }
     pending = next;
     transition = true;
     lastActivity = millis();
@@ -73,20 +88,20 @@ namespace {
     if (event != LV_EVENT_CLICKED)
       return;
     const auto id = reinterpret_cast<uintptr_t>(obj->user_data);
-    if (id < 10)
+    if (id < static_cast<uintptr_t>(Page::Count))
       request(static_cast<Page>(id));
-    else if (id == 10) {
+    else if (id == 100) {
       brightness.Step();
       settings->SetBrightness(brightness.Level());
       settings->SaveSettings();
       request(Page::Settings);
-    } else if (id == 11) {
+    } else if (id == 101) {
       const auto old = settings->GetScreenTimeOut();
       settings->SetScreenTimeOut(old < 30000 ? 30000 : old < 60000 ? 60000 : 15000);
       settings->SaveSettings();
       request(Page::Settings);
-    } else if (id == 12 || id == 13) {
-      dateTime->SetCurrentTime(dateTime->CurrentDateTime() + std::chrono::minutes(id == 12 ? -1 : 1));
+    } else if (id == 102 || id == 103) {
+      dateTime->SetCurrentTime(dateTime->CurrentDateTime() + std::chrono::minutes(id == 102 ? -1 : 1));
       request(Page::Settings);
     }
   }
@@ -123,6 +138,17 @@ namespace {
       case Page::Twos:
         screen = std::make_unique<Screens::Twos>();
         break;
+      case Page::Orbit:
+      case Page::Studio:
+      case Page::Pulse:
+        screen = std::make_unique<Esp32::ArtWatchFace>(
+          static_cast<Esp32::ArtWatchFace::Style>(static_cast<int>(page) - static_cast<int>(Page::Orbit)),
+          *dateTime,
+          battery);
+        break;
+      case Page::Badge:
+        screen = std::make_unique<Esp32::Badge>(systemTask);
+        break;
       case Page::Digital:
         label("I N F I N I T I M E", 77, lv_color_hex(0x70e6ca));
         clockLabel = label("--:--", 158, LV_COLOR_WHITE, &jetbrains_mono_76);
@@ -136,25 +162,42 @@ namespace {
         button("Stopwatch", 240, 116, 158, 104, static_cast<uintptr_t>(Page::Stopwatch));
         button("Twos", 68, 238, 158, 104, static_cast<uintptr_t>(Page::Twos), 0x6f3824);
         button("Settings", 240, 238, 158, 104, static_cast<uintptr_t>(Page::Settings));
-        button("Watch", 163, 361, 140, 48, static_cast<uintptr_t>(Page::Digital));
+        button("Badge", 92, 357, 136, 48, static_cast<uintptr_t>(Page::Badge), 0x694865);
+        button("Watch", 240, 357, 136, 48, static_cast<uintptr_t>(selectedWatch));
         break;
       case Page::Settings: {
         label("SETTINGS", 48, lv_color_hex(0x70e6ca));
         char text[64];
         snprintf(text, sizeof(text), "Brightness: %s", brightness.ToString());
-        button(text, 88, 94, 290, 57, 10);
+        button(text, 88, 94, 290, 57, 100);
         snprintf(text, sizeof(text), "Display off: %lus", static_cast<unsigned long>(settings->GetScreenTimeOut() / 1000));
-        button(text, 88, 163, 290, 57, 11);
+        button(text, 88, 163, 290, 57, 101);
         snprintf(text, sizeof(text), "%s  UTC+8", dateTime->FormattedTime().c_str());
         label(text, 242);
-        button("-1 min", 96, 286, 130, 57, 12);
-        button("+1 min", 240, 286, 130, 57, 13);
+        button("-1 min", 96, 286, 130, 57, 102);
+        button("+1 min", 240, 286, 130, 57, 103);
         button("Back", 163, 361, 140, 48, static_cast<uintptr_t>(Page::Launcher));
         break;
       }
+      case Page::Count:
+        break;
     }
     lv_obj_invalidate(lv_scr_act());
     Usb.printf("PAGE %u\n", static_cast<unsigned>(page));
+  }
+
+  void swipe(TouchEvents event) {
+    lastActivity = millis();
+    if (screen && screen->OnTouchEvent(event))
+      return;
+    if (isWatch(page)) {
+      if (event == TouchEvents::SwipeLeft || event == TouchEvents::SwipeRight) {
+        const auto index = std::find(watchFaces.begin(), watchFaces.end(), page) - watchFaces.begin();
+        request(watchFaces[(index + (event == TouchEvents::SwipeLeft ? 1 : watchFaces.size() - 1)) % watchFaces.size()]);
+      } else
+        request(Page::Launcher);
+    } else if (event == TouchEvents::SwipeDown)
+      request(Page::Launcher);
   }
 
   void command(const String& line) {
@@ -195,8 +238,7 @@ namespace {
       else
         return;
       wake();
-      if (screen)
-        screen->OnTouchEvent(event);
+      swipe(event);
       return;
     }
     if (line == "capture") {
@@ -214,7 +256,7 @@ namespace {
     if (line.startsWith("page ")) {
       int id = -1;
       char extra;
-      if (sscanf(line.c_str(), "page %d %c", &id, &extra) == 1 && id >= 0 && id <= 6) {
+      if (sscanf(line.c_str(), "page %d %c", &id, &extra) == 1 && id >= 0 && id < static_cast<int>(Page::Count)) {
         wake();
         request(static_cast<Page>(id));
       }
@@ -248,6 +290,10 @@ namespace {
                  Hardware::TouchCount(),
                  static_cast<unsigned long>(millis()),
                  static_cast<unsigned long>(settings->GetScreenTimeOut()));
+      if (page == Page::Badge && screen) {
+        const auto* badge = static_cast<Esp32::Badge*>(screen.get());
+        Usb.printf("BADGE theme=%u pinned=%d reactions=%u\n", badge->Theme(), badge->Pinned(), badge->Reactions());
+      }
     }
   }
 }
@@ -258,6 +304,10 @@ void setup() {
   Usb.println("InfiniTime ESP32-S3 Waveshare 1.75C starting");
   Hardware::Init();
   Hardware::InitGui();
+  uiPreferences.begin("infini-ui", false);
+  const auto savedWatch = static_cast<Page>(uiPreferences.getUChar("watch", 0));
+  if (isWatch(savedWatch))
+    selectedWatch = pending = savedWatch;
   static Drivers::SpiNorFlash flash;
   static Controllers::FS filesystem(flash);
   filesystem.Init();
@@ -286,7 +336,7 @@ void loop() {
     if (sleeping)
       wake();
     else if (!screen || !screen->OnButtonPushed())
-      request(page == Page::Launcher ? Page::Digital : Page::Launcher);
+      request(page == Page::Launcher ? selectedWatch : Page::Launcher);
     if (testButton == TestButton::Boot) {
       Usb.printf("TEST BUTTON boot sampled=%lu activity=%lu\n", static_cast<unsigned long>(now), static_cast<unsigned long>(lastActivity));
       testButton = TestButton::None;
@@ -314,12 +364,7 @@ void loop() {
     lastActivity = millis();
     TouchEvents event = abs(dx) > abs(dy) ? (dx > 0 ? TouchEvents::SwipeRight : TouchEvents::SwipeLeft)
                                           : (dy > 0 ? TouchEvents::SwipeDown : TouchEvents::SwipeUp);
-    if (!screen || !screen->OnTouchEvent(event)) {
-      if (page == Page::Digital || page == Page::Analog)
-        request(abs(dx) > abs(dy) ? (page == Page::Digital ? Page::Analog : Page::Digital) : Page::Launcher);
-      else if (dy > 55)
-        request(Page::Launcher);
-    }
+    swipe(event);
   }
   if (screen && !screen->IsRunning())
     request(Page::Launcher);

@@ -1,0 +1,613 @@
+[
+  {
+    "command": "page 0",
+    "response": "PAGE 0\n"
+  },
+  {
+    "command": "test-swipe left",
+    "response": "PAGE 1\n"
+  },
+  {
+    "command": "status",
+    "response": "STATUS page=1 sleep=0 battery=100 mv=4153 charging=0 rtc=1 flush=36 heap=326244 touch=0 uptime=2566 timeout=60000\n"
+  },
+  {
+    "command": "test-swipe left",
+    "response": "PAGE 7\n"
+  },
+  {
+    "command": "status",
+    "response": "STATUS page=7 sleep=0 battery=100 mv=4154 charging=0 rtc=1 flush=52 heap=329332 touch=0 uptime=3178 timeout=60000\n"
+  },
+  {
+    "command": "test-swipe left",
+    "response": "PAGE 8\n"
+  },
+  {
+    "command": "status",
+    "response": "STATUS page=8 sleep=0 battery=100 mv=4154 charging=0 rtc=1 flush=64 heap=329332 touch=0 uptime=3784 timeout=60000\n"
+  },
+  {
+    "command": "test-swipe left",
+    "response": "PAGE 9\n"
+  },
+  {
+    "command": "status",
+    "response": "STATUS page=9 sleep=0 battery=100 mv=4152 charging=0 rtc=1 flush=76 heap=329332 touch=0 uptime=4387 timeout=60000\n"
+  },
+  {
+    "command": "test-swipe left",
+    "response": "PAGE 0\n"
+  },
+  {
+    "command": "status",
+    "response": "STATUS page=0 sleep=0 battery=100 mv=4152 charging=0 rtc=1 flush=88 heap=328188 touch=0 uptime=4999 timeout=60000\n"
+  },
+  {
+    "command": "test-swipe right",
+    "response": "PAGE 9\n"
+  },
+  {
+    "command": "status",
+    "response": "STATUS page=9 sleep=0 battery=100 mv=4153 charging=0 rtc=1 flush=103 heap=329316 touch=0 uptime=5600 timeout=60000\n"
+  },
+  {
+    "command": "test-swipe up",
+    "response": "PAGE 2\n"
+  },
+  {
+    "command": "status",
+    "response": "STATUS page=2 sleep=0 battery=100 mv=4153 charging=0 rtc=1 flush=115 heap=326920 touch=0 uptime=6206 timeout=60000\n"
+  },
+  {
+    "command": "test-button boot",
+    "response": "TEST BUTTON QUEUED\r\nTEST BUTTON boot sampled=6518 activity=6518\nPAGE 9\n"
+  },
+  {
+    "command": "status",
+    "response": "STATUS page=9 sleep=0 battery=100 mv=4153 charging=0 rtc=1 flush=127 heap=329316 touch=0 uptime=6813 timeout=60000\n"
+  },
+  {
+    "command": "page 7",
+    "response": "PAGE 7\n"
+  },
+  {
+    "command": "test-button pwr",
+    "response": "TEST BUTTON QUEUED\r\nTEST BUTTON pwr sampled=11605 activity=9238\n"
+  },
+  {
+    "command": "status",
+    "response": "STATUS page=7 sleep=1 battery=100 mv=4153 charging=0 rtc=1 flush=175 heap=329316 touch=0 uptime=11788 timeout=60000\n"
+  },
+  {
+    "command": "test-button pwr",
+    "response": "TEST BUTTON QUEUED\r\nTEST BUTTON pwr sampled=12110 activity=12111\n"
+  },
+  {
+    "command": "status",
+    "response": "STATUS page=7 sleep=0 battery=100 mv=4153 charging=0 rtc=1 flush=175 heap=329316 touch=0 uptime=12384 timeout=60000\n"
+  },
+  {
+    "command": "page 8",
+    "response": "PAGE 8\n"
+  },
+  {
+    "command": "test-button pwr",
+    "response": "TEST BUTTON QUEUED\r\nTEST BUTTON pwr sampled=15203 activity=13897\n"
+  },
+  {
+    "command": "status",
+    "response": "STATUS page=8 sleep=1 battery=100 mv=4152 charging=0 rtc=1 flush=223 heap=329316 touch=0 uptime=15447 timeout=60000\n"
+  },
+  {
+    "command": "test-button pwr",
+    "response": "TEST BUTTON QUEUED\r\nTEST BUTTON pwr sampled=15809 activity=15810\n"
+  },
+  {
+    "command": "status",
+    "response": "STATUS page=8 sleep=0 battery=100 mv=4153 charging=0 rtc=1 flush=235 heap=329316 touch=0 uptime=16100 timeout=60000\n"
+  },
+  {
+    "command": "page 9",
+    "response": "PAGE 9\n"
+  },
+  {
+    "command": "test-button pwr",
+    "response": "TEST BUTTON QUEUED\r\nTEST BUTTON pwr sampled=18726 activity=17550\n"
+  },
+  {
+    "command": "status",
+    "response": "STATUS page=9 sleep=1 battery=100 mv=4152 charging=0 rtc=1 flush=271 heap=329316 touch=0 uptime=19010 timeout=60000\n"
+  },
+  {
+    "command": "test-button pwr",
+    "response": "TEST BUTTON QUEUED\r\nTEST BUTTON pwr sampled=19332 activity=19333\n"
+  },
+  {
+    "command": "status",
+    "response": "STATUS page=9 sleep=0 battery=100 mv=4152 charging=0 rtc=1 flush=271 heap=329316 touch=0 uptime=19601 timeout=60000\n"
+  },
+  {
+    "command": "page 2",
+    "response": "PAGE 2\n"
+  },
+  {
+    "command": "test-raw-tap 306 85",
+    "response": "TEST RAW TAP OK\r\nPAGE 10\n"
+  },
+  {
+    "command": "status",
+    "response": "STATUS page=10 sleep=0 battery=100 mv=4153 charging=0 rtc=1 flush=331 heap=329224 touch=0 uptime=21869 timeout=60000\nBADGE theme=0 pinned=0 reactions=0\n"
+  },
+  {
+    "command": "status",
+    "response": "STATUS page=10 sleep=0 battery=100 mv=4153 charging=0 rtc=1 flush=355 heap=329224 touch=0 uptime=22082 timeout=60000\nBADGE theme=0 pinned=0 reactions=0\n"
+  },
+  {
+    "command": "status",
+    "response": "STATUS page=10 sleep=0 battery=100 mv=4152 charging=0 rtc=1 flush=391 heap=329224 touch=0 uptime=22403 timeout=60000\nBADGE theme=0 pinned=0 reactions=0\n"
+  },
+  {
+    "command": "status",
+    "response": "STATUS page=10 sleep=0 battery=100 mv=4152 charging=0 rtc=1 flush=427 heap=329224 touch=0 uptime=22724 timeout=60000\nBADGE theme=0 pinned=0 reactions=0\n"
+  },
+  {
+    "command": "test-raw-tap 233 233",
+    "response": "TEST RAW TAP OK\r\n"
+  },
+  {
+    "command": "status",
+    "response": "STATUS page=10 sleep=0 battery=100 mv=4152 charging=0 rtc=1 flush=535 heap=329224 touch=0 uptime=24604 timeout=60000\nBADGE theme=0 pinned=0 reactions=0\n"
+  },
+  {
+    "command": "status",
+    "response": "STATUS page=10 sleep=0 battery=100 mv=4152 charging=0 rtc=1 flush=571 heap=329224 touch=0 uptime=24921 timeout=60000\nBADGE theme=0 pinned=0 reactions=1\n"
+  },
+  {
+    "command": "test-swipe left",
+    "response": ""
+  },
+  {
+    "command": "status",
+    "response": "STATUS page=10 sleep=0 battery=100 mv=4153 charging=0 rtc=1 flush=691 heap=329224 touch=0 uptime=26889 timeout=60000\nBADGE theme=1 pinned=0 reactions=1\n"
+  },
+  {
+    "command": "test-raw-tap 233 233",
+    "response": "TEST RAW TAP OK\r\n"
+  },
+  {
+    "command": "status",
+    "response": "STATUS page=10 sleep=0 battery=100 mv=4152 charging=0 rtc=1 flush=799 heap=329224 touch=0 uptime=28681 timeout=60000\nBADGE theme=1 pinned=0 reactions=1\n"
+  },
+  {
+    "command": "status",
+    "response": "STATUS page=10 sleep=0 battery=100 mv=4152 charging=0 rtc=1 flush=835 heap=329224 touch=0 uptime=28979 timeout=60000\nBADGE theme=1 pinned=0 reactions=2\n"
+  },
+  {
+    "command": "test-swipe left",
+    "response": ""
+  },
+  {
+    "command": "status",
+    "response": "STATUS page=10 sleep=0 battery=100 mv=4153 charging=0 rtc=1 flush=943 heap=329224 touch=0 uptime=30778 timeout=60000\nBADGE theme=2 pinned=0 reactions=2\n"
+  },
+  {
+    "command": "test-raw-tap 233 233",
+    "response": "TEST RAW TAP OK\r\n"
+  },
+  {
+    "command": "status",
+    "response": "STATUS page=10 sleep=0 battery=100 mv=4154 charging=0 rtc=1 flush=1051 heap=329224 touch=0 uptime=32629 timeout=60000\nBADGE theme=2 pinned=0 reactions=2\n"
+  },
+  {
+    "command": "status",
+    "response": "STATUS page=10 sleep=0 battery=100 mv=4154 charging=0 rtc=1 flush=1087 heap=329224 touch=0 uptime=32958 timeout=60000\nBADGE theme=2 pinned=0 reactions=3\n"
+  },
+  {
+    "command": "test-raw-tap 233 72",
+    "response": "TEST RAW TAP OK\r\n"
+  },
+  {
+    "command": "status",
+    "response": "STATUS page=10 sleep=0 battery=100 mv=4153 charging=0 rtc=1 flush=1279 heap=329224 touch=0 uptime=35606 timeout=60000\nBADGE theme=2 pinned=1 reactions=3\n"
+  },
+  {
+    "command": "status",
+    "response": "STATUS page=10 sleep=0 battery=100 mv=4152 charging=0 rtc=1 flush=1531 heap=329224 touch=0 uptime=37921 timeout=60000\nBADGE theme=2 pinned=1 reactions=3\n"
+  },
+  {
+    "command": "status",
+    "response": "STATUS page=10 sleep=0 battery=100 mv=4152 charging=0 rtc=1 flush=1783 heap=329224 touch=0 uptime=40236 timeout=60000\nBADGE theme=2 pinned=1 reactions=3\n"
+  },
+  {
+    "command": "status",
+    "response": "STATUS page=10 sleep=0 battery=100 mv=4153 charging=0 rtc=1 flush=2035 heap=329224 touch=0 uptime=42551 timeout=60000\nBADGE theme=2 pinned=1 reactions=3\n"
+  },
+  {
+    "command": "status",
+    "response": "STATUS page=10 sleep=0 battery=100 mv=4154 charging=0 rtc=1 flush=2287 heap=329224 touch=0 uptime=44867 timeout=60000\nBADGE theme=2 pinned=1 reactions=3\n"
+  },
+  {
+    "command": "status",
+    "response": "STATUS page=10 sleep=0 battery=100 mv=4151 charging=0 rtc=1 flush=2539 heap=329224 touch=0 uptime=47183 timeout=60000\nBADGE theme=2 pinned=1 reactions=3\n"
+  },
+  {
+    "command": "status",
+    "response": "STATUS page=10 sleep=0 battery=100 mv=4155 charging=0 rtc=1 flush=2791 heap=329224 touch=0 uptime=49498 timeout=60000\nBADGE theme=2 pinned=1 reactions=3\n"
+  },
+  {
+    "command": "status",
+    "response": "STATUS page=10 sleep=0 battery=100 mv=4155 charging=0 rtc=1 flush=3031 heap=329224 touch=0 uptime=51703 timeout=60000\nBADGE theme=2 pinned=1 reactions=3\n"
+  },
+  {
+    "command": "status",
+    "response": "STATUS page=10 sleep=0 battery=100 mv=4154 charging=0 rtc=1 flush=3283 heap=329224 touch=0 uptime=54018 timeout=60000\nBADGE theme=2 pinned=1 reactions=3\n"
+  },
+  {
+    "command": "status",
+    "response": "STATUS page=10 sleep=0 battery=100 mv=4153 charging=0 rtc=1 flush=3535 heap=329224 touch=0 uptime=56333 timeout=60000\nBADGE theme=2 pinned=1 reactions=3\n"
+  },
+  {
+    "command": "status",
+    "response": "STATUS page=10 sleep=0 battery=100 mv=4152 charging=0 rtc=1 flush=3787 heap=329224 touch=0 uptime=58648 timeout=60000\nBADGE theme=2 pinned=1 reactions=3\n"
+  },
+  {
+    "command": "status",
+    "response": "STATUS page=10 sleep=0 battery=100 mv=4153 charging=0 rtc=1 flush=4039 heap=329224 touch=0 uptime=60964 timeout=60000\nBADGE theme=2 pinned=1 reactions=3\n"
+  },
+  {
+    "command": "status",
+    "response": "STATUS page=10 sleep=0 battery=100 mv=4152 charging=0 rtc=1 flush=4291 heap=329224 touch=0 uptime=63279 timeout=60000\nBADGE theme=2 pinned=1 reactions=3\n"
+  },
+  {
+    "command": "status",
+    "response": "STATUS page=10 sleep=0 battery=100 mv=4153 charging=0 rtc=1 flush=4543 heap=329224 touch=0 uptime=65594 timeout=60000\nBADGE theme=2 pinned=1 reactions=3\n"
+  },
+  {
+    "command": "status",
+    "response": "STATUS page=10 sleep=0 battery=100 mv=4153 charging=0 rtc=1 flush=4795 heap=329224 touch=0 uptime=67910 timeout=60000\nBADGE theme=2 pinned=1 reactions=3\n"
+  },
+  {
+    "command": "status",
+    "response": "STATUS page=10 sleep=0 battery=100 mv=4153 charging=0 rtc=1 flush=5047 heap=329224 touch=0 uptime=70228 timeout=60000\nBADGE theme=2 pinned=1 reactions=3\n"
+  },
+  {
+    "command": "status",
+    "response": "STATUS page=10 sleep=0 battery=100 mv=4152 charging=0 rtc=1 flush=5299 heap=329224 touch=0 uptime=72543 timeout=60000\nBADGE theme=2 pinned=1 reactions=3\n"
+  },
+  {
+    "command": "status",
+    "response": "STATUS page=10 sleep=0 battery=100 mv=4154 charging=0 rtc=1 flush=5551 heap=329224 touch=0 uptime=74858 timeout=60000\nBADGE theme=2 pinned=1 reactions=3\n"
+  },
+  {
+    "command": "status",
+    "response": "STATUS page=10 sleep=0 battery=100 mv=4154 charging=0 rtc=1 flush=5803 heap=329224 touch=0 uptime=77173 timeout=60000\nBADGE theme=2 pinned=1 reactions=3\n"
+  },
+  {
+    "command": "status",
+    "response": "STATUS page=10 sleep=0 battery=100 mv=4152 charging=0 rtc=1 flush=6055 heap=329224 touch=0 uptime=79489 timeout=60000\nBADGE theme=2 pinned=1 reactions=3\n"
+  },
+  {
+    "command": "status",
+    "response": "STATUS page=10 sleep=0 battery=100 mv=4154 charging=0 rtc=1 flush=6307 heap=329224 touch=0 uptime=81804 timeout=60000\nBADGE theme=2 pinned=1 reactions=3\n"
+  },
+  {
+    "command": "status",
+    "response": "STATUS page=10 sleep=0 battery=100 mv=4153 charging=0 rtc=1 flush=6547 heap=329224 touch=0 uptime=84009 timeout=60000\nBADGE theme=2 pinned=1 reactions=3\n"
+  },
+  {
+    "command": "status",
+    "response": "STATUS page=10 sleep=0 battery=100 mv=4151 charging=0 rtc=1 flush=6799 heap=329224 touch=0 uptime=86327 timeout=60000\nBADGE theme=2 pinned=1 reactions=3\n"
+  },
+  {
+    "command": "status",
+    "response": "STATUS page=10 sleep=0 battery=100 mv=4152 charging=0 rtc=1 flush=7051 heap=329224 touch=0 uptime=88642 timeout=60000\nBADGE theme=2 pinned=1 reactions=3\n"
+  },
+  {
+    "command": "status",
+    "response": "STATUS page=10 sleep=0 battery=100 mv=4151 charging=0 rtc=1 flush=7303 heap=329224 touch=0 uptime=90958 timeout=60000\nBADGE theme=2 pinned=1 reactions=3\n"
+  },
+  {
+    "command": "status",
+    "response": "STATUS page=10 sleep=0 battery=100 mv=4152 charging=0 rtc=1 flush=7555 heap=329224 touch=0 uptime=93273 timeout=60000\nBADGE theme=2 pinned=1 reactions=3\n"
+  },
+  {
+    "command": "status",
+    "response": "STATUS page=10 sleep=0 battery=100 mv=4151 charging=0 rtc=1 flush=7807 heap=329224 touch=0 uptime=95588 timeout=60000\nBADGE theme=2 pinned=1 reactions=3\n"
+  },
+  {
+    "command": "status",
+    "response": "STATUS page=10 sleep=0 battery=100 mv=4152 charging=0 rtc=1 flush=7951 heap=329224 touch=0 uptime=96911 timeout=60000\nBADGE theme=2 pinned=1 reactions=3\n"
+  },
+  {
+    "command": "test-button pwr",
+    "response": "TEST BUTTON QUEUED\r\nTEST BUTTON pwr sampled=97351 activity=34729\n"
+  },
+  {
+    "command": "status",
+    "response": "STATUS page=10 sleep=1 battery=100 mv=4152 charging=0 rtc=1 flush=7999 heap=329224 touch=0 uptime=97475 timeout=60000\nBADGE theme=2 pinned=1 reactions=3\n"
+  },
+  {
+    "command": "test-button boot",
+    "response": "TEST BUTTON QUEUED\r\nTEST BUTTON boot sampled=97797 activity=97798\n"
+  },
+  {
+    "command": "status",
+    "response": "STATUS page=10 sleep=0 battery=100 mv=4152 charging=0 rtc=1 flush=8035 heap=329224 touch=0 uptime=98128 timeout=60000\nBADGE theme=2 pinned=1 reactions=3\n"
+  },
+  {
+    "command": "test-swipe down",
+    "response": "PAGE 2\n"
+  },
+  {
+    "command": "status",
+    "response": "STATUS page=2 sleep=0 battery=100 mv=4151 charging=0 rtc=1 flush=8095 heap=326920 touch=0 uptime=98686 timeout=60000\n"
+  },
+  {
+    "command": "status",
+    "response": "STATUS page=2 sleep=1 battery=100 mv=4152 charging=0 rtc=1 flush=8095 heap=326920 touch=0 uptime=159494 timeout=60000\n"
+  },
+  {
+    "command": "test-button boot",
+    "response": "TEST BUTTON QUEUED\r\nTEST BUTTON boot sampled=159818 activity=159819\n"
+  },
+  {
+    "command": "status",
+    "response": "STATUS page=2 sleep=0 battery=100 mv=4152 charging=0 rtc=1 flush=8095 heap=326920 touch=0 uptime=160101 timeout=60000\n"
+  },
+  {
+    "command": "page 10",
+    "response": "PAGE 10\n"
+  },
+  {
+    "command": "status",
+    "response": "STATUS page=10 sleep=0 battery=100 mv=4153 charging=0 rtc=1 flush=8131 heap=329224 touch=0 uptime=160748 timeout=60000\nBADGE theme=2 pinned=0 reactions=0\n"
+  },
+  {
+    "command": "page 0",
+    "response": "PAGE 0\n"
+  },
+  {
+    "command": "page 7",
+    "response": "PAGE 7\n"
+  },
+  {
+    "command": "page 8",
+    "response": "PAGE 8\n"
+  },
+  {
+    "command": "page 9",
+    "response": "PAGE 9\n"
+  },
+  {
+    "command": "page 10",
+    "response": "PAGE 10\n"
+  },
+  {
+    "command": "page 2",
+    "response": ""
+  },
+  {
+    "command": "page 0",
+    "response": "PAGE 2\nPAGE 0\n"
+  },
+  {
+    "command": "status",
+    "response": "STATUS page=0 sleep=0 battery=100 mv=4153 charging=0 rtc=1 flush=8287 heap=328164 touch=0 uptime=162296 timeout=60000\n"
+  },
+  {
+    "command": "page 7",
+    "response": "PAGE 7\n"
+  },
+  {
+    "command": "page 8",
+    "response": "PAGE 8\n"
+  },
+  {
+    "command": "page 9",
+    "response": "PAGE 9\n"
+  },
+  {
+    "command": "page 10",
+    "response": "PAGE 10\n"
+  },
+  {
+    "command": "page 2",
+    "response": ""
+  },
+  {
+    "command": "page 0",
+    "response": "PAGE 2\nPAGE 0\n"
+  },
+  {
+    "command": "status",
+    "response": "STATUS page=0 sleep=0 battery=100 mv=4154 charging=0 rtc=1 flush=8383 heap=328024 touch=0 uptime=163526 timeout=60000\n"
+  },
+  {
+    "command": "page 7",
+    "response": "PAGE 7\n"
+  },
+  {
+    "command": "page 8",
+    "response": "PAGE 8\n"
+  },
+  {
+    "command": "page 9",
+    "response": "PAGE 9\n"
+  },
+  {
+    "command": "page 10",
+    "response": "PAGE 10\n"
+  },
+  {
+    "command": "page 2",
+    "response": ""
+  },
+  {
+    "command": "page 0",
+    "response": "PAGE 2\nPAGE 0\n"
+  },
+  {
+    "command": "status",
+    "response": "STATUS page=0 sleep=0 battery=100 mv=4153 charging=0 rtc=1 flush=8482 heap=328012 touch=0 uptime=164755 timeout=60000\n"
+  },
+  {
+    "command": "page 7",
+    "response": "PAGE 7\n"
+  },
+  {
+    "command": "page 8",
+    "response": "PAGE 8\n"
+  },
+  {
+    "command": "page 9",
+    "response": "PAGE 9\n"
+  },
+  {
+    "command": "page 10",
+    "response": "PAGE 10\n"
+  },
+  {
+    "command": "page 2",
+    "response": ""
+  },
+  {
+    "command": "page 0",
+    "response": "PAGE 2\nPAGE 0\n"
+  },
+  {
+    "command": "status",
+    "response": "STATUS page=0 sleep=0 battery=100 mv=4152 charging=0 rtc=1 flush=8581 heap=328024 touch=0 uptime=165978 timeout=60000\n"
+  },
+  {
+    "command": "page 7",
+    "response": "PAGE 7\n"
+  },
+  {
+    "command": "page 8",
+    "response": "PAGE 8\n"
+  },
+  {
+    "command": "page 9",
+    "response": "PAGE 9\n"
+  },
+  {
+    "command": "page 10",
+    "response": "PAGE 10\n"
+  },
+  {
+    "command": "page 2",
+    "response": ""
+  },
+  {
+    "command": "page 0",
+    "response": "PAGE 2\nPAGE 0\n"
+  },
+  {
+    "command": "status",
+    "response": "STATUS page=0 sleep=0 battery=100 mv=4152 charging=0 rtc=1 flush=8677 heap=328024 touch=0 uptime=167199 timeout=60000\n"
+  },
+  {
+    "command": "page 7",
+    "response": "PAGE 7\n"
+  },
+  {
+    "command": "page 8",
+    "response": "PAGE 8\n"
+  },
+  {
+    "command": "page 9",
+    "response": "PAGE 9\n"
+  },
+  {
+    "command": "page 10",
+    "response": "PAGE 10\n"
+  },
+  {
+    "command": "page 2",
+    "response": ""
+  },
+  {
+    "command": "page 0",
+    "response": "PAGE 2\nPAGE 0\n"
+  },
+  {
+    "command": "status",
+    "response": "STATUS page=0 sleep=0 battery=100 mv=4152 charging=0 rtc=1 flush=8773 heap=328024 touch=0 uptime=168413 timeout=60000\n"
+  },
+  {
+    "command": "page 7",
+    "response": "PAGE 7\n"
+  },
+  {
+    "command": "page 8",
+    "response": "PAGE 8\n"
+  },
+  {
+    "command": "page 9",
+    "response": "PAGE 9\n"
+  },
+  {
+    "command": "page 10",
+    "response": "PAGE 10\n"
+  },
+  {
+    "command": "page 2",
+    "response": ""
+  },
+  {
+    "command": "page 0",
+    "response": "PAGE 2\nPAGE 0\n"
+  },
+  {
+    "command": "status",
+    "response": "STATUS page=0 sleep=0 battery=100 mv=4152 charging=0 rtc=1 flush=8869 heap=328024 touch=0 uptime=169633 timeout=60000\n"
+  },
+  {
+    "command": "page 7",
+    "response": "PAGE 7\n"
+  },
+  {
+    "command": "page 8",
+    "response": "PAGE 8\n"
+  },
+  {
+    "command": "page 9",
+    "response": "PAGE 9\n"
+  },
+  {
+    "command": "page 10",
+    "response": "PAGE 10\n"
+  },
+  {
+    "command": "page 2",
+    "response": ""
+  },
+  {
+    "command": "page 0",
+    "response": "PAGE 2\nPAGE 0\n"
+  },
+  {
+    "command": "status",
+    "response": "STATUS page=0 sleep=0 battery=100 mv=4152 charging=0 rtc=1 flush=8965 heap=328024 touch=0 uptime=170860 timeout=60000\n"
+  },
+  {
+    "heap_after_cycles": [
+      328164,
+      328024,
+      328012,
+      328024,
+      328024,
+      328024,
+      328024,
+      328024
+    ]
+  },
+  {
+    "command": "page 7",
+    "response": "PAGE 7\n"
+  },
+  {
+    "result": "PASS"
+  }
+]

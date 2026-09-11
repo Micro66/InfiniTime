@@ -127,3 +127,52 @@ The README sequence diagram was checked against the final loop ordering.
   panel brightness.
 - Physical confirmation: the user pressed PWR to turn the display off and pressed
   it again, then confirmed that the display now wakes normally.
+
+## Three watch faces and animated character badge (2026-09-11)
+
+Added Orbit, Studio and Pulse to the watch-face carousel and Badge to the
+launcher. Badge contains the original Mochi, Beep and Lil' Orbit characters with
+animation, tap reactions and an optional scoped stay-on wake lock. Watch-face
+selection and badge character are stored in separate NVS namespaces. Navigation
+from physical and diagnostic swipes now shares one dispatcher; existing page IDs
+0–6 remain unchanged. Settings action IDs were moved outside the page-ID range.
+
+The README architecture and lifecycle diagrams were reviewed against the final
+implementation. Each artwork screen owns its LVGL object and refresh task;
+leaving Badge also releases its wake lock. The final visual adjustment bounds
+the moon's entire orbit, including its radius and bob, above the caption.
+
+- Final build: **PASS**, RAM 24,504 bytes, linked flash 632,736 bytes.
+- Final firmware: 633,104 bytes, SHA-256
+  `f66eb8cfd030a515c017206ccc8a9b72c72a3e15f31b1edce84ce121f2ab230d`.
+- Final flash: bootloader, partition table and app hashes verified.
+- Four host transport tests and `git diff --check`: **PASS**.
+- Full on-device artwork regression: **PASS** on the version before the final
+  planet geometry adjustment. All five watch faces wrap in the carousel; BOOT
+  returns to the selected watch face; each new watch face sleeps/wakes with PWR.
+- Raw sensor-coordinate taps open Badge, trigger all three character reactions
+  and enable stay-on. Badge stays awake beyond the user's **60-second** timeout;
+  PWR can still turn it off and BOOT wakes the same page.
+- Exiting a pinned Badge releases the wake lock; the launcher subsequently sleeps
+  at the configured timeout. Re-entering Badge restores the character with
+  stay-on disabled.
+- Eight cycles through pages 7, 8, 9, 10, 2, 0: digital-page free heap stabilized at
+  **328,024 bytes**. No restart or accumulated screen-resource leak observed.
+- Final-firmware smoke check: **PASS**. The chosen Orbit face and planet character
+  survive flash/reset, stay-on starts disabled, planet tap reaction works, PWR
+  toggles off/on, and BOOT exits Badge and returns from the launcher to Orbit.
+- Device framebuffer captures for the three new faces, all character themes and
+  their reactions, and the updated launcher were visually inspected. Final planet
+  normal/reaction frames were recaptured after the geometry adjustment.
+- Evidence: [full regression](docs/evidence/artwork-regression.json),
+  [final smoke check](docs/evidence/artwork-final-smoke.json), and the README previews.
+
+The initial USB connection allowed flashing but stopped returning application
+traffic; reconnecting the USB cable restored communication without a firmware
+change. Diagnostic capture blocks GUI processing during transfer, so the
+regression waits for the injected pointer's release/reaction instead of treating
+command acknowledgment as a completed click.
+
+These are software-input tests on the real board and framebuffer checks. They do
+not replace the user's optical or physical touch assessment of the new screens.
+Brightness, timeout and clock settings were preserved. The final screen is Orbit.
