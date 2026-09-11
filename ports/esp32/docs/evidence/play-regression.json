@@ -1,0 +1,643 @@
+[
+  {
+    "command": "wake",
+    "response": ""
+  },
+  {
+    "command": "status",
+    "response": "STATUS page=15 sleep=0 battery=100 mv=4147 charging=0 rtc=1 flush=16020 heap=290692 touch=1 uptime=336654 timeout=15000\nPLAY sheet=2 motion=0 ax=-0.028 ay=0.078 az=1.091 samples=234 audio=0 rms=0.00180 blocks=14\nGARDEN phase=0 running=0 remaining=1500 flowers=0\nPHOTO wifi=0 image=1\n"
+  },
+  {
+    "command": "page 2",
+    "response": "PAGE 2\n"
+  },
+  {
+    "command": "test-button boot",
+    "response": "TEST BUTTON QUEUED\r\nTEST BUTTON boot sampled=338051 activity=338051\nPAGE 9\n"
+  },
+  {
+    "command": "status",
+    "response": "STATUS page=9 sleep=0 battery=100 mv=4147 charging=0 rtc=1 flush=16080 heap=290872 touch=1 uptime=338753 timeout=15000\nPLAY sheet=2 motion=0 ax=-0.028 ay=0.078 az=1.091 samples=234 audio=0 rms=0.00180 blocks=14\nGARDEN phase=0 running=0 remaining=1500 flowers=0\n"
+  },
+  {
+    "command": "page 2",
+    "response": "PAGE 2\n"
+  },
+  {
+    "command": "status",
+    "response": "STATUS page=2 sleep=0 battery=100 mv=4146 charging=0 rtc=1 flush=16104 heap=288452 touch=1 uptime=340171 timeout=15000\nPLAY sheet=2 motion=0 ax=-0.028 ay=0.078 az=1.091 samples=234 audio=0 rms=0.00180 blocks=14\nGARDEN phase=0 running=0 remaining=1500 flowers=0\n"
+  },
+  {
+    "command": "test-swipe left",
+    "response": "PAGE 2\n"
+  },
+  {
+    "command": "status",
+    "response": "STATUS page=2 sleep=0 battery=100 mv=4148 charging=0 rtc=1 flush=16116 heap=288452 touch=1 uptime=341576 timeout=15000\nPLAY sheet=0 motion=0 ax=-0.028 ay=0.078 az=1.091 samples=234 audio=0 rms=0.00180 blocks=14\nGARDEN phase=0 running=0 remaining=1500 flowers=0\n"
+  },
+  {
+    "command": "test-raw-tap 306 85",
+    "response": "TEST RAW TAP OK\r\nPAGE 2\n"
+  },
+  {
+    "command": "status",
+    "response": "STATUS page=2 sleep=0 battery=100 mv=4147 charging=0 rtc=1 flush=16128 heap=288452 touch=1 uptime=343486 timeout=15000\nPLAY sheet=1 motion=0 ax=-0.028 ay=0.078 az=1.091 samples=234 audio=0 rms=0.00180 blocks=14\nGARDEN phase=0 running=0 remaining=1500 flowers=0\n"
+  },
+  {
+    "command": "test-raw-tap 147 298",
+    "response": "TEST RAW TAP OK\r\nPAGE 11\n"
+  },
+  {
+    "command": "status",
+    "response": "STATUS page=11 sleep=0 battery=100 mv=4147 charging=0 rtc=1 flush=16272 heap=290760 touch=1 uptime=347440 timeout=15000\nPLAY sheet=1 motion=1 ax=-0.006 ay=0.073 az=1.092 samples=246 audio=0 rms=0.00180 blocks=14\nGARDEN phase=0 running=0 remaining=1500 flowers=0\nDICE value=1 rolls=0\n"
+  },
+  {
+    "command": "test-raw-tap 233 233",
+    "response": "TEST RAW TAP OK\r\n"
+  },
+  {
+    "command": "status",
+    "response": "STATUS page=11 sleep=0 battery=100 mv=4146 charging=0 rtc=1 flush=16500 heap=290760 touch=1 uptime=349319 timeout=15000\nPLAY sheet=1 motion=1 ax=-0.006 ay=0.073 az=1.090 samples=264 audio=0 rms=0.00180 blocks=14\nGARDEN phase=0 running=0 remaining=1500 flowers=0\nDICE value=6 rolls=1\n"
+  },
+  {
+    "command": "test-raw-tap 233 71",
+    "response": "TEST RAW TAP OK\r\n"
+  },
+  {
+    "command": "test-raw-tap 233 233",
+    "response": "TEST RAW TAP OK\r\n"
+  },
+  {
+    "command": "status",
+    "response": "STATUS page=11 sleep=0 battery=100 mv=4148 charging=0 rtc=1 flush=16968 heap=290760 touch=1 uptime=354633 timeout=15000\nPLAY sheet=1 motion=1 ax=-0.007 ay=0.073 az=1.091 samples=301 audio=0 rms=0.00180 blocks=14\nGARDEN phase=0 running=0 remaining=1500 flowers=0\nDICE value=6 rolls=2\n"
+  },
+  {
+    "command": "test-raw-tap 233 71",
+    "response": "TEST RAW TAP OK\r\n"
+  },
+  {
+    "command": "test-raw-tap 233 233",
+    "response": "TEST RAW TAP OK\r\n"
+  },
+  {
+    "command": "status",
+    "response": "STATUS page=11 sleep=0 battery=100 mv=4147 charging=0 rtc=1 flush=17412 heap=290760 touch=1 uptime=359641 timeout=15000\nPLAY sheet=1 motion=1 ax=-0.007 ay=0.073 az=1.090 samples=336 audio=0 rms=0.00180 blocks=14\nGARDEN phase=0 running=0 remaining=1500 flowers=0\nDICE value=1 rolls=3\n"
+  },
+  {
+    "command": "test-raw-tap 233 71",
+    "response": "TEST RAW TAP OK\r\n"
+  },
+  {
+    "command": "test-raw-tap 233 233",
+    "response": "TEST RAW TAP OK\r\n"
+  },
+  {
+    "command": "status",
+    "response": "STATUS page=11 sleep=0 battery=100 mv=4146 charging=0 rtc=1 flush=17832 heap=290760 touch=1 uptime=364385 timeout=15000\nPLAY sheet=1 motion=1 ax=-0.007 ay=0.073 az=1.091 samples=369 audio=0 rms=0.00180 blocks=14\nGARDEN phase=0 running=0 remaining=1500 flowers=0\nDICE value=5 rolls=4\n"
+  },
+  {
+    "command": "test-button boot",
+    "response": "TEST BUTTON QUEUED\r\nTEST BUTTON boot sampled=365281 activity=365281\nPAGE 2\n"
+  },
+  {
+    "command": "status",
+    "response": "STATUS page=2 sleep=0 battery=100 mv=4147 charging=0 rtc=1 flush=17952 heap=288452 touch=1 uptime=365798 timeout=15000\nPLAY sheet=1 motion=0 ax=-0.007 ay=0.073 az=1.091 samples=378 audio=0 rms=0.00180 blocks=14\nGARDEN phase=0 running=0 remaining=1500 flowers=0\n"
+  },
+  {
+    "command": "test-raw-tap 319 176",
+    "response": "TEST RAW TAP OK\r\nPAGE 12\n"
+  },
+  {
+    "command": "status",
+    "response": "STATUS page=12 sleep=0 battery=100 mv=4146 charging=0 rtc=1 flush=18084 heap=290760 touch=1 uptime=367838 timeout=15000\nPLAY sheet=1 motion=1 ax=-0.007 ay=0.073 az=1.089 samples=389 audio=0 rms=0.00180 blocks=14\nGARDEN phase=0 running=0 remaining=1500 flowers=0\nMARBLE x=286.00 y=315.69 score=0\n"
+  },
+  {
+    "command": "test-raw-tap 233 233",
+    "response": "TEST RAW TAP OK\r\n"
+  },
+  {
+    "command": "status",
+    "response": "STATUS page=12 sleep=0 battery=100 mv=4146 charging=0 rtc=1 flush=18288 heap=290760 touch=1 uptime=369795 timeout=15000\nPLAY sheet=1 motion=1 ax=-0.006 ay=0.072 az=1.091 samples=405 audio=0 rms=0.00180 blocks=14\nGARDEN phase=0 running=0 remaining=1500 flowers=0\nMARBLE x=233.01 y=320.01 score=0\n"
+  },
+  {
+    "command": "test-swipe down",
+    "response": "PAGE 2\n"
+  },
+  {
+    "command": "status",
+    "response": "STATUS page=2 sleep=0 battery=100 mv=4147 charging=0 rtc=1 flush=18444 heap=288452 touch=1 uptime=372870 timeout=15000\nPLAY sheet=1 motion=0 ax=-0.006 ay=0.072 az=1.091 samples=417 audio=0 rms=0.00180 blocks=14\nGARDEN phase=0 running=0 remaining=1500 flowers=0\n"
+  },
+  {
+    "command": "test-raw-tap 147 176",
+    "response": "TEST RAW TAP OK\r\nPAGE 13\n"
+  },
+  {
+    "command": "status",
+    "response": "STATUS page=13 sleep=0 battery=100 mv=4147 charging=0 rtc=1 flush=18588 heap=285584 touch=1 uptime=374820 timeout=15000\nPLAY sheet=1 motion=0 ax=-0.006 ay=0.072 az=1.091 samples=417 audio=1 rms=0.00118 blocks=11\nGARDEN phase=0 running=0 remaining=1500 flowers=0\n"
+  },
+  {
+    "command": "status",
+    "response": "STATUS page=13 sleep=0 battery=100 mv=4146 charging=0 rtc=1 flush=18804 heap=285584 touch=1 uptime=376562 timeout=15000\nPLAY sheet=1 motion=0 ax=-0.006 ay=0.072 az=1.091 samples=417 audio=1 rms=0.00122 blocks=29\nGARDEN phase=0 running=0 remaining=1500 flowers=0\n"
+  },
+  {
+    "command": "test-raw-tap 233 233",
+    "response": "TEST RAW TAP OK\r\n"
+  },
+  {
+    "command": "test-button pwr",
+    "response": "TEST BUTTON QUEUED\r\nTEST BUTTON pwr sampled=380186 activity=378490\n"
+  },
+  {
+    "command": "status",
+    "response": "STATUS page=13 sleep=1 battery=100 mv=4147 charging=0 rtc=1 flush=19104 heap=285584 touch=1 uptime=380791 timeout=15000\nPLAY sheet=1 motion=0 ax=-0.006 ay=0.072 az=1.091 samples=417 audio=1 rms=0.00114 blocks=67\nGARDEN phase=0 running=0 remaining=1500 flowers=0\n"
+  },
+  {
+    "command": "test-button pwr",
+    "response": "TEST BUTTON QUEUED\r\nTEST BUTTON pwr sampled=381594 activity=381595\n"
+  },
+  {
+    "command": "status",
+    "response": "STATUS page=13 sleep=0 battery=100 mv=4147 charging=0 rtc=1 flush=19188 heap=285584 touch=1 uptime=382271 timeout=15000\nPLAY sheet=1 motion=0 ax=-0.006 ay=0.072 az=1.091 samples=417 audio=1 rms=0.00109 blocks=92\nGARDEN phase=0 running=0 remaining=1500 flowers=0\n"
+  },
+  {
+    "command": "test-button pwr",
+    "response": "TEST BUTTON QUEUED\r\nTEST BUTTON pwr sampled=383140 activity=381595\n"
+  },
+  {
+    "command": "status",
+    "response": "STATUS page=13 sleep=1 battery=100 mv=4148 charging=0 rtc=1 flush=19296 heap=285584 touch=1 uptime=383597 timeout=15000\nPLAY sheet=1 motion=0 ax=-0.006 ay=0.072 az=1.091 samples=417 audio=1 rms=0.00545 blocks=112\nGARDEN phase=0 running=0 remaining=1500 flowers=0\n"
+  },
+  {
+    "command": "test-button pwr",
+    "response": "TEST BUTTON QUEUED\r\nTEST BUTTON pwr sampled=384335 activity=384336\n"
+  },
+  {
+    "command": "status",
+    "response": "STATUS page=13 sleep=0 battery=100 mv=4147 charging=0 rtc=1 flush=19380 heap=285584 touch=1 uptime=385009 timeout=15000\nPLAY sheet=1 motion=0 ax=-0.006 ay=0.072 az=1.091 samples=417 audio=1 rms=0.00126 blocks=135\nGARDEN phase=0 running=0 remaining=1500 flowers=0\n"
+  },
+  {
+    "command": "test-button pwr",
+    "response": "TEST BUTTON QUEUED\r\nTEST BUTTON pwr sampled=385880 activity=384336\n"
+  },
+  {
+    "command": "status",
+    "response": "STATUS page=13 sleep=1 battery=100 mv=4148 charging=0 rtc=1 flush=19488 heap=285584 touch=1 uptime=386424 timeout=15000\nPLAY sheet=1 motion=0 ax=-0.006 ay=0.072 az=1.091 samples=417 audio=1 rms=0.00131 blocks=157\nGARDEN phase=0 running=0 remaining=1500 flowers=0\n"
+  },
+  {
+    "command": "test-button pwr",
+    "response": "TEST BUTTON QUEUED\r\nTEST BUTTON pwr sampled=387179 activity=387179\n"
+  },
+  {
+    "command": "status",
+    "response": "STATUS page=13 sleep=0 battery=100 mv=4148 charging=0 rtc=1 flush=19572 heap=285584 touch=1 uptime=387854 timeout=15000\nPLAY sheet=1 motion=0 ax=-0.006 ay=0.072 az=1.091 samples=417 audio=1 rms=0.00115 blocks=180\nGARDEN phase=0 running=0 remaining=1500 flowers=0\n"
+  },
+  {
+    "command": "status",
+    "response": "STATUS page=13 sleep=0 battery=100 mv=4147 charging=0 rtc=1 flush=21588 heap=285584 touch=1 uptime=404100 timeout=15000\nPLAY sheet=1 motion=0 ax=-0.006 ay=0.072 az=1.091 samples=417 audio=1 rms=0.00100 blocks=348\nGARDEN phase=0 running=0 remaining=1500 flowers=0\n"
+  },
+  {
+    "command": "test-button boot",
+    "response": "TEST BUTTON QUEUED\r\nTEST BUTTON boot sampled=404875 activity=404875\nPAGE 2\n"
+  },
+  {
+    "command": "status",
+    "response": "STATUS page=2 sleep=0 battery=100 mv=4148 charging=0 rtc=1 flush=21696 heap=288452 touch=1 uptime=405453 timeout=15000\nPLAY sheet=1 motion=0 ax=-0.006 ay=0.072 az=1.091 samples=417 audio=0 rms=0.00104 blocks=356\nGARDEN phase=0 running=0 remaining=1500 flowers=0\n"
+  },
+  {
+    "command": "status",
+    "response": "STATUS page=2 sleep=1 battery=100 mv=4146 charging=0 rtc=1 flush=21696 heap=288452 touch=1 uptime=421722 timeout=15000\nPLAY sheet=1 motion=0 ax=-0.006 ay=0.072 az=1.091 samples=417 audio=0 rms=0.00104 blocks=356\nGARDEN phase=0 running=0 remaining=1500 flowers=0\n"
+  },
+  {
+    "command": "test-button boot",
+    "response": "TEST BUTTON QUEUED\r\nTEST BUTTON boot sampled=422513 activity=422513\n"
+  },
+  {
+    "command": "status",
+    "response": "STATUS page=2 sleep=0 battery=100 mv=4147 charging=0 rtc=1 flush=21696 heap=288452 touch=1 uptime=423189 timeout=15000\nPLAY sheet=1 motion=0 ax=-0.006 ay=0.072 az=1.091 samples=417 audio=0 rms=0.00104 blocks=356\nGARDEN phase=0 running=0 remaining=1500 flowers=0\n"
+  },
+  {
+    "command": "test-raw-tap 306 85",
+    "response": "TEST RAW TAP OK\r\nPAGE 2\n"
+  },
+  {
+    "command": "status",
+    "response": "STATUS page=2 sleep=0 battery=100 mv=4147 charging=0 rtc=1 flush=21708 heap=288452 touch=1 uptime=425109 timeout=15000\nPLAY sheet=2 motion=0 ax=-0.006 ay=0.072 az=1.091 samples=417 audio=0 rms=0.00104 blocks=356\nGARDEN phase=0 running=0 remaining=1500 flowers=0\n"
+  },
+  {
+    "command": "test-raw-tap 319 298",
+    "response": "TEST RAW TAP OK\r\nPAGE 14\n"
+  },
+  {
+    "command": "status",
+    "response": "STATUS page=14 sleep=0 battery=100 mv=4146 charging=0 rtc=1 flush=21744 heap=290760 touch=1 uptime=430386 timeout=15000\nPLAY sheet=2 motion=0 ax=-0.006 ay=0.072 az=1.091 samples=417 audio=0 rms=0.00104 blocks=356\nGARDEN phase=0 running=0 remaining=1500 flowers=0\n"
+  },
+  {
+    "command": "test-raw-tap 166 76",
+    "response": "TEST RAW TAP OK\r\n"
+  },
+  {
+    "command": "status",
+    "response": "STATUS page=14 sleep=0 battery=100 mv=4148 charging=0 rtc=1 flush=21804 heap=290760 touch=1 uptime=432397 timeout=15000\nPLAY sheet=2 motion=0 ax=-0.006 ay=0.072 az=1.091 samples=417 audio=0 rms=0.00104 blocks=356\nGARDEN phase=1 running=1 remaining=1499 flowers=0\n"
+  },
+  {
+    "command": "page 2",
+    "response": "PAGE 2\n"
+  },
+  {
+    "command": "status",
+    "response": "STATUS page=2 sleep=0 battery=100 mv=4146 charging=0 rtc=1 flush=21828 heap=288452 touch=1 uptime=435730 timeout=15000\nPLAY sheet=2 motion=0 ax=-0.006 ay=0.072 az=1.091 samples=417 audio=0 rms=0.00104 blocks=356\nGARDEN phase=1 running=1 remaining=1496 flowers=0\n"
+  },
+  {
+    "command": "page 14",
+    "response": "PAGE 14\n"
+  },
+  {
+    "command": "test-raw-tap 166 76",
+    "response": "TEST RAW TAP OK\r\n"
+  },
+  {
+    "command": "status",
+    "response": "STATUS page=14 sleep=0 battery=100 mv=4147 charging=0 rtc=1 flush=21888 heap=290760 touch=1 uptime=438350 timeout=15000\nPLAY sheet=2 motion=0 ax=-0.006 ay=0.072 az=1.091 samples=417 audio=0 rms=0.00104 blocks=356\nGARDEN phase=1 running=0 remaining=1494 flowers=0\n"
+  },
+  {
+    "command": "status",
+    "response": "STATUS page=14 sleep=0 battery=100 mv=4147 charging=0 rtc=1 flush=21960 heap=290760 touch=1 uptime=441065 timeout=15000\nPLAY sheet=2 motion=0 ax=-0.006 ay=0.072 az=1.091 samples=417 audio=0 rms=0.00104 blocks=356\nGARDEN phase=1 running=0 remaining=1494 flowers=0\n"
+  },
+  {
+    "command": "test-raw-tap 306 76",
+    "response": "TEST RAW TAP OK\r\n"
+  },
+  {
+    "command": "status",
+    "response": "STATUS page=14 sleep=0 battery=100 mv=4148 charging=0 rtc=1 flush=22020 heap=290760 touch=1 uptime=443068 timeout=15000\nPLAY sheet=2 motion=0 ax=-0.006 ay=0.072 az=1.091 samples=417 audio=0 rms=0.00104 blocks=356\nGARDEN phase=0 running=0 remaining=1500 flowers=0\n"
+  },
+  {
+    "command": "test-button boot",
+    "response": "TEST BUTTON QUEUED\r\nTEST BUTTON boot sampled=445082 activity=445082\nPAGE 2\n"
+  },
+  {
+    "command": "test-raw-tap 147 298",
+    "response": "TEST RAW TAP OK\r\n"
+  },
+  {
+    "command": "status",
+    "response": "PAGE 15\nSTATUS page=15 sleep=0 battery=100 mv=4146 charging=0 rtc=1 flush=22056 heap=290692 touch=1 uptime=447105 timeout=15000\nPLAY sheet=2 motion=0 ax=-0.006 ay=0.072 az=1.091 samples=417 audio=0 rms=0.00104 blocks=356\nGARDEN phase=0 running=0 remaining=1500 flowers=0\nPHOTO wifi=0 image=1\n"
+  },
+  {
+    "command": "test-raw-tap 233 233",
+    "response": "TEST RAW TAP OK\r\n"
+  },
+  {
+    "command": "test-raw-tap 233 76",
+    "response": "TEST RAW TAP OK\r\n"
+  },
+  {
+    "command": "status",
+    "response": "STATUS page=15 sleep=0 battery=100 mv=4148 charging=0 rtc=1 flush=22236 heap=237884 touch=1 uptime=450138 timeout=15000\nPLAY sheet=2 motion=0 ax=-0.006 ay=0.072 az=1.091 samples=417 audio=0 rms=0.00104 blocks=356\nGARDEN phase=0 running=0 remaining=1500 flowers=0\nPHOTO wifi=1 image=1\n"
+  },
+  {
+    "command": "test-raw-tap 233 76",
+    "response": "TEST RAW TAP OK\r\n"
+  },
+  {
+    "command": "status",
+    "response": "STATUS page=15 sleep=0 battery=100 mv=4147 charging=0 rtc=1 flush=22356 heap=290692 touch=1 uptime=452060 timeout=15000\nPLAY sheet=2 motion=0 ax=-0.006 ay=0.072 az=1.091 samples=417 audio=0 rms=0.00104 blocks=356\nGARDEN phase=0 running=0 remaining=1500 flowers=0\nPHOTO wifi=0 image=1\n"
+  },
+  {
+    "command": "test-button boot",
+    "response": "TEST BUTTON QUEUED\r\nTEST BUTTON boot sampled=452737 activity=452737\nPAGE 2\n"
+  },
+  {
+    "command": "page 11",
+    "response": "PAGE 11\n"
+  },
+  {
+    "command": "status",
+    "response": "STATUS page=11 sleep=0 battery=100 mv=4147 charging=0 rtc=1 flush=22488 heap=290760 touch=1 uptime=454144 timeout=15000\nPLAY sheet=2 motion=1 ax=0.011 ay=0.067 az=1.098 samples=424 audio=0 rms=0.00104 blocks=356\nGARDEN phase=0 running=0 remaining=1500 flowers=0\nDICE value=2 rolls=1\n"
+  },
+  {
+    "command": "page 12",
+    "response": "PAGE 12\n"
+  },
+  {
+    "command": "status",
+    "response": "STATUS page=12 sleep=0 battery=100 mv=4147 charging=0 rtc=1 flush=22656 heap=290760 touch=1 uptime=455615 timeout=15000\nPLAY sheet=2 motion=1 ax=-0.000 ay=0.074 az=1.095 samples=438 audio=0 rms=0.00104 blocks=356\nGARDEN phase=0 running=0 remaining=1500 flowers=0\nMARBLE x=233.46 y=331.59 score=0\n"
+  },
+  {
+    "command": "page 13",
+    "response": "PAGE 13\n"
+  },
+  {
+    "command": "status",
+    "response": "STATUS page=13 sleep=0 battery=100 mv=4148 charging=0 rtc=1 flush=22812 heap=285584 touch=1 uptime=457014 timeout=15000\nPLAY sheet=2 motion=0 ax=-0.007 ay=0.070 az=1.091 samples=445 audio=1 rms=0.00216 blocks=5\nGARDEN phase=0 running=0 remaining=1500 flowers=0\n"
+  },
+  {
+    "command": "page 15",
+    "response": "PAGE 15\n"
+  },
+  {
+    "command": "status",
+    "response": "STATUS page=15 sleep=0 battery=100 mv=4147 charging=0 rtc=1 flush=22932 heap=290692 touch=1 uptime=459229 timeout=15000\nPLAY sheet=2 motion=0 ax=-0.007 ay=0.070 az=1.091 samples=445 audio=0 rms=0.00199 blocks=14\nGARDEN phase=0 running=0 remaining=1500 flowers=0\nPHOTO wifi=0 image=1\n"
+  },
+  {
+    "command": "test-raw-tap 233 233",
+    "response": "TEST RAW TAP OK\r\n"
+  },
+  {
+    "command": "test-raw-tap 233 76",
+    "response": "TEST RAW TAP OK\r\n"
+  },
+  {
+    "command": "status",
+    "response": "STATUS page=15 sleep=0 battery=100 mv=4148 charging=0 rtc=1 flush=23100 heap=237880 touch=1 uptime=462280 timeout=15000\nPLAY sheet=2 motion=0 ax=-0.007 ay=0.070 az=1.091 samples=445 audio=0 rms=0.00199 blocks=14\nGARDEN phase=0 running=0 remaining=1500 flowers=0\nPHOTO wifi=1 image=1\n"
+  },
+  {
+    "command": "test-button boot",
+    "response": "TEST BUTTON QUEUED\r\nTEST BUTTON boot sampled=463005 activity=463005\nPAGE 2\n"
+  },
+  {
+    "command": "status",
+    "response": "STATUS page=2 sleep=0 battery=100 mv=4146 charging=0 rtc=1 flush=23160 heap=288452 touch=1 uptime=464192 timeout=15000\nPLAY sheet=2 motion=0 ax=-0.007 ay=0.070 az=1.091 samples=445 audio=0 rms=0.00199 blocks=14\nGARDEN phase=0 running=0 remaining=1500 flowers=0\n"
+  },
+  {
+    "command": "page 11",
+    "response": "PAGE 11\n"
+  },
+  {
+    "command": "status",
+    "response": "STATUS page=11 sleep=0 battery=100 mv=4147 charging=0 rtc=1 flush=23256 heap=290760 touch=1 uptime=465694 timeout=15000\nPLAY sheet=2 motion=1 ax=-0.001 ay=0.062 az=1.113 samples=453 audio=0 rms=0.00199 blocks=14\nGARDEN phase=0 running=0 remaining=1500 flowers=0\nDICE value=1 rolls=0\n"
+  },
+  {
+    "command": "page 12",
+    "response": "PAGE 12\n"
+  },
+  {
+    "command": "status",
+    "response": "STATUS page=12 sleep=0 battery=100 mv=4148 charging=0 rtc=1 flush=23424 heap=290760 touch=1 uptime=467161 timeout=15000\nPLAY sheet=2 motion=1 ax=-0.007 ay=0.071 az=1.091 samples=467 audio=0 rms=0.00199 blocks=14\nGARDEN phase=0 running=0 remaining=1500 flowers=0\nMARBLE x=233.35 y=323.61 score=0\n"
+  },
+  {
+    "command": "page 13",
+    "response": "PAGE 13\n"
+  },
+  {
+    "command": "status",
+    "response": "STATUS page=13 sleep=0 battery=100 mv=4147 charging=0 rtc=1 flush=23580 heap=285584 touch=1 uptime=468579 timeout=15000\nPLAY sheet=2 motion=0 ax=-0.007 ay=0.070 az=1.091 samples=475 audio=1 rms=0.00160 blocks=4\nGARDEN phase=0 running=0 remaining=1500 flowers=0\n"
+  },
+  {
+    "command": "page 15",
+    "response": "PAGE 15\n"
+  },
+  {
+    "command": "status",
+    "response": "STATUS page=15 sleep=0 battery=100 mv=4147 charging=0 rtc=1 flush=23700 heap=290692 touch=1 uptime=470791 timeout=15000\nPLAY sheet=2 motion=0 ax=-0.007 ay=0.070 az=1.091 samples=475 audio=0 rms=0.00234 blocks=13\nGARDEN phase=0 running=0 remaining=1500 flowers=0\nPHOTO wifi=0 image=1\n"
+  },
+  {
+    "command": "test-raw-tap 233 233",
+    "response": "TEST RAW TAP OK\r\n"
+  },
+  {
+    "command": "test-raw-tap 233 76",
+    "response": "TEST RAW TAP OK\r\n"
+  },
+  {
+    "command": "status",
+    "response": "STATUS page=15 sleep=0 battery=100 mv=4147 charging=0 rtc=1 flush=23868 heap=237884 touch=1 uptime=473823 timeout=15000\nPLAY sheet=2 motion=0 ax=-0.007 ay=0.070 az=1.091 samples=475 audio=0 rms=0.00234 blocks=13\nGARDEN phase=0 running=0 remaining=1500 flowers=0\nPHOTO wifi=1 image=1\n"
+  },
+  {
+    "command": "test-button boot",
+    "response": "TEST BUTTON QUEUED\r\nTEST BUTTON boot sampled=474551 activity=474551\nPAGE 2\n"
+  },
+  {
+    "command": "status",
+    "response": "STATUS page=2 sleep=0 battery=100 mv=4148 charging=0 rtc=1 flush=23928 heap=288452 touch=1 uptime=475738 timeout=15000\nPLAY sheet=2 motion=0 ax=-0.007 ay=0.070 az=1.091 samples=475 audio=0 rms=0.00234 blocks=13\nGARDEN phase=0 running=0 remaining=1500 flowers=0\n"
+  },
+  {
+    "command": "page 11",
+    "response": "PAGE 11\n"
+  },
+  {
+    "command": "status",
+    "response": "STATUS page=11 sleep=0 battery=100 mv=4147 charging=0 rtc=1 flush=24024 heap=290760 touch=1 uptime=477239 timeout=15000\nPLAY sheet=2 motion=1 ax=-0.000 ay=0.073 az=1.100 samples=483 audio=0 rms=0.00234 blocks=13\nGARDEN phase=0 running=0 remaining=1500 flowers=0\nDICE value=1 rolls=0\n"
+  },
+  {
+    "command": "page 12",
+    "response": "PAGE 12\n"
+  },
+  {
+    "command": "status",
+    "response": "STATUS page=12 sleep=0 battery=100 mv=4147 charging=0 rtc=1 flush=24192 heap=290760 touch=1 uptime=478723 timeout=15000\nPLAY sheet=2 motion=1 ax=0.001 ay=0.032 az=1.102 samples=497 audio=0 rms=0.00234 blocks=13\nGARDEN phase=0 running=0 remaining=1500 flowers=0\nMARBLE x=228.32 y=299.32 score=10\n"
+  },
+  {
+    "command": "page 13",
+    "response": "PAGE 13\n"
+  },
+  {
+    "command": "status",
+    "response": "STATUS page=13 sleep=0 battery=100 mv=4148 charging=0 rtc=1 flush=24348 heap=285584 touch=1 uptime=480122 timeout=15000\nPLAY sheet=2 motion=0 ax=-0.007 ay=0.070 az=1.091 samples=504 audio=1 rms=0.00163 blocks=5\nGARDEN phase=0 running=0 remaining=1500 flowers=0\n"
+  },
+  {
+    "command": "page 15",
+    "response": "PAGE 15\n"
+  },
+  {
+    "command": "status",
+    "response": "STATUS page=15 sleep=0 battery=100 mv=4146 charging=0 rtc=1 flush=24456 heap=290692 touch=1 uptime=482238 timeout=15000\nPLAY sheet=2 motion=0 ax=-0.007 ay=0.070 az=1.091 samples=504 audio=0 rms=0.00182 blocks=13\nGARDEN phase=0 running=0 remaining=1500 flowers=0\nPHOTO wifi=0 image=1\n"
+  },
+  {
+    "command": "test-raw-tap 233 233",
+    "response": "TEST RAW TAP OK\r\n"
+  },
+  {
+    "command": "test-raw-tap 233 76",
+    "response": "TEST RAW TAP OK\r\n"
+  },
+  {
+    "command": "status",
+    "response": "STATUS page=15 sleep=0 battery=100 mv=4148 charging=0 rtc=1 flush=24648 heap=237884 touch=1 uptime=485506 timeout=15000\nPLAY sheet=2 motion=0 ax=-0.007 ay=0.070 az=1.091 samples=504 audio=0 rms=0.00182 blocks=13\nGARDEN phase=0 running=0 remaining=1500 flowers=0\nPHOTO wifi=1 image=1\n"
+  },
+  {
+    "command": "test-button boot",
+    "response": "TEST BUTTON QUEUED\r\nTEST BUTTON boot sampled=486142 activity=486142\nPAGE 2\n"
+  },
+  {
+    "command": "status",
+    "response": "STATUS page=2 sleep=0 battery=100 mv=4148 charging=0 rtc=1 flush=24696 heap=288452 touch=1 uptime=487344 timeout=15000\nPLAY sheet=2 motion=0 ax=-0.007 ay=0.070 az=1.091 samples=504 audio=0 rms=0.00182 blocks=13\nGARDEN phase=0 running=0 remaining=1500 flowers=0\n"
+  },
+  {
+    "command": "page 11",
+    "response": "PAGE 11\n"
+  },
+  {
+    "command": "status",
+    "response": "STATUS page=11 sleep=0 battery=100 mv=4146 charging=0 rtc=1 flush=24780 heap=290760 touch=1 uptime=488758 timeout=15000\nPLAY sheet=2 motion=1 ax=-0.015 ay=0.095 az=1.111 samples=511 audio=0 rms=0.00182 blocks=13\nGARDEN phase=0 running=0 remaining=1500 flowers=0\nDICE value=5 rolls=1\n"
+  },
+  {
+    "command": "page 12",
+    "response": "PAGE 12\n"
+  },
+  {
+    "command": "status",
+    "response": "STATUS page=12 sleep=0 battery=100 mv=4146 charging=0 rtc=1 flush=24948 heap=290760 touch=1 uptime=490235 timeout=15000\nPLAY sheet=2 motion=1 ax=-0.000 ay=0.083 az=1.093 samples=525 audio=0 rms=0.00182 blocks=13\nGARDEN phase=0 running=0 remaining=1500 flowers=0\nMARBLE x=214.92 y=342.98 score=0\n"
+  },
+  {
+    "command": "page 13",
+    "response": "PAGE 13\n"
+  },
+  {
+    "command": "status",
+    "response": "STATUS page=13 sleep=0 battery=100 mv=4147 charging=0 rtc=1 flush=25104 heap=285584 touch=1 uptime=491632 timeout=15000\nPLAY sheet=2 motion=0 ax=-0.007 ay=0.071 az=1.091 samples=532 audio=1 rms=0.00157 blocks=5\nGARDEN phase=0 running=0 remaining=1500 flowers=0\n"
+  },
+  {
+    "command": "page 15",
+    "response": "PAGE 15\n"
+  },
+  {
+    "command": "status",
+    "response": "STATUS page=15 sleep=0 battery=100 mv=4146 charging=0 rtc=1 flush=25224 heap=290692 touch=1 uptime=493847 timeout=15000\nPLAY sheet=2 motion=0 ax=-0.007 ay=0.071 az=1.091 samples=532 audio=0 rms=0.00169 blocks=14\nGARDEN phase=0 running=0 remaining=1500 flowers=0\nPHOTO wifi=0 image=1\n"
+  },
+  {
+    "command": "test-raw-tap 233 233",
+    "response": "TEST RAW TAP OK\r\n"
+  },
+  {
+    "command": "test-raw-tap 233 76",
+    "response": "TEST RAW TAP OK\r\n"
+  },
+  {
+    "command": "status",
+    "response": "STATUS page=15 sleep=0 battery=100 mv=4147 charging=0 rtc=1 flush=25404 heap=237884 touch=1 uptime=496994 timeout=15000\nPLAY sheet=2 motion=0 ax=-0.007 ay=0.071 az=1.091 samples=532 audio=0 rms=0.00169 blocks=14\nGARDEN phase=0 running=0 remaining=1500 flowers=0\nPHOTO wifi=1 image=1\n"
+  },
+  {
+    "command": "test-button boot",
+    "response": "TEST BUTTON QUEUED\r\nTEST BUTTON boot sampled=497661 activity=497661\nPAGE 2\n"
+  },
+  {
+    "command": "status",
+    "response": "STATUS page=2 sleep=0 battery=100 mv=4147 charging=0 rtc=1 flush=25452 heap=288452 touch=1 uptime=498863 timeout=15000\nPLAY sheet=2 motion=0 ax=-0.007 ay=0.071 az=1.091 samples=532 audio=0 rms=0.00169 blocks=14\nGARDEN phase=0 running=0 remaining=1500 flowers=0\n"
+  },
+  {
+    "command": "page 11",
+    "response": "PAGE 11\n"
+  },
+  {
+    "command": "status",
+    "response": "STATUS page=11 sleep=0 battery=100 mv=4146 charging=0 rtc=1 flush=25548 heap=290760 touch=1 uptime=500369 timeout=15000\nPLAY sheet=2 motion=1 ax=0.003 ay=0.081 az=1.095 samples=540 audio=0 rms=0.00169 blocks=14\nGARDEN phase=0 running=0 remaining=1500 flowers=0\nDICE value=1 rolls=0\n"
+  },
+  {
+    "command": "page 12",
+    "response": "PAGE 12\n"
+  },
+  {
+    "command": "status",
+    "response": "STATUS page=12 sleep=0 battery=100 mv=4146 charging=0 rtc=1 flush=25704 heap=290760 touch=1 uptime=501737 timeout=15000\nPLAY sheet=2 motion=1 ax=-0.022 ay=0.069 az=1.076 samples=553 audio=0 rms=0.00169 blocks=14\nGARDEN phase=0 running=0 remaining=1500 flowers=0\nMARBLE x=240.62 y=316.39 score=0\n"
+  },
+  {
+    "command": "page 13",
+    "response": "PAGE 13\n"
+  },
+  {
+    "command": "status",
+    "response": "STATUS page=13 sleep=0 battery=100 mv=4147 charging=0 rtc=1 flush=25860 heap=285584 touch=1 uptime=503133 timeout=15000\nPLAY sheet=2 motion=0 ax=-0.005 ay=0.074 az=1.090 samples=560 audio=1 rms=0.00149 blocks=5\nGARDEN phase=0 running=0 remaining=1500 flowers=0\n"
+  },
+  {
+    "command": "page 15",
+    "response": "PAGE 15\n"
+  },
+  {
+    "command": "status",
+    "response": "STATUS page=15 sleep=0 battery=100 mv=4147 charging=0 rtc=1 flush=25980 heap=290692 touch=1 uptime=505348 timeout=15000\nPLAY sheet=2 motion=0 ax=-0.005 ay=0.074 az=1.090 samples=560 audio=0 rms=0.00946 blocks=14\nGARDEN phase=0 running=0 remaining=1500 flowers=0\nPHOTO wifi=0 image=1\n"
+  },
+  {
+    "command": "test-raw-tap 233 233",
+    "response": "TEST RAW TAP OK\r\n"
+  },
+  {
+    "command": "test-raw-tap 233 76",
+    "response": "TEST RAW TAP OK\r\n"
+  },
+  {
+    "command": "status",
+    "response": "STATUS page=15 sleep=0 battery=100 mv=4145 charging=0 rtc=1 flush=26160 heap=237884 touch=1 uptime=508454 timeout=15000\nPLAY sheet=2 motion=0 ax=-0.005 ay=0.074 az=1.090 samples=560 audio=0 rms=0.00946 blocks=14\nGARDEN phase=0 running=0 remaining=1500 flowers=0\nPHOTO wifi=1 image=1\n"
+  },
+  {
+    "command": "test-button boot",
+    "response": "TEST BUTTON QUEUED\r\nTEST BUTTON boot sampled=509147 activity=509147\nPAGE 2\n"
+  },
+  {
+    "command": "status",
+    "response": "STATUS page=2 sleep=0 battery=100 mv=4146 charging=0 rtc=1 flush=26208 heap=288452 touch=1 uptime=510380 timeout=15000\nPLAY sheet=2 motion=0 ax=-0.005 ay=0.074 az=1.090 samples=560 audio=0 rms=0.00946 blocks=14\nGARDEN phase=0 running=0 remaining=1500 flowers=0\n"
+  },
+  {
+    "command": "page 11",
+    "response": "PAGE 11\n"
+  },
+  {
+    "command": "status",
+    "response": "STATUS page=11 sleep=0 battery=100 mv=4148 charging=0 rtc=1 flush=26304 heap=290760 touch=1 uptime=511881 timeout=15000\nPLAY sheet=2 motion=1 ax=-0.002 ay=0.050 az=1.100 samples=568 audio=0 rms=0.00946 blocks=14\nGARDEN phase=0 running=0 remaining=1500 flowers=0\nDICE value=1 rolls=0\n"
+  },
+  {
+    "command": "page 12",
+    "response": "PAGE 12\n"
+  },
+  {
+    "command": "status",
+    "response": "STATUS page=12 sleep=0 battery=100 mv=4146 charging=0 rtc=1 flush=26460 heap=290760 touch=1 uptime=513249 timeout=15000\nPLAY sheet=2 motion=1 ax=-0.024 ay=0.069 az=1.101 samples=581 audio=0 rms=0.00946 blocks=14\nGARDEN phase=0 running=0 remaining=1500 flowers=0\nMARBLE x=241.62 y=325.69 score=0\n"
+  },
+  {
+    "command": "page 13",
+    "response": "PAGE 13\n"
+  },
+  {
+    "command": "status",
+    "response": "STATUS page=13 sleep=0 battery=100 mv=4148 charging=0 rtc=1 flush=26616 heap=285584 touch=1 uptime=514646 timeout=15000\nPLAY sheet=2 motion=0 ax=-0.007 ay=0.072 az=1.090 samples=588 audio=1 rms=0.00222 blocks=5\nGARDEN phase=0 running=0 remaining=1500 flowers=0\n"
+  },
+  {
+    "command": "page 15",
+    "response": "PAGE 15\n"
+  },
+  {
+    "command": "status",
+    "response": "STATUS page=15 sleep=0 battery=100 mv=4147 charging=0 rtc=1 flush=26736 heap=290692 touch=1 uptime=516861 timeout=15000\nPLAY sheet=2 motion=0 ax=-0.007 ay=0.072 az=1.090 samples=588 audio=0 rms=0.04242 blocks=14\nGARDEN phase=0 running=0 remaining=1500 flowers=0\nPHOTO wifi=0 image=1\n"
+  },
+  {
+    "command": "test-raw-tap 233 233",
+    "response": "TEST RAW TAP OK\r\n"
+  },
+  {
+    "command": "test-raw-tap 233 76",
+    "response": "TEST RAW TAP OK\r\n"
+  },
+  {
+    "command": "status",
+    "response": "STATUS page=15 sleep=0 battery=100 mv=4147 charging=0 rtc=1 flush=26916 heap=237884 touch=1 uptime=519939 timeout=15000\nPLAY sheet=2 motion=0 ax=-0.007 ay=0.072 az=1.090 samples=588 audio=0 rms=0.04242 blocks=14\nGARDEN phase=0 running=0 remaining=1500 flowers=0\nPHOTO wifi=1 image=1\n"
+  },
+  {
+    "command": "test-button boot",
+    "response": "TEST BUTTON QUEUED\r\nTEST BUTTON boot sampled=520745 activity=520745\nPAGE 2\n"
+  },
+  {
+    "command": "status",
+    "response": "STATUS page=2 sleep=0 battery=100 mv=4147 charging=0 rtc=1 flush=26976 heap=288452 touch=1 uptime=521847 timeout=15000\nPLAY sheet=2 motion=0 ax=-0.007 ay=0.072 az=1.090 samples=588 audio=0 rms=0.04242 blocks=14\nGARDEN phase=0 running=0 remaining=1500 flowers=0\n"
+  },
+  {
+    "heap_after_sensor_radio_cycles": [
+      288452,
+      288452,
+      288452,
+      288452,
+      288452,
+      288452
+    ]
+  },
+  {
+    "command": "page 9",
+    "response": "PAGE 9\n"
+  },
+  {
+    "command": "status",
+    "response": "STATUS page=9 sleep=0 battery=100 mv=4147 charging=0 rtc=1 flush=26988 heap=290872 touch=1 uptime=523255 timeout=15000\nPLAY sheet=2 motion=0 ax=-0.007 ay=0.072 az=1.090 samples=588 audio=0 rms=0.04242 blocks=14\nGARDEN phase=0 running=0 remaining=1500 flowers=0\n"
+  },
+  {
+    "result": "PASS"
+  }
+]

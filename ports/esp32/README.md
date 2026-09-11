@@ -72,14 +72,16 @@ sequenceDiagram
 | I²C | SDA 15, SCL 14 |
 | Touch | CST9217 at 0x5A, reset 2, interrupt 11 |
 | Power | AXP2101 at 0x34 |
+| Motion | QMI8658 at 0x6B, ±4 g, 125 Hz |
+| Microphone ADC | ES7210 at 0x40; I2S BCLK 9, LRCK 45, input 10, MCLK 16 |
 | RTC | ESP32 internal RTC; no external PCF85063 |
 | Memory | 32 MB flash (measured on this device), 8 MB octal PSRAM |
 | USB | Native ESP32-S3 serial/JTAG |
 
 This target is for **1.75C**, not **1.75 / 1.75-B**. Unsupported PineTime
 hardware and protocols (heart-rate sensor, vibration motor, Nordic DFU,
-Gadgetbridge services) are not advertised as working. The speaker, microphone,
-IMU and TF slot are not required by the included applications.
+Gadgetbridge services) are not advertised as working. The speaker and TF slot
+are not used. Motion and microphone applications read the real onboard sensors.
 
 ## Build
 
@@ -98,6 +100,7 @@ release image. See `tools/device.py` for backup, flash and verification commands
 - Swipe left/right on a watch face to change face.
 - Swipe up on a watch face to open the launcher.
 - Tap launcher entries to open an application.
+- Tap Next or swipe left/right to cycle the three launcher pages.
 - BOOT button: return from an application to the launcher; from launcher to clock.
 - When the display is off, BOOT wakes it without changing the page.
 - PWR short press: display off/on; long press retains hardware power-off.
@@ -170,7 +173,83 @@ works on hardware.
 
 The current power mode turns AMOLED brightness to zero; it is **not deep sleep**.
 USB, the CPU and stopwatch remain active. Wake with PWR or BOOT.
-BLE/Gadgetbridge, Wi-Fi sync, activity tracking, audio and OTA are not implemented.
+BLE/Gadgetbridge, Internet time sync, activity tracking, speaker output and OTA
+are not implemented. Wi-Fi is used for local photo upload; microphone input is
+used for Sound Buddy.
+
+## Five pocket applications
+
+| Lucky Dice | Gravity | Sound Buddy |
+| --- | --- | --- |
+| ![Dice](docs/screenshots/play-dice.png) | ![Gravity](docs/screenshots/play-gravity.png) | ![Sound Buddy](docs/screenshots/play-sound-buddy.png) |
+
+| Garden | Phone upload entry |
+| --- | --- |
+| ![Garden](docs/screenshots/play-garden.png) | ![Photo Badge](docs/screenshots/play-photo-ready.png) |
+
+- **Lucky Dice:** shake or tap to roll. CHANGE MODE cycles dice, fortunes and yes/no.
+- **Gravity:** tilt to roll the marble into bumpers for points. Hold the board
+  level and tap to set its neutral position and reset the ball/score.
+- **Sound Buddy:** the robot and eight frequency bands react to the microphone.
+  Tap to change color. Audio is analyzed in RAM; it is never recorded or uploaded.
+- **Garden:** choose 15, 25 or 45 minutes before starting. START/PAUSE controls
+  focus; RESET cancels it. Finishing grows one persistent flower; REST starts a
+  five-minute break. The timer continues on other pages and with the display off.
+- **Photo Badge:** tap to show controls, then CONNECT PHONE. Join the displayed
+  Wi-Fi network using its displayed session password and open `http://192.168.4.1`
+  on the phone. Select, drag and zoom a photo, then send it. CLOSE WI-FI returns
+  to the photo. BOOT/swipe down exits. The saved image survives restart/firmware
+  updates; only a complete, CRC-checked upload replaces it.
+
+Gravity, Sound Buddy and the active upload portal keep the display awake. PWR
+still turns it off/on. Leaving the application releases its wake lock and stops
+its sensor/radio. Garden runs as a separate service with NVS persistence; a
+valid retained clock restores a running deadline, otherwise it restores paused.
+Timer completion opens Garden, deferred until leaving Photo Badge if necessary.
+
+```mermaid
+flowchart TD
+    Loop[Main loop] --> Sensors[PlaySensors tick]
+    Apps[Active FunApp] -->|entry / destruction| Sensors
+    Sensors --> IMU[QMI8658: Dice / Gravity]
+    IMU --> Axes[Gravity: screen X = -sensor Y, screen Y = sensor X]
+    Axes --> Paint
+    Sensors --> ADC[ES7210 + I2S: Sound Buddy]
+    Apps --> Paint[Shared RoundPaint / LVGL]
+    Loop --> Focus[FocusService: monotonic deadline]
+    Focus <--> NVS[NVS: timer and flowers]
+    Focus -->|completion| Navigation[Queue Garden after upload page exits]
+    Phone[Phone crop + RGB565 + CRC32] --> HTTP[HTTP worker]
+    HTTP --> Queue[Atomic transfer state + PSRAM frame]
+    Loop --> Photo[PhotoBadge poll]
+    Queue --> Photo
+    Photo --> Temp[LittleFS temporary file: 4 KiB per tick]
+    Temp -->|close + atomic rename| Saved[Persistent photo.rgb]
+    Photo --> Paint
+    Photo -->|AP lifecycle| Radio[ESP-IDF Wi-Fi AP]
+```
+
+The HTTP worker receives and checks bytes; only the main task accesses LittleFS
+and LVGL. Closing the portal cancels reception before joining the HTTP worker.
+The old photo remains visible until the replacement file commits. Image-cache
+entries are invalidated before their backing image is replaced or freed.
+
+ES7210 uses the manufacturer's legacy I2S path on the pinned Arduino/ESP-IDF SDK.
+Its new standard I2S driver allocates callback context in PSRAM while the packaged
+IRAM-safe GDMA requires internal RAM, causing initialization failure. The legacy
+path works with that SDK; its deprecation warning is retained. I2S output is
+explicitly unused so microphone setup cannot claim BOOT GPIO0.
+The 1.75C schematic routes the microphones to ADC1/2 and SDOUT1 to GPIO10.
+Mono-left captures ADC1 with 37.5 dB gain; unused channels stay disabled. The
+example's high gain on ADC3/4 would amplify the auxiliary/AEC path instead.
+
+Run `c++ -std=c++20 -I include tools/test_play_logic.cpp -o /tmp/play-logic &&
+/tmp/play-logic` for timer, collision and spectrum checks. Run
+`python tools/validate_play.py --port /dev/cu.usbmodem101 --output /path/to/results`
+for device navigation, sensor sampling, wake locks, background timer, photo
+persistence and repeated sensor/radio lifecycle checks. The device test never
+uploads or captures the user's photo and skips timer interactions if one is
+already in progress. It returns to the selected watch face.
 
 ## USB tools
 
@@ -193,7 +272,8 @@ partition table at 0x8000 and the application at 0x10000. First boot may format
 its dedicated filesystem partition. Original firmware must be backed up first.
 
 Serial diagnostics: `page N` (0 digital, 1 analog, 2 launcher, 3 calculator,
-4 stopwatch, 5 Twos, 6 settings, 7 Orbit, 8 Studio, 9 Pulse, 10 Badge),
+4 stopwatch, 5 Twos, 6 settings, 7 Orbit, 8 Studio, 9 Pulse, 10 Badge,
+11 Lucky Dice, 12 Gravity, 13 Sound Buddy, 14 Garden, 15 Photo Badge),
 `wake`, `sleep`, `status`, `capture`, and
 `time YYYY-MM-DD HH:MM:SS`. `test-tap X Y` and `test-swipe left|right|up|down`
 inject UI input for repeatable software tests; they do **not** test physical

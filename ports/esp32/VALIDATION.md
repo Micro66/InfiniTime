@@ -176,3 +176,66 @@ command acknowledgment as a completed click.
 These are software-input tests on the real board and framebuffer checks. They do
 not replace the user's optical or physical touch assessment of the new screens.
 Brightness, timeout and clock settings were preserved. The final screen is Orbit.
+
+## Five pocket applications (2026-09-11)
+
+Added Lucky Dice (dice/fortune/yes-no), Gravity marble physics, microphone-driven
+Sound Buddy, persistent Garden focus/rest timers, and local phone photo upload.
+The launcher has three pages. The README Mermaid diagram was reviewed against
+sensor ownership, the background timer and HTTP-worker/main-task boundaries.
+Shared artwork drawing primitives were extracted without changing existing faces.
+
+- Final build: **PASS**, static RAM 47,480 bytes, linked flash 1,217,452 bytes.
+- Final firmware: 1,217,824 bytes, SHA-256
+  `46113fdb8f98dbb48d19da638b7b9e01944950617743921923557a0ca165e7cd`.
+- Flash: bootloader, partition table and app hashes verified. NVS and LittleFS
+  were retained; the user's uploaded photo still reports `image=1` after flashing
+  and subsequent resets. No private photo or AP-password screenshot is included.
+- Host logic: **PASS**, pause/resume, once-only flower reward, rest/reset and
+  64-bit timer deadlines; 20,000 bounded physics steps and wall/bumper collisions;
+  silence/DC rejection and a correctly resolved 1 kHz spectrum tone.
+- Four host USB transport tests, clang-format checks and `git diff --check`: **PASS**.
+- Phone crop UI: selection, zoom and drag visually checked at 393×852. The user
+  connected to the actual board's AP and confirmed **upload and save succeeded**.
+- Microphone: the new I2S driver failed GDMA initialization because its callback
+  context landed in PSRAM. The pinned manufacturer's legacy I2S path initializes
+  successfully; its SDK deprecation warning is documented rather than suppressed.
+- The 1.75C schematic shows ADC1/2 microphones and SDOUT1 → GPIO10. Corrected the
+  example's ADC3/4 gain selection to ADC1 at 37.5 dB with ONLY_LEFT mono capture,
+  giving 16 kHz samples to the spectrum analyzer. Other ADC channels are disabled.
+- Live microphone samples advanced continuously. During the user's speech,
+  observed RMS rose from about 0.001 to 0.03547 (full-scale normalized). The user
+  confirmed **robot and spectrum changes are obvious**. Only numeric diagnostics
+  were retained; no microphone recording was saved.
+
+An initial lifecycle test read status after a fixed 0.7-second wait and failed
+while a photo was loading. The delayed reply showed the page transition had
+completed and the normal inactivity timeout still operated; no reboot occurred.
+The regression now waits for actual page/status conditions with a bounded timeout.
+
+The full device regression before the final axis/header changes **passed**:
+all three launcher pages and five
+applications, dice modes/taps, real IMU/audio sample progression, microphone PWR
+off/on, scoped stay-on beyond 15 seconds and normal timeout after exit, background
+focus/pause/reset, and photo AP open/close/re-entry. Six complete IMU → microphone
+→ photo AP → launcher cycles each ended with **288,452 bytes** free heap. Sensor
+valid flags cleared on exit and the stored photo remained present.
+See [device transcript](docs/evidence/play-regression.json) and
+[speech diagnostics](docs/evidence/play-audio-live.json).
+
+The user's physical tilt test exposed the original Gravity mapping: holding the
+screen upright with readable text made the ball roll left. At rotation 0, sensor
++X corresponds to the screen's top, not its right. Gravity now maps calibrated
+sensor readings to `screenX = -sensorY`, `screenY = sensorX`. Host checks cover
+neutral calibration and all four signed directions. The architecture diagram
+was updated accordingly; diagnostics also expose the stored neutral offsets.
+
+Final-firmware [smoke test](docs/evidence/play-final-smoke.json): **PASS**. The
+stored photo loads, the focus timer continues while the display is off, BOOT
+wakes the same page, pause/reset restores the original ready timer, microphone
+blocks advance, and IMU/audio stop on exit. The final Garden title was moved
+inside the decorative ring and its device-rendered frame was checked again.
+
+Physical sensor readings and user confirmations are distinct from diagnostic
+touch/button injections. CRC-mismatch and interrupted HTTP uploads have been
+reviewed in code but have not been fault-injected over the physical AP.

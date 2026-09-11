@@ -62,8 +62,11 @@ def main():
 
             send('page 2')
             capture(wire, args.output / 'launcher.png')
-            # Badge button is at (160,381), with the real sensor mirror applied.
+            # Next at (160,381), then Badge at (147,168), through sensor mirroring.
+            while 'sheet=0 ' not in send('status'):
+                send('test-swipe left')
             send('test-raw-tap 306 85')
+            send('test-raw-tap 319 298')
             status(page=10)
             initial = send('status')
             current = int(initial.split('BADGE theme=')[1].split()[0])

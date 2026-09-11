@@ -5,6 +5,9 @@
 #include "Hardware.h"
 #include "UsbConsole.h"
 #include "RoundArtwork.h"
+#include "FunApps.h"
+#include "PlaySensors.h"
+#include "PhotoBadge.h"
 #include <array>
 #include <algorithm>
 using Esp32::Usb;
@@ -28,7 +31,25 @@ using namespace Pinetime::Applications;
 using Esp32::Hardware;
 
 namespace {
-  enum class Page { Digital, Analog, Launcher, Calculator, Stopwatch, Twos, Settings, Orbit, Studio, Pulse, Badge, Count };
+  enum class Page {
+    Digital,
+    Analog,
+    Launcher,
+    Calculator,
+    Stopwatch,
+    Twos,
+    Settings,
+    Orbit,
+    Studio,
+    Pulse,
+    Badge,
+    Dice,
+    Marble,
+    Music,
+    Garden,
+    Photo,
+    Count
+  };
   constexpr std::array watchFaces {Page::Digital, Page::Analog, Page::Orbit, Page::Studio, Page::Pulse};
   Page selectedWatch = Page::Digital;
   Preferences uiPreferences;
@@ -48,6 +69,10 @@ namespace {
   Controllers::StopWatchController stopwatch;
   Controllers::BrightnessController brightness;
   System::SystemTask systemTask;
+  Controllers::FS* storage = nullptr;
+  Esp32::FocusService focus;
+  unsigned launcherSheet = 0;
+  bool focusNotice = false;
   lv_obj_t *clockLabel = nullptr, *dateLabel = nullptr, *powerLabel = nullptr;
   uint32_t lastActivity = 0, lastRefresh = 0;
   String serialLine;
@@ -103,6 +128,9 @@ namespace {
     } else if (id == 102 || id == 103) {
       dateTime->SetCurrentTime(dateTime->CurrentDateTime() + std::chrono::minutes(id == 102 ? -1 : 1));
       request(Page::Settings);
+    } else if (id == 104) {
+      launcherSheet = (launcherSheet + 1) % 3;
+      request(Page::Launcher);
     }
   }
 
@@ -149,6 +177,17 @@ namespace {
       case Page::Badge:
         screen = std::make_unique<Esp32::Badge>(systemTask);
         break;
+      case Page::Dice:
+      case Page::Marble:
+      case Page::Music:
+      case Page::Garden:
+        screen = std::make_unique<Esp32::FunApp>(static_cast<Esp32::FunApp::Kind>(static_cast<int>(page) - static_cast<int>(Page::Dice)),
+                                                 focus,
+                                                 systemTask);
+        break;
+      case Page::Photo:
+        screen = std::make_unique<Esp32::PhotoBadge>(*storage, systemTask);
+        break;
       case Page::Digital:
         label("I N F I N I T I M E", 77, lv_color_hex(0x70e6ca));
         clockLabel = label("--:--", 158, LV_COLOR_WHITE, &jetbrains_mono_76);
@@ -156,15 +195,28 @@ namespace {
         powerLabel = label("", 310, lv_color_hex(0x70e6ca));
         button("Apps", 163, 357, 140, 50, static_cast<uintptr_t>(Page::Launcher));
         break;
-      case Page::Launcher:
-        label("YOUR APPS", 58, lv_color_hex(0x70e6ca));
-        button("Calculator", 68, 116, 158, 104, static_cast<uintptr_t>(Page::Calculator));
-        button("Stopwatch", 240, 116, 158, 104, static_cast<uintptr_t>(Page::Stopwatch));
-        button("Twos", 68, 238, 158, 104, static_cast<uintptr_t>(Page::Twos), 0x6f3824);
-        button("Settings", 240, 238, 158, 104, static_cast<uintptr_t>(Page::Settings));
-        button("Badge", 92, 357, 136, 48, static_cast<uintptr_t>(Page::Badge), 0x694865);
+      case Page::Launcher: {
+        constexpr Page entries[3][4] {{Page::Calculator, Page::Stopwatch, Page::Twos, Page::Settings},
+                                      {Page::Badge, Page::Dice, Page::Marble, Page::Music},
+                                      {Page::Garden, Page::Photo, Page::Badge, Page::Settings}};
+        constexpr const char* names[3][4] {{"Calculator", "Stopwatch", "Twos", "Settings"},
+                                           {"Badge", "Lucky Dice", "Gravity", "Sound Buddy"},
+                                           {"Garden", "Photo Badge", "Badge", "Settings"}};
+        char title[30];
+        snprintf(title, sizeof(title), "YOUR APPS  %u / 3", launcherSheet + 1);
+        label(title, 58, lv_color_hex(0x70e6ca));
+        for (unsigned i = 0; i < 4; ++i)
+          button(names[launcherSheet][i],
+                 i % 2 ? 240 : 68,
+                 i / 2 ? 238 : 116,
+                 158,
+                 104,
+                 static_cast<uintptr_t>(entries[launcherSheet][i]),
+                 i == 2 ? 0x6f3824 : 0x202b38);
+        button("Next", 92, 357, 136, 48, 104, 0x694865);
         button("Watch", 240, 357, 136, 48, static_cast<uintptr_t>(selectedWatch));
         break;
+      }
       case Page::Settings: {
         label("SETTINGS", 48, lv_color_hex(0x70e6ca));
         char text[64];
@@ -190,7 +242,10 @@ namespace {
     lastActivity = millis();
     if (screen && screen->OnTouchEvent(event))
       return;
-    if (isWatch(page)) {
+    if (page == Page::Launcher && (event == TouchEvents::SwipeLeft || event == TouchEvents::SwipeRight)) {
+      launcherSheet = (launcherSheet + (event == TouchEvents::SwipeLeft ? 1 : 2)) % 3;
+      request(Page::Launcher);
+    } else if (isWatch(page)) {
       if (event == TouchEvents::SwipeLeft || event == TouchEvents::SwipeRight) {
         const auto index = std::find(watchFaces.begin(), watchFaces.end(), page) - watchFaces.begin();
         request(watchFaces[(index + (event == TouchEvents::SwipeLeft ? 1 : watchFaces.size() - 1)) % watchFaces.size()]);
@@ -294,6 +349,37 @@ namespace {
         const auto* badge = static_cast<Esp32::Badge*>(screen.get());
         Usb.printf("BADGE theme=%u pinned=%d reactions=%u\n", badge->Theme(), badge->Pinned(), badge->Reactions());
       }
+      const auto motion = Esp32::PlaySensors::Motion();
+      const auto audio = Esp32::PlaySensors::Audio();
+      Usb.printf("PLAY sheet=%u motion=%d ax=%.3f ay=%.3f az=%.3f samples=%lu audio=%d rms=%.5f blocks=%lu\n",
+                 launcherSheet,
+                 motion.valid,
+                 motion.x,
+                 motion.y,
+                 motion.z,
+                 static_cast<unsigned long>(motion.serial),
+                 audio.valid,
+                 audio.rms,
+                 static_cast<unsigned long>(audio.blocks));
+      const auto& timer = focus.State();
+      Usb.printf("GARDEN phase=%u running=%d remaining=%lu flowers=%lu\n",
+                 static_cast<unsigned>(timer.phase),
+                 timer.running,
+                 static_cast<unsigned long>(timer.remaining),
+                 static_cast<unsigned long>(timer.flowers));
+      if (page == Page::Dice && screen) {
+        auto* app = static_cast<Esp32::FunApp*>(screen.get());
+        Usb.printf("DICE value=%u rolls=%u\n", app->DiceValue(), app->Rolls());
+      }
+      if (page == Page::Marble && screen) {
+        const auto& ball = static_cast<Esp32::FunApp*>(screen.get())->Marble();
+        const auto neutral = static_cast<Esp32::FunApp*>(screen.get())->NeutralTilt();
+        Usb.printf("MARBLE x=%.2f y=%.2f score=%u zero_x=%.3f zero_y=%.3f\n", ball.x, ball.y, ball.score, neutral[0], neutral[1]);
+      }
+      if (page == Page::Photo && screen) {
+        auto* app = static_cast<Esp32::PhotoBadge*>(screen.get());
+        Usb.printf("PHOTO wifi=%d image=%d\n", app->Connected(), app->HasPhoto());
+      }
     }
   }
 }
@@ -311,9 +397,11 @@ void setup() {
   static Drivers::SpiNorFlash flash;
   static Controllers::FS filesystem(flash);
   filesystem.Init();
+  storage = &filesystem;
   settings = std::make_unique<Controllers::Settings>(filesystem);
   settings->Init();
   dateTime = std::make_unique<Controllers::DateTime>(*settings);
+  focus.Init();
   ble.DisableRadio();
   battery.ReadPowerState();
   srand(esp_random());
@@ -327,6 +415,16 @@ void setup() {
 
 void loop() {
   Hardware::Tick();
+  Esp32::PlaySensors::Tick();
+  if (focus.Tick())
+    focusNotice = true;
+  if (focusNotice && page != Page::Photo) {
+    focusNotice = false;
+    wake();
+    request(Page::Garden);
+  }
+  if (page == Page::Photo && screen)
+    static_cast<Esp32::PhotoBadge*>(screen.get())->Poll();
   if (!sleeping)
     lv_task_handler();
   const auto now = millis();

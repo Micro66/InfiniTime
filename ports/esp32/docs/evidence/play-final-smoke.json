@@ -1,0 +1,105 @@
+[
+  {
+    "command": "page 15",
+    "response": "=297892 touch=0 uptime=1963 timeout=15000\nPLAY sheet=0 motion=0 ax=0.000 ay=0.000 az=0.000 samples=0 audio=0 rms=0.00000 blocks=0\nGARDEN phase=0 running=0 remaining=1500 flowers=0\nSTATUS page=9 sleep=0 battery=100 mv=4148 charging=0 rtc=1 flush=12 heap=297892 touch=0 uptime=1963 timeout=15000\nPLAY sheet=0 motion=0 ax=0.000 ay=0.000 az=0.000 samples=0 audio=0 rms=0.00000 blocks=0\nGARDEN phase=0 running=0 remaining=1500 flowers=0\nSTATUS page=9 sleep=0 battery=100 mv=4148 charging=0 rtc=1 flush=12 heap=297892 touch=0 uptime=1963 timeout=15000\nPLAY sheet=0 motion=0 ax=0.000 ay=0.000 az=0.000 samples=0 audio=0 rms=0.00000 blocks=0\nGARDEN phase=0 running=0 remaining=1500 flowers=0\nPAGE 15\n"
+  },
+  {
+    "command": "status",
+    "response": "STATUS page=15 sleep=0 battery=100 mv=4147 charging=0 rtc=1 flush=120 heap=297724 touch=0 uptime=4973 timeout=15000\nPLAY sheet=0 motion=0 ax=0.000 ay=0.000 az=0.000 samples=0 audio=0 rms=0.00000 blocks=0\nGARDEN phase=0 running=0 remaining=1500 flowers=0\nPHOTO wifi=0 image=1\n"
+  },
+  {
+    "command": "page 14",
+    "response": "PAGE 14\n"
+  },
+  {
+    "command": "status",
+    "response": "STATUS page=14 sleep=0 battery=100 mv=4146 charging=0 rtc=1 flush=228 heap=297780 touch=0 uptime=7384 timeout=15000\nPLAY sheet=0 motion=0 ax=0.000 ay=0.000 az=0.000 samples=0 audio=0 rms=0.00000 blocks=0\nGARDEN phase=0 running=0 remaining=1500 flowers=0\n"
+  },
+  {
+    "command": "test-tap 300 390",
+    "response": "TEST TAP OK\r\n"
+  },
+  {
+    "command": "status",
+    "response": "STATUS page=14 sleep=0 battery=100 mv=4146 charging=0 rtc=1 flush=300 heap=297732 touch=0 uptime=9869 timeout=15000\nPLAY sheet=0 motion=0 ax=0.000 ay=0.000 az=0.000 samples=0 audio=0 rms=0.00000 blocks=0\nGARDEN phase=1 running=1 remaining=1499 flowers=0\n"
+  },
+  {
+    "command": "test-button pwr",
+    "response": "TEST BUTTON QUEUED\r\nTEST BUTTON pwr sampled=11114 activity=8820\n"
+  },
+  {
+    "command": "status",
+    "response": "STATUS page=14 sleep=1 battery=100 mv=4147 charging=0 rtc=1 flush=324 heap=297732 touch=0 uptime=14312 timeout=15000\nPLAY sheet=0 motion=0 ax=0.000 ay=0.000 az=0.000 samples=0 audio=0 rms=0.00000 blocks=0\nGARDEN phase=1 running=1 remaining=1494 flowers=0\n"
+  },
+  {
+    "command": "test-button boot",
+    "response": "TEST BUTTON QUEUED\r\nTEST BUTTON boot sampled=15549 activity=15549\n"
+  },
+  {
+    "command": "status",
+    "response": "STATUS page=14 sleep=0 battery=100 mv=4146 charging=0 rtc=1 flush=360 heap=297732 touch=0 uptime=16733 timeout=15000\nPLAY sheet=0 motion=0 ax=0.000 ay=0.000 az=0.000 samples=0 audio=0 rms=0.00000 blocks=0\nGARDEN phase=1 running=1 remaining=1492 flowers=0\n"
+  },
+  {
+    "command": "test-tap 300 390",
+    "response": "TEST TAP OK\r\n"
+  },
+  {
+    "command": "status",
+    "response": "STATUS page=14 sleep=0 battery=100 mv=4145 charging=0 rtc=1 flush=432 heap=297732 touch=0 uptime=19247 timeout=15000\nPLAY sheet=0 motion=0 ax=0.000 ay=0.000 az=0.000 samples=0 audio=0 rms=0.00000 blocks=0\nGARDEN phase=1 running=0 remaining=1490 flowers=0\n"
+  },
+  {
+    "command": "test-tap 160 390",
+    "response": "TEST TAP OK\r\n"
+  },
+  {
+    "command": "status",
+    "response": "STATUS page=14 sleep=0 battery=100 mv=4147 charging=0 rtc=1 flush=492 heap=297732 touch=0 uptime=21572 timeout=15000\nPLAY sheet=0 motion=0 ax=0.000 ay=0.000 az=0.000 samples=0 audio=0 rms=0.00000 blocks=0\nGARDEN phase=0 running=0 remaining=1500 flowers=0\n"
+  },
+  {
+    "command": "page 13",
+    "response": "PAGE 13\n"
+  },
+  {
+    "command": "status",
+    "response": "STATUS page=13 sleep=0 battery=100 mv=4147 charging=0 rtc=1 flush=804 heap=292316 touch=0 uptime=26701 timeout=15000\nPLAY sheet=0 motion=0 ax=0.000 ay=0.000 az=0.000 samples=0 audio=1 rms=0.00343 blocks=20\nGARDEN phase=0 running=0 remaining=1500 flowers=0\n"
+  },
+  {
+    "command": "status",
+    "response": "STATUS page=13 sleep=0 battery=100 mv=4147 charging=0 rtc=1 flush=1080 heap=292316 touch=0 uptime=28937 timeout=15000\nPLAY sheet=0 motion=0 ax=0.000 ay=0.000 az=0.000 samples=0 audio=1 rms=0.00265 blocks=43\nGARDEN phase=0 running=0 remaining=1500 flowers=0\n"
+  },
+  {
+    "command": "test-button boot",
+    "response": "TEST BUTTON QUEUED\r\nTEST BUTTON boot sampled=30198 activity=30198\nPAGE 2\n"
+  },
+  {
+    "command": "status",
+    "response": "STATUS page=2 sleep=0 battery=100 mv=4147 charging=0 rtc=1 flush=1248 heap=295164 touch=0 uptime=31293 timeout=15000\nPLAY sheet=0 motion=0 ax=0.000 ay=0.000 az=0.000 samples=0 audio=0 rms=0.00654 blocks=56\nGARDEN phase=0 running=0 remaining=1500 flowers=0\n"
+  },
+  {
+    "command": "page 12",
+    "response": "PAGE 12\n"
+  },
+  {
+    "command": "status",
+    "response": "STATUS page=12 sleep=0 battery=100 mv=4147 charging=0 rtc=1 flush=1380 heap=297380 touch=0 uptime=33795 timeout=15000\nPLAY sheet=0 motion=1 ax=0.004 ay=0.064 az=1.090 samples=11 audio=0 rms=0.00654 blocks=56\nGARDEN phase=0 running=0 remaining=1500 flowers=0\nMARBLE x=271.29 y=272.11 score=0 zero_x=0.000 zero_y=0.000\n"
+  },
+  {
+    "command": "test-button boot",
+    "response": "TEST BUTTON QUEUED\r\nTEST BUTTON boot sampled=35065 activity=35065\nPAGE 2\n"
+  },
+  {
+    "command": "status",
+    "response": "STATUS page=2 sleep=0 battery=100 mv=4148 charging=0 rtc=1 flush=1524 heap=295084 touch=0 uptime=36139 timeout=15000\nPLAY sheet=0 motion=0 ax=0.004 ay=0.064 az=1.091 samples=22 audio=0 rms=0.00654 blocks=56\nGARDEN phase=0 running=0 remaining=1500 flowers=0\n"
+  },
+  {
+    "command": "test-swipe left",
+    "response": "PAGE 2\n"
+  },
+  {
+    "command": "status",
+    "response": "STATUS page=2 sleep=0 battery=100 mv=4146 charging=0 rtc=1 flush=1536 heap=295088 touch=0 uptime=38556 timeout=15000\nPLAY sheet=1 motion=0 ax=0.004 ay=0.064 az=1.091 samples=22 audio=0 rms=0.00654 blocks=56\nGARDEN phase=0 running=0 remaining=1500 flowers=0\n"
+  },
+  {
+    "result": "PASS"
+  }
+]
