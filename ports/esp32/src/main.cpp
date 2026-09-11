@@ -156,6 +156,15 @@ namespace {
   }
 
   void command(const String& line) {
+    if (line.startsWith("test-raw-tap ")) {
+      int x, y;
+      char extra;
+      if (sscanf(line.c_str(), "test-raw-tap %d %d %c", &x, &y, &extra) == 2) {
+        wake();
+        Usb.println(Hardware::TestRawTap(x, y) ? "TEST RAW TAP OK" : "TEST RAW TAP INVALID");
+      }
+      return;
+    }
     if (line.startsWith("test-tap ")) {
       int x, y;
       char extra;

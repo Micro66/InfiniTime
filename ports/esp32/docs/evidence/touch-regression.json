@@ -1,0 +1,54 @@
+[
+  {
+    "command": "page 0",
+    "response": "STATUS page=0 sleep=0 battery=100 mv=4143 charging=0 rtc=1 flush=12 heap=328624 touch=0 uptime=1945\nSTATUS page=0 sleep=0 battery=100 mv=4143 charging=0 rtc=1 flush=12 heap=328624 touch=0 uptime=1945\nSTATUS page=0 sleep=0 battery=100 mv=4143 charging=0 rtc=1 flush=12 heap=328624 touch=0 uptime=1946\nPAGE 0\n"
+  },
+  {
+    "command": "test-raw-tap 233 83",
+    "response": "TEST RAW TAP OK\r\nPAGE 2\n"
+  },
+  {
+    "command": "status",
+    "response": "STATUS page=2 sleep=0 battery=100 mv=4143 charging=0 rtc=1 flush=39 heap=327728 touch=0 uptime=2560\n"
+  },
+  {
+    "command": "test-raw-tap 319 298",
+    "response": "TEST RAW TAP OK\r\nPAGE 3\n"
+  },
+  {
+    "command": "status",
+    "response": "STATUS page=3 sleep=0 battery=100 mv=4145 charging=0 rtc=1 flush=51 heap=329016 touch=0 uptime=3162\n"
+  },
+  {
+    "command": "test-raw-tap 350 169",
+    "response": "TEST RAW TAP OK\r\n"
+  },
+  {
+    "command": "test-raw-tap 116 229",
+    "response": "TEST RAW TAP OK\r\n"
+  },
+  {
+    "command": "test-raw-tap 272 169",
+    "response": "TEST RAW TAP OK\r\n"
+  },
+  {
+    "command": "test-raw-tap 116 108",
+    "response": "TEST RAW TAP OK\r\n"
+  },
+  {
+    "command": "page 2",
+    "response": "PAGE 2\n"
+  },
+  {
+    "command": "test-raw-tap 147 176",
+    "response": "TEST RAW TAP OK\r\nPAGE 6\n"
+  },
+  {
+    "command": "status",
+    "response": "STATUS page=6 sleep=0 battery=100 mv=4145 charging=0 rtc=1 flush=95 heap=327460 touch=0 uptime=6685\n"
+  },
+  {
+    "command": "page 0",
+    "response": "PAGE 0\n"
+  }
+]

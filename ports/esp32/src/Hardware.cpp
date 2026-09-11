@@ -142,6 +142,10 @@ namespace Esp32 {
 
     touch.setPins(2, 11);
     ESP_ERROR_CHECK(touch.begin(Wire, 0x5A, -1, -1) ? ESP_OK : ESP_ERR_NOT_FOUND);
+    // Match the manufacturer's 1.75C mounting orientation at display rotation 0.
+    // SensorLib mirrors around these extents: x = 466 - rawX, y = 466 - rawY.
+    touch.setMaxCoordinates(width, height);
+    touch.setMirrorXY(true, true);
     touch.wakeup();
     pinMode(11, INPUT_PULLUP);
     attachInterrupt(digitalPinToInterrupt(11), touchInterrupt, FALLING);
@@ -242,6 +246,14 @@ namespace Esp32 {
     testY = y;
     testPhase = 4;
     return true;
+  }
+
+  bool Hardware::TestRawTap(int x, int y) {
+    if (x < 0 || y < 0 || x > width || y > height)
+      return false;
+    int16_t pointX = x, pointY = y;
+    touch.updateXY(1, &pointX, &pointY);
+    return TestTap(pointX, pointY);
   }
 
   void Hardware::Capture() {

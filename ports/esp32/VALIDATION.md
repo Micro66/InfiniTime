@@ -16,7 +16,7 @@ not a claim that every PineTime feature or peripheral has been ported.
 - Bootloader, partition table and ESP32-S3 application writes each passed esptool
   hash verification. The new 64 KiB diagnostic coredump partition was initialized.
 
-## Build
+## Initial port build (272b50b0)
 
 - InfiniTime base: `6c119eb52206b580b556b41633dddc1e1b66a8da`.
 - Waveshare C driver submodule: `6d19f7e` (full pinned ID in the gitlink).
@@ -29,7 +29,7 @@ not a claim that every PineTime feature or peripheral has been ported.
 - Partition table decoder: **PASS**, separate 6 MiB app / 4 MiB filesystem.
 - `git diff --check`: **PASS**.
 
-## On-device results
+## Initial port on-device results
 
 See [startup log](docs/evidence/boot-after-settings.log),
 [UI regression](docs/evidence/serial-regression.json) and
@@ -64,3 +64,32 @@ See [startup log](docs/evidence/boot-after-settings.log),
   not implemented. There is no heart-rate sensor or vibration motor on this board.
 - The original Nordic/PineTime target was not rebuilt with the Nordic toolchain.
   Its resolution defaults remain 240×240; the selected round layouts are conditional.
+
+## Touch orientation correction (2026-09-11)
+
+The user reported that physical taps hit the wrong screen positions. The initial
+port omitted the two-axis mirror configuration used by the manufacturer's
+[C-board example](https://github.com/waveshareteam/ESP32-S3-Touch-AMOLED-1.75C/blob/6d19f7e16fb9a3be219e9eed43ca9eb56c88d01c/examples/arduino/examples/05_LVGL_Widgets/13_LVGL_Widgets.ino#L134).
+The initial `test-tap` tests bypassed this sensor-to-display transformation and
+therefore could not detect the 180-degree input mismatch.
+
+The CST9217 driver now uses `setMaxCoordinates(466, 466)` and
+`setMirrorXY(true, true)`. SensorLib converts both axes before LVGL pointer input
+and swipe tracking. The architecture diagram reflects this shared input path.
+
+- Rebuild and device flash/hash verification: **PASS**.
+- Current linked flash usage: 603,836 bytes; static RAM: 24,360 bytes.
+- Current firmware binary: 604,208 bytes; SHA-256 `d3eb99a9f81f083a30af2ba0d026021ed8fa89d290d8042e28165466b76e0c4f`.
+- New `validate_touch.py` regression exercises the **actual configured SensorLib
+  transform** using raw-coordinate injections, then checks LVGL hit targets.
+- Raw (233,83) hit Apps at display (233,383): **PASS**.
+- Raw (319,298) hit the upper-left Calculator target: **PASS**.
+- Raw (147,176) hit the lower-right Settings target: **PASS**.
+- Raw-coordinate calculator taps produced 1 + 2 = 3: **PASS**, screenshot inspected.
+- Evidence: [transcript](docs/evidence/touch-regression.json) and
+  [calculator screenshot](docs/screenshots/raw-touch-calculator.png).
+- Physical finger confirmation of the corrected firmware is still pending;
+  injected raw coordinates test the mapping but do not synthesize sensor packets.
+
+Run `python tools/validate_touch.py --port /dev/cu.usbmodem101 --output /path/to/results`
+from the port directory. It leaves the device on the digital clock.

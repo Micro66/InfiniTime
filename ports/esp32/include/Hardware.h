@@ -28,5 +28,6 @@ namespace Esp32 {
     static bool ClockValid();
     static unsigned TouchCount();
     static bool TestTap(int x, int y);
+    static bool TestRawTap(int x, int y);
   };
 }

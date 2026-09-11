@@ -24,7 +24,10 @@ flowchart TD
     Shell[ESP32 application lifecycle and round-screen layouts] --> Screens
     Shell --> USB[ESP-IDF USB Serial/JTAG driver]
     USB <--> Tools[USB sync, CRC-checked frame capture and UI tests]
-    Theme --> Display[CO5300 display and CST9217 touch]
+    Theme --> Display[CO5300 display]
+    Touch[CST9217 raw coordinates] --> Map[SensorLib mirror X and Y around 466]
+    Map --> Input[LVGL pointer and swipe tracking]
+    Input --> Shell
     Controllers --> Platform[ESP32 platform implementations]
     Platform --> Power[AXP2101 battery and brightness]
     Platform --> Clock[ESP32 internal RTC and retained UTC anchor]
@@ -134,3 +137,10 @@ Run transport failure-path tests with
 Run the on-device UI regression with
 `python tools/validate.py --port /dev/cu.usbmodem101 --output /path/to/results`.
 It drives applications and leaves the device on the digital clock.
+
+The 1.75C touch panel is mounted opposite the display's rotation-0 coordinates.
+As in the manufacturer's `05_LVGL_Widgets/13_LVGL_Widgets.ino`, SensorLib is
+configured with `setMaxCoordinates(466, 466)` and `setMirrorXY(true, true)`.
+Both pointer coordinates and swipe tracking consume the transformed coordinates.
+`test-raw-tap X Y` uses the same SensorLib transform before injecting LVGL input;
+`test-tap X Y` already takes display coordinates and does not test that transform.
