@@ -1,0 +1,26 @@
+{
+  "samples": [
+    {
+      "COMPANION": "COMPANION ready=1 connected=1 paired=1 ack=1 result=0 epoch=1789551831 zone=28800 notify_errors=0",
+      "TRANSFER": "TRANSFER state=0 error=0 received=0 total=434312",
+      "STATUS": "STATUS page=8 sleep=1 battery=100 mv=4143 charging=0 rtc=1 flush=180 heap=172628 touch=0 uptime=44045 timeout=15000"
+    },
+    {
+      "STATUS": "STATUS page=8 sleep=1 battery=100 mv=4143 charging=0 rtc=1 flush=180 heap=172628 touch=0 uptime=103613 timeout=15000",
+      "COMPANION": "COMPANION ready=1 connected=1 paired=1 ack=1 result=0 epoch=1789551890 zone=28800 notify_errors=0",
+      "TRANSFER": "TRANSFER state=0 error=0 received=0 total=434312"
+    },
+    {
+      "STATUS": "STATUS page=8 sleep=1 battery=100 mv=4141 charging=0 rtc=1 flush=180 heap=172628 touch=0 uptime=186333 timeout=15000",
+      "COMPANION": "COMPANION ready=1 connected=1 paired=1 ack=1 result=0 epoch=1789551973 zone=28800 notify_errors=0",
+      "TRANSFER": "TRANSFER state=0 error=0 received=0 total=434312"
+    },
+    {
+      "STATUS": "STATUS page=8 sleep=1 battery=100 mv=4141 charging=0 rtc=1 flush=180 heap=172660 touch=0 uptime=43314 timeout=15000",
+      "COMPANION": "COMPANION ready=1 connected=1 paired=1 ack=1 result=0 epoch=1789552119 zone=28800 notify_errors=0",
+      "TRANSFER": "TRANSFER state=0 error=0 received=0 total=434312"
+    }
+  ],
+  "note": "Numeric telemetry only. No photos or pairing credentials.",
+  "finalFirmware": "3e7e17c352560a936554efbb25577fcfe69b9ad47a562fd85c0f8a6fcdc5ee6a"
+}

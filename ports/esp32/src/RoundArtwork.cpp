@@ -78,7 +78,7 @@ namespace Esp32 {
       p.dot(satellite.x, satellite.y, 7, 0xf2fffa);
       p.text("O R B I T", 96, 0x70efd2);
       p.text(time, 171, 0xf5fafb, &jetbrains_mono_76);
-      p.text(valid ? date : "SYNC CLOCK VIA USB", 266, 0x93aabc);
+      p.text(valid ? date : "SYNC WITH IPHONE", 266, 0x93aabc);
       p.box(151, 316, 164, 37, 0x112936, 18);
       p.text(power, 322, 0x70efd2);
       p.text(seconds, 361, 0x92a8b8, &jetbrains_mono_42);
@@ -118,7 +118,7 @@ namespace Esp32 {
       p.text(valid ? minute : "--", 249, 0x172016, valid ? &open_sans_light : &jetbrains_mono_76);
       p.box(346, 209, 65, 46, 0xf5f2df, 22);
       p.text(seconds, 219, 0x172016, &jetbrains_mono_bold_20, 346, 65);
-      p.text(valid ? date : "SYNC CLOCK VIA USB", 376, 0x273326);
+      p.text(valid ? date : "SYNC WITH IPHONE", 376, 0x273326);
       p.text(power, 404, 0x405334);
     }
   }
@@ -132,11 +132,17 @@ namespace Esp32 {
     using Pinetime::Applications::TouchEvents;
     if (event != TouchEvents::SwipeLeft && event != TouchEvents::SwipeRight)
       return false;
-    theme = (theme + (event == TouchEvents::SwipeLeft ? 1 : 2)) % 3;
+    SetTheme((theme + (event == TouchEvents::SwipeLeft ? 1 : 2)) % 3);
+    return true;
+  }
+
+  void Badge::SetTheme(unsigned value) {
+    if (value > 2)
+      return;
+    theme = value;
     preferences.putUChar("theme", theme);
     reactionStart = 0;
     Refresh();
-    return true;
   }
 
   void Badge::Tap(int x, int y) {

@@ -48,6 +48,8 @@ namespace Esp32 {
     explicit Badge(Pinetime::System::SystemTask& system);
     bool OnTouchEvent(Pinetime::Applications::TouchEvents event) override;
 
+    void SetTheme(unsigned value);
+
     unsigned Theme() const {
       return theme;
     }

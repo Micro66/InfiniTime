@@ -104,8 +104,10 @@ release image. See `tools/device.py` for backup, flash and verification commands
 - BOOT button: return from an application to the launcher; from launcher to clock.
 - When the display is off, BOOT wakes it without changing the page.
 - PWR short press: display off/on; long press retains hardware power-off.
-- Settings: brightness, screen timeout and local clock adjustment (±1 minute).
-- The clock uses 24-hour time in UTC+8. Sync the full date from USB with `sync-time`.
+- Settings: brightness, screen timeout and Pair iPhone / Forget phones.
+- The clock uses 24-hour time. Badge Studio syncs phone UTC and timezone on each
+  connection and foreground return. The timezone persists; USB `sync-time` also
+  uses the computer’s current UTC and timezone.
 - A running stopwatch consumes the first BOOT press to pause; press again to leave.
 
 ## New watch faces and character badge
@@ -172,10 +174,12 @@ alone does not establish that touch orientation, power behavior or rendering
 works on hardware.
 
 The current power mode turns AMOLED brightness to zero; it is **not deep sleep**.
-USB, the CPU and stopwatch remain active. Wake with PWR or BOOT.
-BLE/Gadgetbridge, Internet time sync, activity tracking, speaker output and OTA
-are not implemented. Wi-Fi is used for local photo upload; microphone input is
-used for Sound Buddy.
+USB, BLE, the CPU and stopwatch remain active. Wake with PWR or BOOT.
+Badge Studio BLE supports time sync, device controls and photo transfer.
+Gadgetbridge services, Internet time sync, activity tracking, speaker output and
+OTA are not implemented. Wi-Fi photo upload remains available; microphone input
+is used for Sound Buddy. See the [companion protocol](docs/COMPANION.md) and
+[iOS app](../../ios/README.md).
 
 ## Five pocket applications
 
@@ -222,13 +226,15 @@ flowchart TD
     Focus <--> NVS[NVS: timer and flowers]
     Focus -->|completion| Navigation[Queue Garden after upload page exits]
     Phone[Phone crop + RGB565 + CRC32] --> HTTP[HTTP worker]
-    HTTP --> Queue[Atomic transfer state + PSRAM frame]
-    Loop --> Photo[PhotoBadge poll]
+    HTTP --> Queue[Shared PhotoStore + PSRAM frame]
+    BLE[Encrypted BLE photo chunks] --> Queue
+    Loop --> Photo[PhotoStore tick, independent of current page]
     Queue --> Photo
     Photo --> Temp[LittleFS temporary file: 4 KiB per tick]
     Temp -->|close + atomic rename| Saved[Persistent photo.rgb]
     Photo --> Paint
-    Photo -->|AP lifecycle| Radio[ESP-IDF Wi-Fi AP]
+    View[PhotoBadge view] -->|AP lifecycle| Radio[ESP-IDF Wi-Fi AP]
+    Photo --> View
 ```
 
 ```mermaid
@@ -252,8 +258,8 @@ sequenceDiagram
     Badge->>Network: Close Wi-Fi / app exit: stop DNS and AP
 ```
 
-The HTTP worker receives and checks bytes; only the main task accesses LittleFS
-and LVGL. Closing the portal cancels reception before joining the HTTP worker.
+The HTTP and BLE workers share a guarded image receiver. Only the main task
+accesses LittleFS and LVGL. Closing the portal cancels reception before joining the HTTP worker.
 The old photo remains visible until the replacement file commits. Image-cache
 entries are invalidated before their backing image is replaced or freed.
 
@@ -323,7 +329,7 @@ its dedicated filesystem partition. Original firmware must be backed up first.
 
 Serial diagnostics: `page N` (0 digital, 1 analog, 2 launcher, 3 calculator,
 4 stopwatch, 5 Twos, 6 settings, 7 Orbit, 8 Studio, 9 Pulse, 10 Badge,
-11 Lucky Dice, 12 Gravity, 13 Sound Buddy, 14 Garden, 15 Photo Badge),
+11 Lucky Dice, 12 Gravity, 13 Sound Buddy, 14 Garden, 15 Photo Badge, 16 Pair iPhone),
 `wake`, `sleep`, `status`, `capture`, and
 `time YYYY-MM-DD HH:MM:SS`. `test-tap X Y` and `test-swipe left|right|up|down`
 inject UI input for repeatable software tests; they do **not** test physical

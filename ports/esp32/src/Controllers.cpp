@@ -9,6 +9,7 @@
 #include <sys/time.h>
 #include <algorithm>
 #include <cstdlib>
+#include <Preferences.h>
 
 using namespace Pinetime::Controllers;
 
@@ -72,14 +73,22 @@ void Pinetime::Drivers::SpiNorFlash::SectorErase(size_t address) {
 // InfiniTime's clock stores local wall time. ESP32 uses UTC internally and the
 // standard TZ conversion; a UTC anchor is retained in the internal RTC domain.
 DateTime::DateTime(Settings& settings) : localTime {}, settingsController(settings) {
-  setenv("TZ", "CST-8", 1);
+  Preferences clockSettings;
+  clockSettings.begin("infini-clock", true);
+  const auto savedZone = clockSettings.getChar("zone", 32);
+  clockSettings.end();
+  tzOffset = std::clamp<int>(savedZone, -48, 56);
+  dstOffset = 0;
+  const int offset = -tzOffset * 15;
+  char zone[24];
+  snprintf(zone, sizeof(zone), "UTC%s%d:%02d", offset < 0 ? "-" : "+", abs(offset) / 60, abs(offset) % 60);
+  setenv("TZ", zone, 1);
   tzset();
   std::tm rtc {};
   if (Esp32::Hardware::ReadClock(rtc)) {
     timeval tv {.tv_sec = mktime(&rtc), .tv_usec = 0};
     settimeofday(&tv, nullptr);
   }
-  tzOffset = 32;
   CurrentDateTime();
 }
 
@@ -118,6 +127,7 @@ void DateTime::SetCurrentTime(std::chrono::time_point<std::chrono::system_clock,
 void DateTime::SetTimeZone(int8_t timezone, int8_t dst) {
   if (timezone < -48 || timezone > 56 || (dst != 0 && dst != 2 && dst != 4 && dst != 8))
     return;
+  const bool changed = tzOffset != timezone || dstOffset != dst;
   tzOffset = timezone;
   dstOffset = dst;
   const int offset = -(timezone + dst) * 15;
@@ -126,7 +136,13 @@ void DateTime::SetTimeZone(int8_t timezone, int8_t dst) {
   setenv("TZ", zone, 1);
   tzset();
   CurrentDateTime();
-  Esp32::Hardware::WriteClock(localTime);
+  if (Esp32::Hardware::ClockValid())
+    Esp32::Hardware::WriteClock(localTime);
+  if (changed) {
+    Preferences clockSettings;
+    clockSettings.begin("infini-clock", false);
+    clockSettings.putChar("zone", timezone + dst);
+  }
 }
 
 void DateTime::Register(System::SystemTask* task) {

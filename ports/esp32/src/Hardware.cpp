@@ -24,7 +24,7 @@ namespace {
   TouchDrvCST92xx touch;
 
   // 1.75C has no PCF85063. Retain a calibrated wall-time anchor in the
-  // ESP32 RTC domain across software resets; total power loss requires USB sync.
+  // ESP32 RTC domain across software resets; total power loss requires phone/USB sync.
   struct ClockAnchor {
     uint64_t unixUs;
     uint64_t rtcUs;

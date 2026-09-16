@@ -1,6 +1,6 @@
 #pragma once
 #include "RoundArtwork.h"
-#include "components/fs/FS.h"
+#include "PhotoStore.h"
 #include <memory>
 
 namespace Esp32 {
@@ -8,7 +8,7 @@ namespace Esp32 {
 
   class PhotoBadge : public RoundArtwork {
   public:
-    PhotoBadge(Pinetime::Controllers::FS& fs, Pinetime::System::SystemTask& system);
+    PhotoBadge(PhotoStore& store, Pinetime::System::SystemTask& system);
     ~PhotoBadge() override;
     void Poll();
     bool Connected() const;
@@ -25,5 +25,6 @@ namespace Esp32 {
     bool controls = true;
     bool pageCode = false;
     unsigned lastClients = 0;
+    PhotoStore::State lastTransfer = PhotoStore::State::Idle;
   };
 }

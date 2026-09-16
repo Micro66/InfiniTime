@@ -8,6 +8,7 @@
 #include "FunApps.h"
 #include "PlaySensors.h"
 #include "PhotoBadge.h"
+#include "Companion.h"
 #include <array>
 #include <algorithm>
 using Esp32::Usb;
@@ -48,6 +49,7 @@ namespace {
     Music,
     Garden,
     Photo,
+    Pairing,
     Count
   };
   constexpr std::array watchFaces {Page::Digital, Page::Analog, Page::Orbit, Page::Studio, Page::Pulse};
@@ -69,8 +71,14 @@ namespace {
   Controllers::StopWatchController stopwatch;
   Controllers::BrightnessController brightness;
   System::SystemTask systemTask;
-  Controllers::FS* storage = nullptr;
   Esp32::FocusService focus;
+  std::unique_ptr<Esp32::PhotoStore> photos;
+  uint16_t companionAck = 0;
+  uint8_t companionResult = 0;
+  uint32_t pairingPin = 0;
+  Page beforePairing = Page::Digital;
+  bool companionReady = false;
+  int themeToApply = -1;
   unsigned launcherSheet = 0;
   bool focusNotice = false;
   lv_obj_t *clockLabel = nullptr, *dateLabel = nullptr, *powerLabel = nullptr;
@@ -125,9 +133,10 @@ namespace {
       settings->SetScreenTimeOut(old < 30000 ? 30000 : old < 60000 ? 60000 : 15000);
       settings->SaveSettings();
       request(Page::Settings);
-    } else if (id == 102 || id == 103) {
-      dateTime->SetCurrentTime(dateTime->CurrentDateTime() + std::chrono::minutes(id == 102 ? -1 : 1));
-      request(Page::Settings);
+    } else if (id == 105) {
+      Esp32::Companion::ForgetBonds();
+      pairingPin = 0;
+      request(Page::Pairing);
     } else if (id == 104) {
       launcherSheet = (launcherSheet + 1) % 3;
       request(Page::Launcher);
@@ -176,6 +185,10 @@ namespace {
         break;
       case Page::Badge:
         screen = std::make_unique<Esp32::Badge>(systemTask);
+        if (themeToApply >= 0) {
+          static_cast<Esp32::Badge*>(screen.get())->SetTheme(themeToApply);
+          themeToApply = -1;
+        }
         break;
       case Page::Dice:
       case Page::Marble:
@@ -186,7 +199,7 @@ namespace {
                                                  systemTask);
         break;
       case Page::Photo:
-        screen = std::make_unique<Esp32::PhotoBadge>(*storage, systemTask);
+        screen = std::make_unique<Esp32::PhotoBadge>(*photos, systemTask);
         break;
       case Page::Digital:
         label("I N F I N I T I M E", 77, lv_color_hex(0x70e6ca));
@@ -224,11 +237,31 @@ namespace {
         button(text, 88, 94, 290, 57, 100);
         snprintf(text, sizeof(text), "Display off: %lus", static_cast<unsigned long>(settings->GetScreenTimeOut() / 1000));
         button(text, 88, 163, 290, 57, 101);
-        snprintf(text, sizeof(text), "%s  UTC+8", dateTime->FormattedTime().c_str());
+        const int offset = dateTime->UtcOffset() * 15;
+        snprintf(text,
+                 sizeof(text),
+                 "%s UTC%c%d:%02d",
+                 dateTime->FormattedTime().c_str(),
+                 offset < 0 ? '-' : '+',
+                 abs(offset) / 60,
+                 abs(offset) % 60);
         label(text, 242);
-        button("-1 min", 96, 286, 130, 57, 102);
-        button("+1 min", 240, 286, 130, 57, 103);
+        button("Pair iPhone", 88, 286, 290, 57, static_cast<uintptr_t>(Page::Pairing));
         button("Back", 163, 361, 140, 48, static_cast<uintptr_t>(Page::Launcher));
+        break;
+      }
+      case Page::Pairing: {
+        label("BADGE STUDIO", 70, lv_color_hex(0x70e6ca));
+        label(companionReady ? "Open the iPhone app" : "Bluetooth unavailable", 135);
+        char pin[16];
+        if (pairingPin)
+          snprintf(pin, sizeof(pin), "%06lu", static_cast<unsigned long>(pairingPin));
+        else
+          strcpy(pin, "------");
+        label(pin, 195, LV_COLOR_WHITE, &jetbrains_mono_42);
+        label("Enter this code on iPhone", 260);
+        button("Forget phones", 103, 310, 260, 45, 105);
+        button("Back", 163, 370, 140, 44, static_cast<uintptr_t>(Page::Settings));
         break;
       }
       case Page::Count:
@@ -253,6 +286,115 @@ namespace {
         request(Page::Launcher);
     } else if (event == TouchEvents::SwipeDown)
       request(Page::Launcher);
+  }
+
+  Esp32::CompanionProtocol::Packet companionState() {
+    using namespace Esp32::CompanionProtocol;
+    unsigned theme = 0;
+    if (page == Page::Badge && screen)
+      theme = static_cast<Esp32::Badge*>(screen.get())->Theme();
+    else {
+      Preferences badgeSettings;
+      badgeSettings.begin("infini-badge", true);
+      theme = badgeSettings.getUChar("theme", 0) % 3;
+    }
+    Packet value {1,
+                  companionResult,
+                  uint8_t(companionAck),
+                  uint8_t(companionAck >> 8),
+                  battery.PercentRemaining(),
+                  uint8_t(settings->GetBrightness()),
+                  uint8_t(std::find(watchFaces.begin(), watchFaces.end(), selectedWatch) - watchFaces.begin()),
+                  uint8_t(theme)};
+    const auto timeout = settings->GetScreenTimeOut() / 1000;
+    value[8] = timeout;
+    value[9] = timeout >> 8;
+    value[10] = (sleeping ? 1 : 0) | (battery.IsCharging() ? 2 : 0) | (Hardware::ClockValid() ? 4 : 0);
+    value[11] = static_cast<uint8_t>(page);
+    Put32(value.data() + 12, Hardware::ClockValid() ? time(nullptr) : 0);
+    Put32(value.data() + 16, dateTime->UtcOffset() * 900);
+    return value;
+  }
+
+  bool synchronizeClock(uint32_t utcSeconds, int32_t offsetSeconds) {
+    if (!Esp32::CompanionProtocol::Valid({1, 0, utcSeconds, static_cast<uint32_t>(offsetSeconds)}))
+      return false;
+    dateTime->SetTimeZone(offsetSeconds / 900, 0);
+    const time_t utc = utcSeconds;
+    std::tm local {};
+    localtime_r(&utc, &local);
+    dateTime->SetTime(local.tm_year + 1900, local.tm_mon + 1, local.tm_mday, local.tm_hour, local.tm_min, local.tm_sec);
+    if (page == Page::Settings)
+      request(page);
+    return true;
+  }
+
+  void companionCommand(const Esp32::CompanionProtocol::Command& cmd) {
+    using namespace Esp32;
+    companionAck = cmd.sequence;
+    companionResult = 0;
+    if (!CompanionProtocol::Valid(cmd)) {
+      companionResult = cmd.op == 255 ? 2 : 1;
+      return;
+    }
+    switch (cmd.op) {
+      case 1:
+        synchronizeClock(cmd.a, int32_t(cmd.b));
+        break;
+      case 2:
+        if (cmd.a)
+          wake();
+        else
+          sleepDisplay();
+        break;
+      case 3:
+        settings->SetBrightness(static_cast<Controllers::BrightnessController::Levels>(cmd.a));
+        settings->SaveSettings();
+        if (!sleeping)
+          brightness.Set(settings->GetBrightness());
+        if (page == Page::Settings)
+          request(page);
+        break;
+      case 4:
+        settings->SetScreenTimeOut(cmd.a * 1000);
+        settings->SaveSettings();
+        lastActivity = millis();
+        if (page == Page::Settings)
+          request(page);
+        break;
+      case 5:
+        wake();
+        request(watchFaces[cmd.a]);
+        show();
+        break;
+      case 6:
+        themeToApply = cmd.a;
+        wake();
+        request(Page::Badge);
+        show();
+        break;
+      case 7:
+        if (!photos->Begin(PhotoStore::Owner::Ble, cmd.c, cmd.a, cmd.b))
+          companionResult = 2;
+        else {
+          wake();
+          request(Page::Photo);
+          show();
+        }
+        break;
+      case 8:
+        if (!photos->Commit(PhotoStore::Owner::Ble, cmd.a))
+          companionResult = 3;
+        break;
+      case 9:
+        photos->Cancel(PhotoStore::Owner::Ble, cmd.a);
+        break;
+      case 10:
+        wake();
+        request(static_cast<Page>(cmd.a));
+        show();
+        break;
+    }
   }
 
   void command(const String& line) {
@@ -315,6 +457,12 @@ namespace {
         wake();
         request(static_cast<Page>(id));
       }
+    } else if (line.startsWith("time-utc ")) {
+      unsigned long utc;
+      int offset;
+      char extra;
+      const bool parsed = sscanf(line.c_str(), "time-utc %lu %d %c", &utc, &offset, &extra) == 2;
+      Usb.println(parsed && synchronizeClock(utc, offset) ? "TIME OK" : "TIME INVALID");
     } else if (line.startsWith("time ")) {
       int y, m, d, h, min, s;
       char extra;
@@ -349,6 +497,21 @@ namespace {
         const auto* badge = static_cast<Esp32::Badge*>(screen.get());
         Usb.printf("BADGE theme=%u pinned=%d reactions=%u\n", badge->Theme(), badge->Pinned(), badge->Reactions());
       }
+      Usb.printf("COMPANION ready=%d connected=%d paired=%d ack=%u result=%u epoch=%lu zone=%d notify_errors=%u\n",
+                 companionReady,
+                 Esp32::Companion::Connected(),
+                 Esp32::Companion::Paired(),
+                 companionAck,
+                 companionResult,
+                 Hardware::ClockValid() ? static_cast<unsigned long>(time(nullptr)) : 0,
+                 dateTime->UtcOffset() * 900,
+                 Esp32::Companion::NotificationFailures());
+      const auto transfer = photos->Status();
+      Usb.printf("TRANSFER state=%u error=%u received=%lu total=%lu\n",
+                 transfer[1],
+                 transfer[2],
+                 static_cast<unsigned long>(Esp32::CompanionProtocol::U32(transfer.data() + 8)),
+                 static_cast<unsigned long>(Esp32::CompanionProtocol::U32(transfer.data() + 12)));
       const auto motion = Esp32::PlaySensors::Motion();
       const auto audio = Esp32::PlaySensors::Audio();
       Usb.printf("PLAY sheet=%u motion=%d ax=%.3f ay=%.3f az=%.3f samples=%lu audio=%d rms=%.5f blocks=%lu\n",
@@ -402,12 +565,16 @@ void setup() {
   static Drivers::SpiNorFlash flash;
   static Controllers::FS filesystem(flash);
   filesystem.Init();
-  storage = &filesystem;
   settings = std::make_unique<Controllers::Settings>(filesystem);
   settings->Init();
   dateTime = std::make_unique<Controllers::DateTime>(*settings);
   focus.Init();
-  ble.DisableRadio();
+  photos = std::make_unique<Esp32::PhotoStore>(filesystem);
+  companionReady = Esp32::Companion::Init(*photos);
+  if (companionReady)
+    ble.EnableRadio();
+  else
+    ble.DisableRadio();
   battery.ReadPowerState();
   srand(esp_random());
   if (settings->GetBrightness() < Controllers::BrightnessController::Levels::Low ||
@@ -415,11 +582,35 @@ void setup() {
     settings->SetBrightness(Controllers::BrightnessController::Levels::Medium);
   wake();
   show();
+  Esp32::Companion::Publish(companionState());
   Usb.println("READY");
 }
 
 void loop() {
   Hardware::Tick();
+  photos->Tick();
+  Esp32::Companion::Poll();
+  if (Esp32::Companion::Paired())
+    ble.Connect();
+  else
+    ble.Disconnect();
+  uint32_t code;
+  if (Esp32::Companion::TakePairingCode(code)) {
+    pairingPin = code;
+    if (page != Page::Pairing)
+      beforePairing = page;
+    wake();
+    request(Page::Pairing);
+  }
+  if (page == Page::Pairing && pairingPin && Esp32::Companion::Paired()) {
+    pairingPin = 0;
+    request(beforePairing);
+  }
+  Esp32::CompanionProtocol::Command remote;
+  if (Esp32::Companion::TakeCommand(remote) && Esp32::Companion::Paired()) {
+    companionCommand(remote);
+    Esp32::Companion::Publish(companionState());
+  }
   Esp32::PlaySensors::Tick();
   if (focus.Tick())
     focusNotice = true;
@@ -477,6 +668,7 @@ void loop() {
     lastRefresh = now;
     battery.ReadPowerState();
     dateTime->CurrentDateTime();
+    Esp32::Companion::Publish(companionState());
     if (clockLabel) {
       lv_label_set_text(clockLabel, Hardware::ClockValid() ? dateTime->FormattedTime().c_str() : "--:--");
       lv_obj_align(clockLabel, nullptr, LV_ALIGN_IN_TOP_MID, 0, 158);
@@ -488,7 +680,8 @@ void loop() {
   }
   // Button and navigation handlers can advance lastActivity beyond the loop's
   // initial timestamp. Sample after those handlers to preserve unsigned elapsed time.
-  if (!sleeping && !systemTask.IsSleepDisabled() && millis() - lastActivity > settings->GetScreenTimeOut())
+  if (!sleeping && !systemTask.IsSleepDisabled() && page != Page::Pairing && !photos->Busy() &&
+      millis() - lastActivity > settings->GetScreenTimeOut())
     sleepDisplay();
   while (Usb.available()) {
     const char c = Usb.read();

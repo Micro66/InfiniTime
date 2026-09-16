@@ -283,3 +283,40 @@ on the phone's network-assistant behavior; the URL QR remains available.
   [numeric connection trace](docs/evidence/photo-qr-phone.json) contains no query
   names or credentials. This proves connection/detection/DNS activity; whether
   the phone automatically displayed the page requires the user's observation.
+
+
+## Badge Studio iOS companion (2026-09-16)
+
+- ESP32 firmware build: **PASS**; image 1,854,128 bytes, SHA-256
+  `3e7e17c352560a936554efbb25577fcfe69b9ad47a562fd85c0f8a6fcdc5ee6a`.
+- Signed iOS device build: **PASS**, Xcode 27 beta / Swift 6, deployment target
+  iOS 17. Installed and launched on the connected iPhone 17 Pro running iOS 27.
+  No external iOS packages. Only Xcode's unused App Intents metadata warning remains.
+- Actual first connection: BLE pairing completed; device telemetry reported
+  `connected=1 paired=1`, successful command acknowledgements and a valid clock.
+  Watch/character changes were received with successful results in the user's
+  first interaction session. This is device telemetry, not an automated UI test.
+- After updating and restarting the app/device, the saved bond reconnected,
+  time synchronization was acknowledged and `notify_errors=0`. The UTC anchor
+  also survived the observed firmware/USB reset. Numeric-only
+  [phone trace](docs/evidence/companion-phone.json) contains no passkeys or photos.
+- Firmware host checks: **PASS**, actual PhotoStore compiled against test doubles.
+  Covered source ownership, transfer IDs, offsets, invalid CRC, cancellation,
+  timeout, write/close/rename failures, old-photo retention and successful commit.
+- Swift host checks: **PASS**, independent CRC32 golden vector, wire endianness,
+  invalid status frames, RGB565 primary colors, crop bounds and preview/output parity.
+- Existing captive DNS checks and four USB transport tests: **PASS**.
+- Full-area hit testing is now explicit on custom button labels, style cards,
+  photo picker/send controls and navigation cards. Small sync icon has a 44-point
+  hit target. The user reported text-only activation in the initial build;
+  the fix was compiled and installed. Physical confirmation is still pending.
+- Physical BLE photo upload/visual orientation and the updated button hit regions
+  still require user confirmation. No automated E2E or AI verify was run.
+- Mermaid diagrams were checked against command queue ownership, main-loop clock
+  and settings updates, guarded GATT snapshots, native copying notifications,
+  shared photo receiver, durable commit and app acknowledgement handling.
+
+Bootloader/partition/application flashing preserves NVS and LittleFS. Personal
+photos, original backup, signing profiles and device pairing codes are not part
+of the source commit. The new shared store also serves the existing Wi-Fi page;
+its network transport was not manually re-tested in this session.

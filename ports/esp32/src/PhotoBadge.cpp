@@ -20,35 +20,14 @@
 namespace Esp32 {
   class PhotoPortal {
   public:
-    static constexpr size_t FrameBytes = 466 * 466 * 2;
-    enum class Transfer { Idle, Receiving, Queued, Writing, Done, Failed };
+    static constexpr size_t FrameBytes = PhotoStore::FrameBytes;
+    using Transfer = PhotoStore::State;
 
-    explicit PhotoPortal(Pinetime::Controllers::FS& fs) : fs(fs) {
-      fs.FileDelete("/photo-upload.tmp");
-      lfs_info info {};
-      if (fs.Stat("/photo.rgb", &info) == 0 && info.size == FrameBytes) {
-        auto* buffer = static_cast<uint8_t*>(heap_caps_malloc(FrameBytes, MALLOC_CAP_SPIRAM));
-        lfs_file_t file {};
-        if (buffer && fs.FileOpen(&file, "/photo.rgb", LFS_O_RDONLY) == 0) {
-          const int count = fs.FileRead(&file, buffer, FrameBytes);
-          fs.FileClose(&file);
-          if (count == FrameBytes)
-            image = buffer;
-          else
-            free(buffer);
-        } else
-          free(buffer);
-      }
-      descriptor.header.cf = LV_IMG_CF_TRUE_COLOR;
-      descriptor.header.w = 466;
-      descriptor.header.h = 466;
-      descriptor.data_size = FrameBytes;
+    explicit PhotoPortal(PhotoStore& store) : store(store) {
     }
 
     ~PhotoPortal() {
       Stop();
-      lv_img_cache_invalidate_src(&descriptor);
-      free(image);
     }
 
     bool Start() {
@@ -129,14 +108,7 @@ namespace Esp32 {
         httpd_stop(server);
         server = nullptr;
       }
-      if (open) {
-        fs.FileClose(&file);
-        open = false;
-      }
-      free(incoming);
-      incoming = nullptr;
-      fs.FileDelete("/photo-upload.tmp");
-      state = Transfer::Idle;
+      store.Cancel(PhotoStore::Owner::Wifi);
       if (radioInitialized) {
         esp_wifi_stop();
         esp_wifi_deinit();
@@ -162,39 +134,10 @@ namespace Esp32 {
             clients = stations.num;
         }
       }
-      if (state == Transfer::Queued) {
-        offset = 0;
-        open = fs.FileOpen(&file, "/photo-upload.tmp", LFS_O_WRONLY | LFS_O_CREAT | LFS_O_TRUNC) == 0;
-        state = open ? Transfer::Writing : Transfer::Failed;
-      }
-      if (state != Transfer::Writing)
-        return;
-      const size_t count = std::min<size_t>(4096, FrameBytes - offset);
-      if (fs.FileWrite(&file, incoming + offset, count) != count) {
-        fs.FileClose(&file);
-        open = false;
-        state = Transfer::Failed;
-        return;
-      }
-      offset += count;
-      if (offset == FrameBytes) {
-        const bool closed = fs.FileClose(&file) == 0;
-        open = false;
-        if (!closed || fs.Rename("/photo-upload.tmp", "/photo.rgb") != 0) {
-          state = Transfer::Failed;
-          return;
-        }
-        lv_img_cache_invalidate_src(&descriptor);
-        free(image);
-        image = incoming;
-        incoming = nullptr;
-        state = Transfer::Done;
-      }
     }
 
     const lv_img_dsc_t* Image() {
-      descriptor.data = image;
-      return image ? &descriptor : nullptr;
+      return store.Image();
     }
 
     bool Active() const {
@@ -214,7 +157,7 @@ namespace Esp32 {
     }
 
     Transfer State() const {
-      return state;
+      return store.GetState();
     }
 
   private:
@@ -271,56 +214,45 @@ namespace Esp32 {
 
     static esp_err_t Upload(httpd_req_t* request) {
       auto& self = *static_cast<PhotoPortal*>(request->user_ctx);
-      auto fail = [&](const char* message) {
-        self.state = Transfer::Failed;
-        return httpd_resp_send_err(request, HTTPD_400_BAD_REQUEST, message);
-      };
+      auto& store = self.store;
       if (request->content_len != FrameBytes)
-        return fail("Expected a 466 x 466 RGB565 frame");
+        return httpd_resp_send_err(request, HTTPD_400_BAD_REQUEST, "Expected a 466 x 466 RGB565 frame");
       char crcText[10] {};
       char* end = nullptr;
       if (httpd_req_get_hdr_value_str(request, "X-CRC32", crcText, sizeof(crcText)) != ESP_OK || strlen(crcText) != 8)
-        return fail("Missing checksum");
+        return httpd_resp_send_err(request, HTTPD_400_BAD_REQUEST, "Missing checksum");
       const uint32_t expected = strtoul(crcText, &end, 16);
       if (*end)
-        return fail("Invalid checksum");
-      free(self.incoming);
-      self.incoming = static_cast<uint8_t*>(heap_caps_malloc(FrameBytes, MALLOC_CAP_SPIRAM));
-      if (!self.incoming)
-        return fail("Insufficient image memory");
-      self.state = Transfer::Receiving;
+        return httpd_resp_send_err(request, HTTPD_400_BAD_REQUEST, "Invalid checksum");
+      const uint32_t id = esp_random() | 1;
+      if (!store.Begin(PhotoStore::Owner::Wifi, id, FrameBytes, expected))
+        return httpd_resp_send_err(request, HTTPD_400_BAD_REQUEST, "Receiver busy or image memory unavailable");
+      auto fail = [&](const char* message) {
+        store.Cancel(PhotoStore::Owner::Wifi, id);
+        return httpd_resp_send_err(request, HTTPD_400_BAD_REQUEST, message);
+      };
+      uint8_t buffer[2048];
       size_t total = 0;
       while (self.active && total < FrameBytes) {
-        const int count =
-          httpd_req_recv(request, reinterpret_cast<char*>(self.incoming + total), std::min<size_t>(4096, FrameBytes - total));
-        if (count <= 0)
+        const int count = httpd_req_recv(request, reinterpret_cast<char*>(buffer), std::min<size_t>(sizeof(buffer), FrameBytes - total));
+        if (count <= 0 || !store.Append(PhotoStore::Owner::Wifi, id, total, buffer, count))
           return fail("Transfer interrupted; old image retained");
         total += count;
       }
-      if (!self.active)
-        return ESP_FAIL;
-      if (esp_rom_crc32_le(0, self.incoming, FrameBytes) != expected)
-        return fail("Checksum mismatch; old image retained");
-      self.state = Transfer::Queued;
-      while (self.active && (self.state == Transfer::Queued || self.state == Transfer::Writing))
+      if (!self.active || !store.Commit(PhotoStore::Owner::Wifi, id))
+        return fail("Transfer incomplete or checksum mismatch; old image retained");
+      while (self.active && store.Busy())
         vTaskDelay(pdMS_TO_TICKS(10));
-      if (self.state != Transfer::Done)
-        return fail("Could not save image; old image retained");
+      if (store.GetState() != Transfer::Done || CompanionProtocol::U32(store.Status().data() + 4) != id)
+        return fail("Save not confirmed; old image retained until commit");
       return httpd_resp_sendstr(request, "Saved");
     }
 
-    Pinetime::Controllers::FS& fs;
+    PhotoStore& store;
     httpd_handle_t server = nullptr;
     esp_netif_t* netif = nullptr;
     bool radioInitialized = false, eventLoopOwned = false;
     std::atomic<bool> active {false};
-    std::atomic<Transfer> state {Transfer::Idle};
-    uint8_t* image = nullptr;
-    uint8_t* incoming = nullptr;
-    lv_img_dsc_t descriptor {};
-    lfs_file_t file {};
-    bool open = false;
-    size_t offset = 0;
     int dnsSocket = -1;
     unsigned clients = 0, dnsQueries = 0;
     uint32_t lastClientPoll = 0;
@@ -328,8 +260,8 @@ namespace Esp32 {
     char password[9] {};
   };
 
-  PhotoBadge::PhotoBadge(Pinetime::Controllers::FS& fs, Pinetime::System::SystemTask& system)
-    : RoundArtwork(200), portal(std::make_unique<PhotoPortal>(fs)), wakeLock(system) {
+  PhotoBadge::PhotoBadge(PhotoStore& store, Pinetime::System::SystemTask& system)
+    : RoundArtwork(200), portal(std::make_unique<PhotoPortal>(store)), wakeLock(system) {
     controls = !HasPhoto();
   }
 
@@ -357,6 +289,13 @@ namespace Esp32 {
 
   void PhotoBadge::Poll() {
     portal->Tick();
+    const auto transfer = portal->State();
+    if (transfer != lastTransfer) {
+      lastTransfer = transfer;
+      if (transfer == PhotoStore::State::Done && !portal->Active())
+        controls = false;
+      Refresh();
+    }
     if (lastClients != portal->Clients()) {
       lastClients = portal->Clients();
       pageCode = lastClients > 0;

@@ -158,8 +158,8 @@ def main():
                 capture(connection, args.file)
             else:
                 if args.operation == 'sync-time':
-                    china = datetime.timezone(datetime.timedelta(hours=8))
-                    command = datetime.datetime.now(china).strftime('time %Y-%m-%d %H:%M:%S')
+                    local = datetime.datetime.now().astimezone()
+                    command = f'time-utc {int(local.timestamp())} {int(local.utcoffset().total_seconds())}'
                 else:
                     command = args.command
                 connection.reset_input_buffer()
