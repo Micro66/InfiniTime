@@ -7,6 +7,7 @@ struct CropViewport: UIViewRepresentable {
     let image: UIImage
     let side: CGFloat
     let enabled: Bool
+    let onTap: () -> Void
     @Binding var zoom: CGFloat
     @Binding var offset: CGSize
 
@@ -24,12 +25,17 @@ struct CropViewport: UIViewRepresentable {
         view.contentInsetAdjustmentBehavior = .never
         view.decelerationRate = .fast
         view.addSubview(context.coordinator.imageView)
+        let tap = context.coordinator.tapGesture
+        tap.require(toFail: view.panGestureRecognizer)
+        if let pinch = view.pinchGestureRecognizer { tap.require(toFail: pinch) }
+        view.addGestureRecognizer(tap)
         return view
     }
 
     func updateUIView(_ view: UIScrollView, context: Context) {
         let coordinator = context.coordinator
         coordinator.parent = self
+        coordinator.tapGesture.isEnabled = enabled
         view.isScrollEnabled = enabled
         view.pinchGestureRecognizer?.isEnabled = enabled
         guard side > 0 else { return }
@@ -61,6 +67,7 @@ struct CropViewport: UIViewRepresentable {
         let imageView = UIImageView()
         var side: CGFloat = 0
         var configuring = false
+        lazy var tapGesture = UITapGestureRecognizer(target: self, action: #selector(selectPhoto))
 
         init(_ parent: CropViewport) {
             self.parent = parent
@@ -71,6 +78,11 @@ struct CropViewport: UIViewRepresentable {
         func viewForZooming(in scrollView: UIScrollView) -> UIView? { imageView }
         func scrollViewDidZoom(_ scrollView: UIScrollView) { publish(scrollView) }
         func scrollViewDidScroll(_ scrollView: UIScrollView) { publish(scrollView) }
+
+        @objc private func selectPhoto() {
+            guard parent.enabled else { return }
+            parent.onTap()
+        }
 
         private func publish(_ view: UIScrollView) {
             guard !configuring, parent.enabled, side > 0 else { return }

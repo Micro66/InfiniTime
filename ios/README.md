@@ -28,6 +28,8 @@ The device has BLE, but no onboard NFC controller or antenna.
    into the iOS system pairing alert. Do not post screenshots of that code.
 3. The app reads actual state, then automatically syncs time and timezone.
 4. Tap a watch/character to apply it, or choose **制作照片吧唧** to pick, crop and send.
+   Tap the circular preview to choose or replace a photo; drag and pinch to crop,
+   then tap **发送到吧唧**. There is no separate photo-selection button.
    Keep the app in foreground. **已保存到吧唧** means the device has committed the file.
 
 The 1.75C has no external RTC. The internal clock continues while disconnected
@@ -72,10 +74,15 @@ with bounce disabled so the image always covers the crop. Its delegate converts
 content offset and zoom into the same normalized crop used by the renderer.
 SwiftUI updates configure the viewport only when the image, size or crop changes;
 delegate publication is suppressed during that configuration.
+The preview's one-finger tap opens the system photo picker only after native pan
+and pinch recognizers fail. Selection and crop gestures are disabled while loading
+or transferring a photo.
 
 ```mermaid
 flowchart LR
     Fingers[One-finger pan / two-finger pinch] --> Viewport[Native zoom viewport]
+    Tap[Tap circular preview] -->|pan and pinch fail| Picker[System photo picker]
+    Picker -->|load image and reset crop| State
     Viewport -->|zoomScale + contentOffset| Geometry[Normalized crop coordinates]
     Geometry --> State[SwiftUI crop state]
     State --> Render[466 × 466 RGB565 export]

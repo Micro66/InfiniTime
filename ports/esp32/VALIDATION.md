@@ -334,3 +334,15 @@ its network transport was not manually re-tested in this session.
   build **PASS**. Crop-state Mermaid diagram reviewed against implementation.
 - No firmware changes, automated E2E or AI verify. Physical two-finger gesture
   feel and behavior with VoiceOver have not been verified in this session.
+
+### Tap circular preview to choose photos (2026-09-16)
+
+- Removed the separate photo-selection button. The empty circular preview is a
+  full-area button; tapping an existing photo opens the same system picker.
+  The native tap recognizer waits for pan and pinch to fail, preserving crop
+  gestures. Photo loading and transfer disable selection and crop interaction.
+- Updated accessibility action, instructions and crop interaction diagram.
+  Signed iOS build and diff whitespace checks **PASS**. Installed on the connected
+  iPhone. Automatic launch was denied because the phone was locked; open the app
+  after unlocking to try it. Physical tap/pan/pinch behavior remains unverified.
+- No firmware or crop geometry changes. No automated E2E or AI verify was run.

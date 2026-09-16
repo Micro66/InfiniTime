@@ -37,6 +37,7 @@ enum PhotoRenderer {
 struct PhotoEditor: View {
     @EnvironmentObject private var badge: BadgeConnection
     @State private var selection: PhotosPickerItem?
+    @State private var choosingPhoto = false
     @State private var image: UIImage?
     @State private var zoom: CGFloat = 1
     @State private var offset: CGSize = .zero
@@ -44,12 +45,11 @@ struct PhotoEditor: View {
     @State private var error: String?
 
     var body: some View {
-        let pickerTitle = image == nil ? "选择照片" : "换一张照片"
         ScrollView {
             VStack(alignment: .leading, spacing: 22) {
                 Text("把喜欢的，\n戴在身上。")
                     .font(.system(size: 34, weight: .bold, design: .rounded))
-                Text("单指拖动，双指捏合缩放。照片直接通过蓝牙发送，不经过云端。")
+                Text("轻点圆形选图或换图，单指拖动，双指捏合缩放。照片直接通过蓝牙发送，不经过云端。")
                     .font(.subheadline).foregroundStyle(Palette.muted)
                 GeometryReader { proxy in
                     let side = proxy.size.width
@@ -57,36 +57,30 @@ struct PhotoEditor: View {
                         Circle().fill(Palette.card)
                         if let image {
                             CropViewport(image: image, side: side, enabled: !badge.transferring && !loading,
-                                         zoom: $zoom, offset: $offset)
+                                         onTap: { choosingPhoto = true }, zoom: $zoom, offset: $offset)
                                 .accessibilityLabel("照片裁剪")
-                                .accessibilityHint("单指拖动调整位置，双指捏合缩放")
+                                .accessibilityHint("轻点换图，单指拖动调整位置，双指捏合缩放")
+                                .accessibilityAction(named: "换一张照片") {
+                                    if !loading && !badge.transferring { choosingPhoto = true }
+                                }
                         } else {
-                            VStack(spacing: 12) {
-                                Image(systemName: "photo.on.rectangle.angled").font(.system(size: 46, weight: .light))
-                                Text("你的下一枚吧唧").font(.headline)
-                            }.foregroundStyle(Palette.muted)
+                            Button { choosingPhoto = true } label: {
+                                VStack(spacing: 12) {
+                                    Image(systemName: "photo.on.rectangle.angled").font(.system(size: 46, weight: .light))
+                                    Text("轻点选择照片").font(.headline)
+                                }
+                                .foregroundStyle(Palette.muted)
+                                .frame(width: side, height: side)
+                                .contentShape(Circle())
+                            }
+                            .buttonStyle(.plain)
+                            .disabled(loading || badge.transferring)
                         }
                     }
                     .frame(width: side, height: side).clipShape(Circle())
                     .overlay(Circle().stroke(Palette.accent.opacity(0.35), lineWidth: 2).allowsHitTesting(false))
                     .contentShape(Circle())
                 }.aspectRatio(1, contentMode: .fit)
-                PhotosPicker(selection: $selection, matching: .images, photoLibrary: .shared()) {
-                    Label(pickerTitle, systemImage: "photo.badge.plus")
-                        .frame(maxWidth: .infinity).padding(16).contentShape(RoundedRectangle(cornerRadius: 18))
-                }.buttonStyle(.plain).background(Palette.card, in: RoundedRectangle(cornerRadius: 18))
-                    .disabled(loading || badge.transferring)
-                    .onChange(of: selection) { _, item in
-                        Task {
-                            guard let item else { return }
-                            loading = true; error = nil
-                            defer { loading = false }
-                            do {
-                                guard let data = try await item.loadTransferable(type: Data.self) else { throw BadgeError.message("照片尚未下载，请稍后重试。") }
-                                image = try PhotoRenderer.load(data); zoom = 1; offset = .zero
-                            } catch { self.error = error.localizedDescription }
-                        }
-                    }
                 if loading { ProgressView("正在读取照片").tint(Palette.accent) }
                 if badge.transferring {
                     VStack(spacing: 12) {
@@ -115,5 +109,17 @@ struct PhotoEditor: View {
                 if let error { Text(error).foregroundStyle(.orange).font(.footnote) }
             }.padding(24)
         }.background(Palette.background).navigationTitle("照片吧唧").navigationBarTitleDisplayMode(.inline)
+            .photosPicker(isPresented: $choosingPhoto, selection: $selection, matching: .images, photoLibrary: .shared())
+            .onChange(of: selection) { _, item in
+                Task {
+                    guard let item else { return }
+                    loading = true; error = nil
+                    defer { loading = false }
+                    do {
+                        guard let data = try await item.loadTransferable(type: Data.self) else { throw BadgeError.message("照片尚未下载，请稍后重试。") }
+                        image = try PhotoRenderer.load(data); zoom = 1; offset = .zero
+                    } catch { self.error = error.localizedDescription }
+                }
+            }
     }
 }
