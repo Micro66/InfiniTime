@@ -46,6 +46,12 @@ enum Wire {
 }
 
 enum CropGeometry {
+    static func offset(contentOffset: CGPoint, image: CGSize, side: CGFloat, zoom: CGFloat) -> CGSize {
+        let centered = rect(image: image, side: side, zoom: zoom, offset: .zero)
+        let translated = CGSize(width: (-centered.minX - contentOffset.x) / side,
+                                height: (-centered.minY - contentOffset.y) / side)
+        return clamp(translated, image: image, zoom: zoom)
+    }
     static func clamp(_ offset: CGSize, image: CGSize, zoom: CGFloat) -> CGSize {
         let scale = max(1 / image.width, 1 / image.height) * zoom
         return CGSize(width: min(max(offset.width, -(image.width * scale - 1) / 2), (image.width * scale - 1) / 2),

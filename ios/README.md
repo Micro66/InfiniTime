@@ -12,7 +12,7 @@ a different protocol. iOS 17 or later. No third-party iOS packages or cloud serv
 - Actual battery/charging, display sleep/wake, persistent brightness and timeout.
 - Five existing watch faces and three character badges, with device-rendered
   reference previews. These are style previews, not a live screen stream.
-- System photo picker, drag/zoom circular preview and identical 466×466 crop.
+- System photo picker, one-finger pan / two-finger pinch circular preview and identical 466×466 crop.
   RGB565 is sent over encrypted BLE with a bounded window, cumulative offsets,
   transfer ID, CRC32 and final durable-save acknowledgement.
 - Open existing device apps, view firmware version and forget the remembered device.
@@ -66,6 +66,21 @@ CoreBluetooth callbacks are explicitly delivered on the main queue; the client's
 state and UI share `MainActor`. Commands are serialized and acknowledged by the
 firmware main loop. Device controls display reported values, not optimistic state.
 GATT transport acknowledgement alone is never treated as a successful command.
+
+The crop viewport uses a native `UIScrollView` for focal-point pinch zoom and pan,
+with bounce disabled so the image always covers the crop. Its delegate converts
+content offset and zoom into the same normalized crop used by the renderer.
+SwiftUI updates configure the viewport only when the image, size or crop changes;
+delegate publication is suppressed during that configuration.
+
+```mermaid
+flowchart LR
+    Fingers[One-finger pan / two-finger pinch] --> Viewport[Native zoom viewport]
+    Viewport -->|zoomScale + contentOffset| Geometry[Normalized crop coordinates]
+    Geometry --> State[SwiftUI crop state]
+    State --> Render[466 × 466 RGB565 export]
+    State -->|new image / layout / external crop update| Viewport
+```
 
 Run portable Swift checks on macOS from the repository root:
 

@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		14D864DC1DCC80E54912E094 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 444CC4B50E981DF14A71D63F /* Assets.xcassets */; };
+		5C7502066DD2BA7585EDE82C /* CropViewport.swift in Sources */ = {isa = PBXBuildFile; fileRef = E07D74BE9809689F6BD565A4 /* CropViewport.swift */; };
 		703FA9A2CB3BE38E6B5D86D5 /* BadgeConnection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5764C0060EF0598BFF9E814E /* BadgeConnection.swift */; };
 		AEE620E470C2D3EFAF990FDF /* Wire.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E7B6DAAB51E74F223D29F3F /* Wire.swift */; };
 		B32B5B2B7685C49C4262621B /* PhotoEditor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4480214A2AB63A283DF0A3D1 /* PhotoEditor.swift */; };
@@ -21,6 +22,7 @@
 		5764C0060EF0598BFF9E814E /* BadgeConnection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BadgeConnection.swift; sourceTree = "<group>"; };
 		8E7B6DAAB51E74F223D29F3F /* Wire.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Wire.swift; sourceTree = "<group>"; };
 		9C8F308689CC671996187938 /* BadgeStudio.app */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.application; path = BadgeStudio.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		E07D74BE9809689F6BD565A4 /* CropViewport.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CropViewport.swift; sourceTree = "<group>"; };
 		F6ED2E8AAE7BBD6679B58DDC /* BadgeStudioApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BadgeStudioApp.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -30,6 +32,7 @@
 			children = (
 				5764C0060EF0598BFF9E814E /* BadgeConnection.swift */,
 				F6ED2E8AAE7BBD6679B58DDC /* BadgeStudioApp.swift */,
+				E07D74BE9809689F6BD565A4 /* CropViewport.swift */,
 				4480214A2AB63A283DF0A3D1 /* PhotoEditor.swift */,
 				8E7B6DAAB51E74F223D29F3F /* Wire.swift */,
 			);
@@ -134,6 +137,7 @@
 			files = (
 				703FA9A2CB3BE38E6B5D86D5 /* BadgeConnection.swift in Sources */,
 				CE90CA1F16407BB812AE152E /* BadgeStudioApp.swift in Sources */,
+				5C7502066DD2BA7585EDE82C /* CropViewport.swift in Sources */,
 				B32B5B2B7685C49C4262621B /* PhotoEditor.swift in Sources */,
 				AEE620E470C2D3EFAF990FDF /* Wire.swift in Sources */,
 			);

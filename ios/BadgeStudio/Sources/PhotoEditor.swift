@@ -40,7 +40,6 @@ struct PhotoEditor: View {
     @State private var image: UIImage?
     @State private var zoom: CGFloat = 1
     @State private var offset: CGSize = .zero
-    @State private var dragOrigin: CGSize?
     @State private var loading = false
     @State private var error: String?
 
@@ -50,17 +49,17 @@ struct PhotoEditor: View {
             VStack(alignment: .leading, spacing: 22) {
                 Text("把喜欢的，\n戴在身上。")
                     .font(.system(size: 34, weight: .bold, design: .rounded))
-                Text("拖动调整构图，用滑杆缩放。照片直接通过蓝牙发送，不经过云端。")
+                Text("单指拖动，双指捏合缩放。照片直接通过蓝牙发送，不经过云端。")
                     .font(.subheadline).foregroundStyle(Palette.muted)
                 GeometryReader { proxy in
                     let side = proxy.size.width
                     ZStack {
                         Circle().fill(Palette.card)
                         if let image {
-                            let rect = CropGeometry.rect(image: image.size, side: side, zoom: zoom, offset: offset)
-                            Image(uiImage: image).resizable()
-                                .frame(width: rect.width, height: rect.height)
-                                .position(x: rect.midX, y: rect.midY)
+                            CropViewport(image: image, side: side, enabled: !badge.transferring && !loading,
+                                         zoom: $zoom, offset: $offset)
+                                .accessibilityLabel("照片裁剪")
+                                .accessibilityHint("单指拖动调整位置，双指捏合缩放")
                         } else {
                             VStack(spacing: 12) {
                                 Image(systemName: "photo.on.rectangle.angled").font(.system(size: 46, weight: .light))
@@ -69,21 +68,9 @@ struct PhotoEditor: View {
                         }
                     }
                     .frame(width: side, height: side).clipShape(Circle())
-                    .overlay(Circle().stroke(Palette.accent.opacity(0.35), lineWidth: 2))
+                    .overlay(Circle().stroke(Palette.accent.opacity(0.35), lineWidth: 2).allowsHitTesting(false))
                     .contentShape(Circle())
-                    .gesture(DragGesture().onChanged { value in
-                        guard let image, !badge.transferring else { return }
-                        if dragOrigin == nil { dragOrigin = offset }
-                        offset = CropGeometry.clamp(CGSize(width: dragOrigin!.width + value.translation.width / side,
-                                                           height: dragOrigin!.height + value.translation.height / side), image: image.size, zoom: zoom)
-                    }.onEnded { _ in dragOrigin = nil })
                 }.aspectRatio(1, contentMode: .fit)
-                HStack {
-                    Image(systemName: "minus.magnifyingglass")
-                    Slider(value: $zoom, in: 1...4).tint(Palette.accent)
-                        .onChange(of: zoom) { _, _ in if let image { offset = CropGeometry.clamp(offset, image: image.size, zoom: zoom) } }
-                    Image(systemName: "plus.magnifyingglass")
-                }.disabled(image == nil || badge.transferring).foregroundStyle(Palette.muted)
                 PhotosPicker(selection: $selection, matching: .images, photoLibrary: .shared()) {
                     Label(pickerTitle, systemImage: "photo.badge.plus")
                         .frame(maxWidth: .infinity).padding(16).contentShape(RoundedRectangle(cornerRadius: 18))

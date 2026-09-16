@@ -26,6 +26,19 @@ struct WireChecks {
         let preview = CropGeometry.rect(image: landscape, side: 300, zoom: 2.5, offset: CGSize(width: -0.2, height: 0.1))
         let output = CropGeometry.rect(image: landscape, side: 466, zoom: 2.5, offset: CGSize(width: -0.2, height: 0.1))
         precondition(abs(preview.minX / 300 - output.minX / 466) < 0.000001)
-        print("PASS: CRC32 golden vector, wire endianness/validation, RGB565 primary colors, crop bounds and preview/output parity")
+        // UIScrollView pan/pinch coordinates must round-trip to the exported crop.
+        for size in [landscape, CGSize(width: 600, height: 1200), CGSize(width: 600, height: 600)] {
+            for factor: CGFloat in [1, 1.25, 2.5, 4] {
+                for pan in [CGSize.zero, CGSize(width: 0.3, height: -0.4), CGSize(width: -10, height: 10)] {
+                    let expected = CropGeometry.clamp(pan, image: size, zoom: factor)
+                    let rect = CropGeometry.rect(image: size, side: 320, zoom: factor, offset: expected)
+                    let actual = CropGeometry.offset(contentOffset: CGPoint(x: -rect.minX, y: -rect.minY), image: size, side: 320, zoom: factor)
+                    precondition(abs(actual.width - expected.width) < 0.000001 && abs(actual.height - expected.height) < 0.000001)
+                    let exported = CropGeometry.rect(image: size, side: 466, zoom: factor, offset: actual)
+                    precondition(exported.minX <= 0.000001 && exported.minY <= 0.000001 && exported.maxX >= 465.999999 && exported.maxY >= 465.999999)
+                }
+            }
+        }
+        print("PASS: CRC32 golden vector, wire endianness/validation, RGB565 primary colors, crop bounds, native pinch/pan round trips and preview/output parity")
     }
 }

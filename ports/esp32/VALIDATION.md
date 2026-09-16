@@ -320,3 +320,17 @@ Bootloader/partition/application flashing preserves NVS and LittleFS. Personal
 photos, original backup, signing profiles and device pairing codes are not part
 of the source commit. The new shared store also serves the existing Wi-Fi page;
 its network transport was not manually re-tested in this session.
+
+### Native photo pinch zoom (2026-09-16)
+
+- Replaced the photo slider and SwiftUI drag accumulator with a native iOS
+  `UIScrollView` crop viewport: one-finger pan, focal-point two-finger pinch,
+  1–4× zoom and no bounce beyond image bounds. Gestures are disabled during upload.
+- The decorative crop ring is excluded from hit testing. Viewport content offset
+  maps back to the existing normalized crop used for RGB565 export. Delegate
+  publication is suppressed during programmatic viewport configuration.
+- Added 36 round-trip/bounds cases across portrait, landscape and square images,
+  multiple zoom levels and edge offsets. Swift host checks **PASS**; signed iOS
+  build **PASS**. Crop-state Mermaid diagram reviewed against implementation.
+- No firmware changes, automated E2E or AI verify. Physical two-finger gesture
+  feel and behavior with VoiceOver have not been verified in this session.
