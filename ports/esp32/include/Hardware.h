@@ -23,6 +23,7 @@ namespace Esp32 {
     static void WriteClock(const std::tm& value);
     static void Tick();
     static bool TakeSwipe(int& dx, int& dy);
+    static void ResetTouch();
     static void Capture();
     static unsigned FlushCount();
     static bool ClockValid();

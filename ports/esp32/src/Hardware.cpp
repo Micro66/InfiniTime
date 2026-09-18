@@ -39,6 +39,7 @@ namespace {
   bool clockValid = false;
   unsigned flushes = 0;
   bool pressed = false;
+  bool physicalTouch = false, suppressTouch = false;
   int16_t startX = 0, startY = 0, lastX = 0, lastY = 0;
   int swipeX = 0, swipeY = 0;
   bool swipePending = false;
@@ -77,7 +78,7 @@ namespace {
     const bool report = touchPending;
     touchPending = false;
     portEXIT_CRITICAL(&touchMux);
-    bool down = pressed;
+    bool down = physicalTouch;
     x[0] = lastX;
     y[0] = lastY;
     if (testPhase > 0) {
@@ -92,6 +93,13 @@ namespace {
       lastTouchReport = millis();
     } else if (millis() - lastTouchReport > 1500) {
       down = false; // Recover if a release interrupt was lost.
+    }
+    physicalTouch = down;
+    if (suppressTouch) {
+      if (!down)
+        suppressTouch = false;
+      data->state = LV_INDEV_STATE_REL;
+      return false;
     }
     if (down) {
       lastX = x[0];
@@ -225,6 +233,13 @@ namespace Esp32 {
     dx = swipeX;
     dy = swipeY;
     return true;
+  }
+
+  void Hardware::ResetTouch() {
+    pressed = false;
+    swipePending = false;
+    suppressTouch = true;
+    lv_indev_reset(nullptr, nullptr);
   }
 
   unsigned Hardware::FlushCount() {

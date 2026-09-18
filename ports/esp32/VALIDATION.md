@@ -346,3 +346,27 @@ its network transport was not manually re-tested in this session.
   iPhone. Automatic launch was denied because the phone was locked; open the app
   after unlocking to try it. Physical tap/pan/pinch behavior remains unverified.
 - No firmware or crop geometry changes. No automated E2E or AI verify was run.
+
+### AMOLED always-on clock (2026-09-18)
+
+- Firmware build **PASS**, 1,856,384-byte image, SHA-256
+  `7116c308b58d39b70761688669385ae772abc2ae339ce9a70f5630a946f4d638`.
+  Flashed to the connected ESP32-S3 with esptool write/hash verification; NVS
+  and LittleFS were preserved. The existing legacy I2S deprecation warning remains.
+- Signed iOS build **PASS**. Swift checks **PASS**, including old-firmware
+  capability handling and awake/ambient/black-screen flag decoding. C++ protocol
+  and PhotoStore checks **PASS**, including accepted/rejected always-on commands.
+  Changed firmware sources pass clang-format and diff whitespace checks.
+- [Actual framebuffer capture](docs/screenshots/always-on.png) read from the badge
+  with per-chunk CRC verification after entering sleep. It confirms clock/date/
+  battery rendering on black, not optical brightness or measured panel power.
+- A separate LVGL screen preserves the foreground application. Only display
+  refresh runs in ambient mode; foreground tasks/animations remain paused.
+  Navigation waits until wake. The state diagram was reviewed against timeout,
+  buttons, phone commands and switching between ambient/black while asleep.
+- Phone installation is pending: CoreDevice still reports passcode required after
+  the first unlock attempt. The signed build is ready; the on-device setting
+  already works independently of the phone update.
+- Physical PWR/BOOT interaction, minute drift, toggle persistence and phone BLE
+  control have not yet been manually confirmed for this build. Battery runtime
+  and burn-in reduction are unmeasured. No automated E2E or AI verify was run.

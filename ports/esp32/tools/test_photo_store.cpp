@@ -53,6 +53,7 @@ int main() {
   assert(Valid({1, 1, 1800000000, uint32_t(-12600)}));
   assert(!Valid({1, 1, 0, 28800})); assert(!Valid({1, 1, 1800000000, 1}));
   assert(!Valid({3, 1, 0})); assert(!Valid({5, 1, 5})); assert(!Valid({10, 1, 16}));
+  assert(Valid({11, 1, 0}) && Valid({11, 1, 1}) && !Valid({11, 1, 2}));
   Command command; Packet packet {1, 3, 0x34, 0x12}; Put32(packet.data() + 4, 4);
   assert(Decode(packet.data(), packet.size(), command) && command.sequence == 0x1234 && command.a == 4);
   assert(!Decode(packet.data(), 19, command));

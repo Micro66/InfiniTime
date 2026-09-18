@@ -9,6 +9,7 @@
 #include "PlaySensors.h"
 #include "PhotoBadge.h"
 #include "Companion.h"
+#include "AmbientDisplay.h"
 #include <array>
 #include <algorithm>
 using Esp32::Usb;
@@ -62,6 +63,8 @@ namespace {
 
   Page page = Page::Digital, pending = page;
   bool transition = true, sleeping = false;
+  bool alwaysOn = true;
+  std::unique_ptr<Esp32::AmbientDisplay> ambient;
   std::unique_ptr<Controllers::Settings> settings;
   std::unique_ptr<Controllers::DateTime> dateTime;
   std::unique_ptr<Screens::Screen> screen;
@@ -107,6 +110,11 @@ namespace {
   }
 
   void wake() {
+    if (sleeping) {
+      ambient.reset();
+      Hardware::ResetTouch();
+      _lv_disp_refr_task(_lv_disp_get_refr_task(nullptr));
+    }
     sleeping = false;
     brightness.Set(settings->GetBrightness());
     lastActivity = millis();
@@ -115,6 +123,23 @@ namespace {
   void sleepDisplay() {
     sleeping = true;
     Hardware::SetBrightness(0);
+    ambient.reset();
+    if (alwaysOn) {
+      ambient = std::make_unique<Esp32::AmbientDisplay>();
+      ambient->Refresh(battery.PercentRemaining(), battery.IsCharging());
+      Hardware::SetBrightness(8);
+    }
+  }
+
+  bool setAlwaysOn(bool enabled) {
+    if (alwaysOn == enabled)
+      return true;
+    if (uiPreferences.putBool("aod", enabled) != 1)
+      return false;
+    alwaysOn = enabled;
+    if (sleeping)
+      sleepDisplay();
+    return true;
   }
 
   void action(lv_obj_t* obj, lv_event_t event) {
@@ -132,6 +157,10 @@ namespace {
       const auto old = settings->GetScreenTimeOut();
       settings->SetScreenTimeOut(old < 30000 ? 30000 : old < 60000 ? 60000 : 15000);
       settings->SaveSettings();
+      request(Page::Settings);
+    } else if (id == 106) {
+      if (!setAlwaysOn(!alwaysOn))
+        Usb.println("AOD SAVE FAILED");
       request(Page::Settings);
     } else if (id == 105) {
       Esp32::Companion::ForgetBonds();
@@ -234,9 +263,10 @@ namespace {
         label("SETTINGS", 48, lv_color_hex(0x70e6ca));
         char text[64];
         snprintf(text, sizeof(text), "Brightness: %s", brightness.ToString());
-        button(text, 88, 94, 290, 57, 100);
-        snprintf(text, sizeof(text), "Display off: %lus", static_cast<unsigned long>(settings->GetScreenTimeOut() / 1000));
-        button(text, 88, 163, 290, 57, 101);
+        button(text, 88, 88, 290, 50, 100);
+        snprintf(text, sizeof(text), "Idle after: %lus", static_cast<unsigned long>(settings->GetScreenTimeOut() / 1000));
+        button(text, 88, 148, 290, 50, 101);
+        button(alwaysOn ? "Always-on: ON" : "Always-on: OFF", 88, 208, 290, 50, 106);
         const int offset = dateTime->UtcOffset() * 15;
         snprintf(text,
                  sizeof(text),
@@ -245,9 +275,9 @@ namespace {
                  offset < 0 ? '-' : '+',
                  abs(offset) / 60,
                  abs(offset) % 60);
-        label(text, 242);
-        button("Pair iPhone", 88, 286, 290, 57, static_cast<uintptr_t>(Page::Pairing));
-        button("Back", 163, 361, 140, 48, static_cast<uintptr_t>(Page::Launcher));
+        label(text, 272);
+        button("Pair iPhone", 88, 311, 290, 50, static_cast<uintptr_t>(Page::Pairing));
+        button("Back", 163, 373, 140, 44, static_cast<uintptr_t>(Page::Launcher));
         break;
       }
       case Page::Pairing: {
@@ -309,7 +339,7 @@ namespace {
     const auto timeout = settings->GetScreenTimeOut() / 1000;
     value[8] = timeout;
     value[9] = timeout >> 8;
-    value[10] = (sleeping ? 1 : 0) | (battery.IsCharging() ? 2 : 0) | (Hardware::ClockValid() ? 4 : 0);
+    value[10] = (sleeping ? 1 : 0) | (battery.IsCharging() ? 2 : 0) | (Hardware::ClockValid() ? 4 : 0) | (alwaysOn ? 8 : 0) | 16;
     value[11] = static_cast<uint8_t>(page);
     Put32(value.data() + 12, Hardware::ClockValid() ? time(nullptr) : 0);
     Put32(value.data() + 16, dateTime->UtcOffset() * 900);
@@ -393,6 +423,12 @@ namespace {
         wake();
         request(static_cast<Page>(cmd.a));
         show();
+        break;
+      case 11:
+        if (!setAlwaysOn(cmd.a != 0))
+          companionResult = 3;
+        if (page == Page::Settings)
+          request(page);
         break;
     }
   }
@@ -481,6 +517,7 @@ namespace {
       } else
         Usb.println("TIME INVALID");
     } else if (line == "status") {
+      Usb.printf("DISPLAY aod_enabled=%d ambient=%d\n", alwaysOn, ambient != nullptr);
       Usb.printf("STATUS page=%u sleep=%d battery=%u mv=%u charging=%d rtc=%d flush=%u heap=%u touch=%u uptime=%lu timeout=%lu\n",
                  static_cast<unsigned>(page),
                  sleeping,
@@ -559,6 +596,7 @@ void setup() {
   Hardware::Init();
   Hardware::InitGui();
   uiPreferences.begin("infini-ui", false);
+  alwaysOn = uiPreferences.getBool("aod", true);
   const auto savedWatch = static_cast<Page>(uiPreferences.getUChar("watch", 0));
   if (isWatch(savedWatch))
     selectedWatch = pending = savedWatch;
@@ -660,14 +698,16 @@ void loop() {
                                           : (dy > 0 ? TouchEvents::SwipeDown : TouchEvents::SwipeUp);
     swipe(event);
   }
-  if (screen && !screen->IsRunning())
+  if (!sleeping && screen && !screen->IsRunning())
     request(Page::Launcher);
-  if (transition)
+  if (!sleeping && transition)
     show();
   if (now - lastRefresh >= 1000) {
     lastRefresh = now;
     battery.ReadPowerState();
     dateTime->CurrentDateTime();
+    if (ambient)
+      ambient->Refresh(battery.PercentRemaining(), battery.IsCharging());
     Esp32::Companion::Publish(companionState());
     if (clockLabel) {
       lv_label_set_text(clockLabel, Hardware::ClockValid() ? dateTime->FormattedTime().c_str() : "--:--");

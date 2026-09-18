@@ -10,6 +10,9 @@ a different protocol. iOS 17 or later. No third-party iOS packages or cloud serv
 - Automatically sync UTC and the phone's effective timezone after connection and
   on foreground return; show acknowledged sync result and live device clock.
 - Actual battery/charging, display sleep/wake, persistent brightness and timeout.
+- Persistent always-on clock setting on supported firmware; shows actual ambient,
+  black-screen or awake state. The clock uses dim text on black and shifts position
+  periodically; PWR or BOOT wakes the existing application.
 - Five existing watch faces and three character badges, with device-rendered
   reference previews. These are style previews, not a live screen stream.
 - System photo picker, one-finger pan / two-finger pinch circular preview and identical 466×466 crop.

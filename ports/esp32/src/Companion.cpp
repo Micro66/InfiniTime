@@ -193,7 +193,7 @@ namespace Esp32::Companion {
       Characteristic(service, PhotoId, BLECharacteristic::PROPERTY_READ | BLECharacteristic::PROPERTY_NOTIFY, &photoSubscription);
     stateCharacteristic->setCallbacks(&stateReads);
     photoCharacteristic->setCallbacks(&photoReads);
-    Characteristic(service, VersionId, BLECharacteristic::PROPERTY_READ)->setValue("Badge Studio 1.0 / protocol 1");
+    Characteristic(service, VersionId, BLECharacteristic::PROPERTY_READ)->setValue("Badge Studio 1.1 / protocol 1");
     service->start();
     auto* advertising = BLEDevice::getAdvertising();
     advertising->addServiceUUID(Service);

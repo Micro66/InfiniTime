@@ -103,12 +103,50 @@ release image. See `tools/device.py` for backup, flash and verification commands
 - Tap Next or swipe left/right to cycle the three launcher pages.
 - BOOT button: return from an application to the launcher; from launcher to clock.
 - When the display is off, BOOT wakes it without changing the page.
-- PWR short press: display off/on; long press retains hardware power-off.
-- Settings: brightness, screen timeout and Pair iPhone / Forget phones.
+- PWR short press: enter configured idle mode / wake; long press retains hardware power-off.
+- Settings: brightness, screen timeout, Always-on and Pair iPhone / Forget phones.
 - The clock uses 24-hour time. Badge Studio syncs phone UTC and timezone on each
   connection and foreground return. The timezone persists; USB `sync-time` also
   uses the computer’s current UTC and timezone.
 - A running stopwatch consumes the first BOOT press to pause; press again to leave.
+
+## Always-on display
+
+![Device-rendered always-on clock](docs/screenshots/always-on.png)
+
+Enabled by default; toggle **Always-on** on the device or **息屏显示** in the iOS
+app's display settings. The preference persists in NVS. Timeout and short PWR
+press enter a black-background clock with time, date and battery at brightness
+8/255. Turning the option off restores the fully black idle mode. PWR or BOOT
+wakes to the existing application, preserving its state and configured brightness.
+Touch interaction is inactive while asleep; stale touches are suppressed on wake.
+
+The ambient screen refreshes on minute/time, battery or charging changes. Its
+labels shift across nine positions at one-minute intervals to reduce static pixel
+exposure. This reduces burn-in risk but does not eliminate it. This is an AMOLED
+display mode, not ESP32 deep sleep or a panel low-refresh hardware mode. BLE,
+clock, power-button polling and existing background services remain available;
+battery runtime has not been measured and will be shorter than fully black idle.
+
+```mermaid
+stateDiagram-v2
+    [*] --> Active
+    Active --> Ambient: Timeout or PWR, Always-on enabled
+    Active --> Black: Timeout or PWR, Always-on disabled
+    Ambient --> Active: PWR / BOOT / phone wake / foreground command
+    Black --> Active: PWR / BOOT / phone wake / foreground command
+    Ambient --> Black: Disable Always-on
+    Black --> Ambient: Enable Always-on
+    note right of Ambient
+        Separate LVGL screen; preserve original screen
+        Render only when content or position changes
+        Foreground tasks and animations paused
+    end note
+```
+
+Automatic timeout still respects wake locks, pairing and active photo transfers.
+Manual PWR retains its existing override. Deferred navigation is applied after
+wake so it cannot destroy the preserved application or the ambient screen.
 
 ## New watch faces and character badge
 

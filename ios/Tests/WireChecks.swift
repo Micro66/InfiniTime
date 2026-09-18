@@ -12,6 +12,13 @@ struct WireChecks {
         var state = Data([1, 0, 0x34, 0x12, 87, 3, 2, 1, 60, 0, 6, 7]) + Wire.le(1800000000) + Wire.le(UInt32(bitPattern: -12600))
         let decoded = DeviceState(state)!
         precondition(decoded.charging && decoded.clockValid && !decoded.asleep && decoded.zone == -12600 && decoded.ack == 0x1234)
+        precondition(!decoded.alwaysOnSupported && !decoded.alwaysOn && !decoded.ambient)
+        state[10] = 31
+        precondition(DeviceState(state)!.ambient && DeviceState(state)!.alwaysOnSupported)
+        state[10] = 30
+        precondition(DeviceState(state)!.alwaysOn && !DeviceState(state)!.ambient)
+        state[10] = 17
+        precondition(DeviceState(state)!.asleep && !DeviceState(state)!.alwaysOn)
         state[6] = 5; precondition(DeviceState(state) == nil)
         let photo = Data([1, 1, 0, 0]) + Wire.le(12) + Wire.le(100) + Wire.le(UInt32(Wire.frameBytes)) + Wire.le(8192)
         precondition(PhotoState(photo)?.received == 100)

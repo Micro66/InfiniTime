@@ -78,6 +78,9 @@ struct DeviceState: Equatable {
     let asleep: Bool
     let charging: Bool
     let clockValid: Bool
+    let alwaysOnSupported: Bool
+    let alwaysOn: Bool
+    var ambient: Bool { asleep && alwaysOn }
     let page: Int
     let utc: UInt32
     let zone: Int32
@@ -87,6 +90,8 @@ struct DeviceState: Equatable {
         battery = Int(data[4]); brightness = Int(data[5]); watch = Int(data[6]); theme = Int(data[7])
         timeout = Int(Wire.u16(data, 8)); asleep = data[10] & 1 != 0
         charging = data[10] & 2 != 0; clockValid = data[10] & 4 != 0; page = Int(data[11])
+        alwaysOnSupported = data[10] & 16 != 0
+        alwaysOn = alwaysOnSupported && data[10] & 8 != 0
         utc = Wire.u32(data, 12); zone = Int32(bitPattern: Wire.u32(data, 16))
     }
 }

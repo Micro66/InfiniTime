@@ -61,13 +61,20 @@ Command (20 bytes): version u8, operation u8, sequence u16, a/b/c/d u32.
 Operations: 1 time (a UTC seconds, b signed offset seconds), 2 display (a 0/1),
 3 brightness (a 2/3/4), 4 timeout (a seconds: 15/30/60/120/300),
 5 watch (a 0..4), 6 character (a 0..2), 7 photo begin (a length, b CRC, c ID),
-8 photo commit (a ID), 9 photo cancel (a ID), 10 page (a existing page ID).
+8 photo commit (a ID), 9 photo cancel (a ID), 10 page (a existing page ID),
+11 always-on display (a 0/1; persist before acknowledgement).
 Unknown operations, invalid lengths and out-of-range values are rejected.
 
 Device state (20 bytes): version u8, result u8 (0 OK, 1 invalid, 2 busy, 3 failed),
 ack sequence u16, battery u8, brightness u8, watch u8, character u8,
-timeout seconds u16, flags u8 (bit0 asleep, bit1 charging, bit2 clock valid),
+timeout seconds u16, flags u8 (bit0 asleep, bit1 charging, bit2 clock valid,
+bit3 always-on enabled, bit4 always-on supported),
 page u8, UTC seconds u32, signed timezone offset seconds i32.
+
+Asleep includes both a black screen and the dim ambient clock. The ambient clock
+is active when bits 0 and 3 are set. Old clients ignore the added flags; new
+clients expose the always-on setting only when bit4 is present. Display operation
+2 with a=0 enters the configured idle mode and a=1 restores the application.
 
 Photo data: transfer ID u32, absolute byte offset u32, payload.
 Photo state (20 bytes): version u8, state u8, error u8, reserved u8,

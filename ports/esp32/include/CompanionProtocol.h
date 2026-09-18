@@ -40,6 +40,7 @@ namespace Esp32::CompanionProtocol {
       case 1:
         return c.a >= 1577836800 && c.a <= 4102444799U && int32_t(c.b) >= -43200 && int32_t(c.b) <= 50400 && int32_t(c.b) % 900 == 0;
       case 2:
+      case 11:
         return c.a <= 1;
       case 3:
         return c.a >= 2 && c.a <= 4;

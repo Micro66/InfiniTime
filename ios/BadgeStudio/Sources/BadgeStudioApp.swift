@@ -79,7 +79,7 @@ struct DeviceView: View {
                         }
                     }
                     HStack(spacing: 12) {
-                        quick(badge.state?.asleep == true ? "亮屏" : "熄屏", "power") { badge.control(2, badge.state?.asleep == true ? 1 : 0) }
+                        quick(badge.state?.asleep == true ? "亮屏" : (badge.state?.alwaysOn == true ? "息屏显示" : "熄屏"), "power") { badge.control(2, badge.state?.asleep == true ? 1 : 0) }
                         quick("回到表盘", "clock") { badge.control(5, UInt32(badge.state?.watch ?? 0)) }
                     }.disabled(badge.working || badge.transferring)
                     NavigationLink { PhotoEditor() } label: {
@@ -187,12 +187,20 @@ struct SettingsView: View {
     @State private var confirmForget = false
     var body: some View {
         Form {
-            Section("显示") {
+            Section {
                 Picker("屏幕亮度", selection: Binding(get: { badge.state?.brightness ?? 3 }, set: { badge.control(3, UInt32($0)) })) {
                     Text("柔和").tag(2); Text("标准").tag(3); Text("明亮").tag(4)
                 }
-                Picker("自动熄屏", selection: Binding(get: { badge.state?.timeout ?? 30 }, set: { badge.control(4, UInt32($0)) })) {
+                Picker("自动息屏", selection: Binding(get: { badge.state?.timeout ?? 30 }, set: { badge.control(4, UInt32($0)) })) {
                     Text("15 秒").tag(15); Text("30 秒").tag(30); Text("1 分钟").tag(60); Text("2 分钟").tag(120); Text("5 分钟").tag(300)
+                }
+                if badge.state?.alwaysOnSupported == true {
+                    Toggle("息屏显示", isOn: Binding(get: { badge.state?.alwaysOn ?? false }, set: { badge.control(11, $0 ? 1 : 0) }))
+                    LabeledContent("屏幕状态", value: badge.state?.ambient == true ? "息屏时钟" : (badge.state?.asleep == true ? "已关闭" : "已亮屏"))
+                }
+            } header: { Text("显示") } footer: {
+                if badge.state?.alwaysOnSupported == true {
+                    Text("息屏后以低亮度显示时间、日期和电量。按 PWR 或 BOOT 唤醒。时钟定期微移，减少像素持续点亮；开启后比完全黑屏耗电。")
                 }
             }.disabled(!badge.ready || badge.working || badge.transferring)
             Section {
