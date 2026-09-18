@@ -370,3 +370,14 @@ its network transport was not manually re-tested in this session.
 - Physical PWR/BOOT interaction, minute drift, toggle persistence and phone BLE
   control have not yet been manually confirmed for this build. Battery runtime
   and burn-in reduction are unmeasured. No automated E2E or AI verify was run.
+
+### Always-on readability correction
+
+- User reported that the initial ambient clock was unreadable. Raised the panel
+  setting from 8 to the existing Low level of 35/255; clock text is now white,
+  with lighter date/battery text. Normal display brightness is unchanged.
+- Firmware compilation, source formatting and whitespace checks **PASS**.
+  Flashed successfully with esptool hash verification. Firmware SHA-256:
+  `7ff09f92b66c2360e758ee6af87fdb4916e6e1e01bd76bf813999942ca0a8e6d`.
+- Optical readability at the revised setting requires user confirmation.
+  No E2E or AI verify was run; the earlier framebuffer shows the initial contrast.

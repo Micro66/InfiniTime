@@ -112,12 +112,13 @@ release image. See `tools/device.py` for backup, flash and verification commands
 
 ## Always-on display
 
-![Device-rendered always-on clock](docs/screenshots/always-on.png)
+![Initial always-on layout, before the contrast adjustment](docs/screenshots/always-on.png)
 
 Enabled by default; toggle **Always-on** on the device or **息屏显示** in the iOS
 app's display settings. The preference persists in NVS. Timeout and short PWR
 press enter a black-background clock with time, date and battery at brightness
-8/255. Turning the option off restores the fully black idle mode. PWR or BOOT
+35/255 (the existing Low panel setting). Turning the option off restores the
+fully black idle mode. PWR or BOOT
 wakes to the existing application, preserving its state and configured brightness.
 Touch interaction is inactive while asleep; stale touches are suppressed on wake.
 

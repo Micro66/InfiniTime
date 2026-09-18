@@ -14,9 +14,9 @@ namespace Esp32 {
       lv_obj_set_style_local_text_color(obj, LV_LABEL_PART_MAIN, LV_STATE_DEFAULT, lv_color_hex(color));
       return obj;
     };
-    clock = makeLabel(&jetbrains_mono_76, 0xc5cad0);
-    date = makeLabel(LV_THEME_DEFAULT_FONT_NORMAL, 0x888f98);
-    power = makeLabel(LV_THEME_DEFAULT_FONT_NORMAL, 0x888f98);
+    clock = makeLabel(&jetbrains_mono_76, 0xffffff);
+    date = makeLabel(LV_THEME_DEFAULT_FONT_NORMAL, 0xb8bec6);
+    power = makeLabel(LV_THEME_DEFAULT_FONT_NORMAL, 0xb8bec6);
     lv_scr_load(root);
   }
 

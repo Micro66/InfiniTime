@@ -127,7 +127,7 @@ namespace {
     if (alwaysOn) {
       ambient = std::make_unique<Esp32::AmbientDisplay>();
       ambient->Refresh(battery.PercentRemaining(), battery.IsCharging());
-      Hardware::SetBrightness(8);
+      Hardware::SetBrightness(35);
     }
   }
 
