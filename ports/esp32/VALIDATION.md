@@ -381,3 +381,21 @@ its network transport was not manually re-tested in this session.
   `7ff09f92b66c2360e758ee6af87fdb4916e6e1e01bd76bf813999942ca0a8e6d`.
 - Optical readability at the revised setting requires user confirmation.
   No E2E or AI verify was run; the earlier framebuffer shows the initial contrast.
+
+### Touch to wake (2026-09-28)
+
+- The idle main loop now polls the same touch sampler used by the awake LVGL
+  reader. A new press wakes both ambient and black-screen modes without resuming
+  foreground GUI tasks while idle. Sleep entry establishes the contact baseline;
+  wake clears pending swipes and consumes the waking contact before UI delivery.
+- Built from an isolated checkout of the committed firmware plus this change.
+  Existing uncommitted Bluetooth interaction work was excluded from the build
+  and preserved in the main checkout. No iOS update is required.
+- Firmware build, clang-format and whitespace checks **PASS**. Image size
+  1,856,512 bytes, SHA-256
+  `94c52d6793facf34d9427ad180f3d15a086dbcb24e576cc0abc405a9afeed023`.
+  Flashed successfully with esptool hash verification; NVS/LittleFS preserved.
+- State diagram and touch lifecycle reviewed against implementation. The user
+  confirmed normal touch wake without accidental clicks after using PWR to enter
+  idle. Extended held-contact behavior and black-screen mode were not separately
+  confirmed. No automated E2E or AI verify was run.

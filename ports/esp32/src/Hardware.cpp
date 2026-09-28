@@ -72,7 +72,9 @@ namespace {
     lv_disp_flush_ready(driver);
   }
 
-  bool readTouch(lv_indev_drv_t*, lv_indev_data_t* data) {
+  // Shared by the awake LVGL reader and the idle wake poller. Only this function
+  // consumes controller reports, so both paths agree on press/release edges.
+  bool sampleTouch() {
     int16_t x[2] {}, y[2] {};
     portENTER_CRITICAL(&touchMux);
     const bool report = touchPending;
@@ -95,6 +97,16 @@ namespace {
       down = false; // Recover if a release interrupt was lost.
     }
     physicalTouch = down;
+    if (down) {
+      lastX = x[0];
+      lastY = y[0];
+    }
+    return down;
+  }
+
+  bool readTouch(lv_indev_drv_t*, lv_indev_data_t* data) {
+    const bool down = sampleTouch();
+    data->point = {lastX, lastY};
     if (suppressTouch) {
       if (!down)
         suppressTouch = false;
@@ -102,8 +114,6 @@ namespace {
       return false;
     }
     if (down) {
-      lastX = x[0];
-      lastY = y[0];
       if (!pressed) {
         startX = lastX;
         startY = lastY;
@@ -114,7 +124,6 @@ namespace {
       swipePending = std::max(std::abs(swipeX), std::abs(swipeY)) > 55;
     }
     pressed = down;
-    data->point = {lastX, lastY};
     data->state = down ? LV_INDEV_STATE_PR : LV_INDEV_STATE_REL;
     return false;
   }
@@ -236,10 +245,18 @@ namespace Esp32 {
   }
 
   void Hardware::ResetTouch() {
+    // Establish the current physical contact before changing display modes.
+    // A finger already down at sleep entry must lift before it can wake again.
+    sampleTouch();
     pressed = false;
     swipePending = false;
     suppressTouch = true;
     lv_indev_reset(nullptr, nullptr);
+  }
+
+  bool Hardware::TouchWakeRequested() {
+    const bool wasDown = physicalTouch;
+    return sampleTouch() && !wasDown;
   }
 
   unsigned Hardware::FlushCount() {

@@ -24,6 +24,7 @@ namespace Esp32 {
     static void Tick();
     static bool TakeSwipe(int& dx, int& dy);
     static void ResetTouch();
+    static bool TouchWakeRequested();
     static void Capture();
     static unsigned FlushCount();
     static bool ClockValid();

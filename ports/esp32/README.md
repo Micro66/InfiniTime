@@ -103,6 +103,8 @@ release image. See `tools/device.py` for backup, flash and verification commands
 - Tap Next or swipe left/right to cycle the three launcher pages.
 - BOOT button: return from an application to the launcher; from launcher to clock.
 - When the display is off, BOOT wakes it without changing the page.
+- Tap the screen to wake from either ambient or black-screen idle. The waking
+  touch is consumed; lift your finger before interacting with the restored page.
 - PWR short press: enter configured idle mode / wake; long press retains hardware power-off.
 - Settings: brightness, screen timeout, Always-on and Pair iPhone / Forget phones.
 - The clock uses 24-hour time. Badge Studio syncs phone UTC and timezone on each
@@ -118,9 +120,11 @@ Enabled by default; toggle **Always-on** on the device or **息屏显示** in th
 app's display settings. The preference persists in NVS. Timeout and short PWR
 press enter a black-background clock with time, date and battery at brightness
 35/255 (the existing Low panel setting). Turning the option off restores the
-fully black idle mode. PWR or BOOT
+fully black idle mode. A new touch, PWR or BOOT
 wakes to the existing application, preserving its state and configured brightness.
-Touch interaction is inactive while asleep; stale touches are suppressed on wake.
+Touch sampling continues while asleep without running foreground LVGL tasks.
+Only a new press wakes the screen; release-only reports and a finger held across
+sleep entry do not. The waking contact is suppressed before normal interaction.
 
 The ambient screen refreshes on minute/time, battery or charging changes. Its
 labels shift across nine positions at one-minute intervals to reduce static pixel
@@ -134,10 +138,14 @@ stateDiagram-v2
     [*] --> Active
     Active --> Ambient: Timeout or PWR, Always-on enabled
     Active --> Black: Timeout or PWR, Always-on disabled
-    Ambient --> Active: PWR / BOOT / phone wake / foreground command
-    Black --> Active: PWR / BOOT / phone wake / foreground command
+    Ambient --> Active: New touch / PWR / BOOT / phone wake / foreground command
+    Black --> Active: New touch / PWR / BOOT / phone wake / foreground command
     Ambient --> Black: Disable Always-on
     Black --> Ambient: Enable Always-on
+    note left of Active
+        Consume wake touch until release
+        Resume the existing application
+    end note
     note right of Ambient
         Separate LVGL screen; preserve original screen
         Render only when content or position changes
@@ -213,7 +221,7 @@ alone does not establish that touch orientation, power behavior or rendering
 works on hardware.
 
 The current power mode turns AMOLED brightness to zero; it is **not deep sleep**.
-USB, BLE, the CPU and stopwatch remain active. Wake with PWR or BOOT.
+USB, BLE, the CPU and stopwatch remain active. Wake with a touch, PWR or BOOT.
 Badge Studio BLE supports time sync, device controls and photo transfer.
 Gadgetbridge services, Internet time sync, activity tracking, speaker output and
 OTA are not implemented. Wi-Fi photo upload remains available; microphone input

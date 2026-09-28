@@ -121,6 +121,8 @@ namespace {
   }
 
   void sleepDisplay() {
+    if (!sleeping)
+      Hardware::ResetTouch();
     sleeping = true;
     Hardware::SetBrightness(0);
     ambient.reset();
@@ -689,6 +691,8 @@ void loop() {
       }
     }
   }
+  if (sleeping && Hardware::TouchWakeRequested())
+    wake();
   if (!sleeping && lv_disp_get_inactive_time(nullptr) < 100)
     lastActivity = millis();
   int dx, dy;
